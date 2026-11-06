@@ -1,0 +1,334 @@
+[
+  {
+    "slug": "raasta",
+    "number": "01",
+    "published": true,
+    "title": "Raasta",
+    "kicker": "The most scenic walk in Philadelphia, not the fastest one.",
+    "location": "Philadelphia, PA",
+    "coords": "( 39.95° N, 75.16° W )",
+    "year": "2026",
+    "role": "TODO: Concept, cartography, route engine and front end (solo, for the Wharton Generative AI Studio?)",
+    "tools": ["Mapbox GL JS", "Next.js", "Python", "OSMnx", "GeoPandas", "SciPy", "FastAPI", "Groq", "Render", "Vercel"],
+    "data": ["OpenStreetMap walk network", "Philadelphia street tree inventory 2025", "PPR tree canopy 2015", "City street centerlines and High Injury Network", "OpenDataPhilly parks, hydrology, art and historic districts", "phila.gov farmers markets and events"],
+    "labels": ["( 3D NAVIGATION )", "( PROTOTYPE )", "( ROUTE ENGINE )"],
+    "card": "assets/projects/raasta/card.webp",
+    "card_video": "",
+    "hero": "assets/projects/raasta/hero.webp",
+    "hero_video": "",
+    "lead": "assets/projects/raasta/lead.webp",
+    "lead_bw": false,
+    "intro": [
+      "Raasta finds the most scenic walk in Philadelphia, not the fastest one. You say how you feel, or what kind of walk you want, pick how many extra minutes you can spare, and it builds a real route around that, then narrates it as you go.",
+      "Underneath is a Python engine that scores all 196,411 walkable segments in the city: 151,726 street trees, the 2015 tree canopy, parks, water, public art, historic districts, a noise model and the High Injury Network. A language model reads your mood into a recipe that re-weights what is attractive. It never picks the streets, and nothing can switch off what is dangerous.",
+      "From City Hall to Rittenhouse Square the fastest walk is 14 minutes. Raasta's takes 22, spends 8 of them on nicer streets, and passes the City Hall fountain, the Rittenhouse-Fitler historic district and the Church of the Holy Trinity. The route draws on a 3D Mapbox map with comic-bubble callouts written from the real things it passes."
+    ],
+    "gallery": [
+      {
+        "type": "image",
+        "src": "assets/projects/raasta/landing.webp",
+        "poster": "",
+        "alt": "Raasta's landing screen: a panel asking what's your mood today, with From and To fields, over a pale street map of Philadelphia and the Delaware River.",
+        "caption": "Start with a mood, a corner or a landmark. The route engine wakes up while you type."
+      },
+      {
+        "type": "image",
+        "src": "assets/projects/raasta/route.webp",
+        "poster": "",
+        "alt": "The route result: 22 minutes instead of 14, 1.7 km, the walk drawn in orange from City Hall to Rittenhouse Square with hand-drawn speech bubbles along it.",
+        "caption": "City Hall to Rittenhouse Square: 22 minutes instead of 14, with 8 of them spent on nicer streets."
+      },
+      {
+        "type": "image",
+        "src": "assets/projects/raasta/route-3d.webp",
+        "poster": "",
+        "alt": "The same route seen in 3D, winding between Center City's towers, with callouts for the City Hall fountain and the Rittenhouse-Fitler historic district.",
+        "caption": "The same walk in 3D. Callouts are written from the actual things the route passes."
+      }
+    ],
+    "system": null,
+    "portals": [
+      { "label": "( OPEN RAASTA )", "url": "https://raasta-prototype.vercel.app/", "embeddable": true }
+    ],
+    "source": {
+      "repo": "Private working repo (local: D:/00_MUSA_EVERTHING/GEN_AI_Studio/raasta); front end on Vercel, API on Render",
+      "notes": "Screens captured with tools/shoot_portals.py (Playwright, 1440x900 at 2x). The API sleeps on Render's free tier, so the first route of a session can take a minute: the site says 'Waking up the route engine'. No X-Frame-Options or CSP frame-ancestors headers, so it can be iframed. TODO: confirm 'Mapbox GL JS' (the repo README says MapLibre, the live site loads Mapbox GL) and team credit."
+    }
+  },
+  {
+    "slug": "ski-terrain",
+    "number": "02",
+    "published": false,
+    "title": "Learning to Ski from NYC and Philly",
+    "kicker": "Beginner ski terrain within a day trip of New York and Philadelphia.",
+    "location": "TODO: Blue Mountain Resort, Pennsylvania (and which others?)",
+    "coords": "( 40.82° N, 75.52° W )",
+    "year": "2026",
+    "role": "TODO: Cartography and code",
+    "tools": ["Python", "TODO: Mapbox GL JS?"],
+    "data": ["TODO: lidar elevation source for the hillshade (USGS 3DEP?)", "TODO: trail and lift data source"],
+    "labels": ["( TERRAIN )", "( INTERACTIVE )", "( IN PROGRESS )"],
+    "card": "assets/projects/ski-terrain/card.webp",
+    "card_video": "",
+    "hero": "assets/projects/ski-terrain/hero.webp",
+    "hero_video": "",
+    "lead": "assets/projects/ski-terrain/lead.webp",
+    "lead_bw": true,
+    "intro": [
+      "Learning to ski from New York or Philadelphia means a day trip, and most of the mountains within reach are small. This map puts the beginner areas on the terrain itself, so you can see how long and how steep a green run really is before you book.",
+      "The base is a lidar hillshade of each resort, drawn so the trails read as cuts in the forest. TODO: two or three sentences on which resorts are in, how the drive times are measured, and what the map lets you compare."
+    ],
+    "gallery": [
+      {
+        "type": "image",
+        "src": "assets/projects/ski-terrain/hillshade.webp",
+        "poster": "",
+        "alt": "A grey lidar hillshade of Blue Mountain Resort in Pennsylvania, the ski trails cut as pale stripes down the wooded ridge.",
+        "caption": "Blue Mountain Resort as a lidar hillshade. The trails read as cuts in the forest."
+      }
+    ],
+    "system": null,
+    "portals": [
+      { "label": "( OPEN LIVE MAP )", "url": "TODO", "embeddable": true }
+    ],
+    "source": {
+      "repo": "gautamik01/30-day-map-challenge-2026, branch week1-maps, output/day21_terrain_blue_mountain_resort_shade.jpg",
+      "notes": "Hidden until the portal URL arrives. The source jpg has a thin black frame; every crop sits 8px inside it."
+    }
+  },
+  {
+    "slug": "forested-university",
+    "number": "03",
+    "published": true,
+    "title": "Forested University",
+    "kicker": "A campus built around the trees that are already there.",
+    "location": "TODO: site city and country",
+    "coords": "( TODO° N, TODO° W )",
+    "year": "TODO: 2024? (the aerial file is dated 241216)",
+    "role": "TODO: role, studio and team credit",
+    "tools": ["TODO: modelling tool (Rhino?)", "TODO: drawing tool (Illustrator?)", "TODO: animation tool"],
+    "data": [],
+    "labels": ["( 3D ENVIRONMENT )", "( AXONOMETRIC )", "( ANIMATION )"],
+    "card": "assets/projects/forested-university/card.webp",
+    "card_video": "assets/projects/forested-university/housing-exploded.mp4",
+    "hero": "assets/projects/forested-university/hero.webp",
+    "hero_video": "",
+    "lead": "assets/projects/forested-university/lead.webp",
+    "lead_bw": true,
+    "intro": [
+      "A campus where the forest comes first and the buildings move in among the trees. The aerial drawing sets out the plan: housing, teaching and sports strung along a river edge, with the existing woodland kept as the structure of the site.",
+      "The exploded axonometric takes one student housing block apart floor by floor to show how the trees pass through it. The walkthroughs drop to eye level: an atrium built around the trunks, and a winter street between the brick blocks.",
+      "TODO: one paragraph on the brief, the site and what the design does that a conventional campus would not. Confirm the first two paragraphs describe the project correctly."
+    ],
+    "gallery": [
+      {
+        "type": "image",
+        "src": "assets/projects/forested-university/aerial.webp",
+        "poster": "",
+        "alt": "An aerial line drawing of a riverside campus, white buildings among pale green trees, a highway interchange to the north and the existing city drawn in outline around it.",
+        "caption": "The campus from above. TODO: confirm the caption."
+      },
+      {
+        "type": "video",
+        "src": "assets/projects/forested-university/campus.mp4",
+        "poster": "assets/projects/forested-university/campus-poster.webp",
+        "alt": "An animated flight from an aerial view of the campus with pink blossom trees down to a path through the forest between the buildings.",
+        "caption": "From the aerial down to the path. TODO: confirm."
+      },
+      {
+        "type": "video",
+        "src": "assets/projects/forested-university/housing-exploded.mp4",
+        "poster": "assets/projects/forested-university/housing-exploded-poster.webp",
+        "alt": "An exploded axonometric of a student housing block on a pink background, its floors lifted apart with tall pines growing up through them.",
+        "caption": "Student housing, exploded. The trees pass through every floor."
+      },
+      {
+        "type": "video",
+        "src": "assets/projects/forested-university/atrium.mp4",
+        "poster": "assets/projects/forested-university/atrium-poster.webp",
+        "alt": "A walkthrough of an atrium where tall tree trunks rise through open floors, with people at tables below.",
+        "caption": "Inside, at human scale: an atrium around the trunks."
+      },
+      {
+        "type": "video",
+        "src": "assets/projects/forested-university/winter-street.mp4",
+        "poster": "assets/projects/forested-university/winter-street-poster.webp",
+        "alt": "A winter walkthrough along a snowy street between brick housing blocks, bare trees overhead and lit windows.",
+        "caption": "The same street in winter."
+      }
+    ],
+    "system": null,
+    "portals": [],
+    "source": {
+      "repo": "Local folder only (Some Material/Forested_University), read only. This site is the project's home.",
+      "notes": "Four portrait clips are 464x832 and 5 seconds each; the card is a frame of the exploded axonometric padded with its own pink to 4:5. montage.mp4 (the 4:3 'The forest campus' reel, which repeats the other clips side by side with black bars) is compressed but left out of the gallery. TODO: a higher-resolution still of the exploded axonometric would make a sharper card."
+    }
+  },
+  {
+    "slug": "cloud-footprint",
+    "number": "04",
+    "published": true,
+    "title": "The Cloud Has a Footprint",
+    "kicker": "US data centers and AI campuses, mapped against water stress.",
+    "location": "United States",
+    "coords": "( 39.83° N, 98.58° W )",
+    "year": "2026",
+    "role": "Data, cartography and code",
+    "tools": ["Python", "GeoPandas", "Mapbox GL JS", "Jupyter", "mapkit"],
+    "data": ["IM3 Open Source Data Center Atlas (PNNL), derived from OpenStreetMap", "Epoch AI Frontier Data Centers", "WRI Aqueduct 4.0 water stress", "US Census cartographic boundaries"],
+    "labels": ["( INTERACTIVE )", "( DATA )", "( WATER )"],
+    "card": "assets/projects/cloud-footprint/card.webp",
+    "card_video": "",
+    "hero": "assets/projects/cloud-footprint/hero.webp",
+    "hero_video": "",
+    "lead": "assets/projects/cloud-footprint/lead.webp",
+    "lead_bw": false,
+    "intro": [
+      "Two interactive maps of the physical side of AI. The first puts 1,472 existing US data centers on the map alongside 34 new AI campuses that are already running and 43 more that are coming. The second lays the same campuses over the basins where water is already scarce.",
+      "39% of the new AI campuses sit in those basins. The maps are built in Python from the IM3 Data Center Atlas, Epoch AI's Frontier Data Centers list and WRI Aqueduct 4.0, and published as Mapbox pages with a floating card, hover details and a legend that toggles each layer.",
+      "They are the first two studies in a series called The Cloud Has a Footprint. What AI Burns and Where AI Is at Risk come next."
+    ],
+    "gallery": [
+      {
+        "type": "image",
+        "src": "assets/projects/cloud-footprint/where-ai-gets-built.webp",
+        "poster": "",
+        "alt": "A dark map of the United States with small blue dots for existing data centers, amber dots for AI campuses that are running and large glowing pink dots for campuses that are coming, densest in Texas, the Midwest and Virginia.",
+        "caption": "Where AI Gets Built: 1,472 data centers today, 34 AI campuses running, 43 coming."
+      },
+      {
+        "type": "image",
+        "src": "assets/projects/cloud-footprint/what-ai-drinks.webp",
+        "poster": "",
+        "alt": "The same campuses over teal basins shaded by water stress, with the pink dots clustered in the dry Southwest and Texas.",
+        "caption": "What AI Drinks: 39% of the new campuses sit where water is already scarce."
+      },
+      {
+        "type": "video",
+        "src": "assets/projects/cloud-footprint/where-ai-gets-built.mp4",
+        "poster": "assets/projects/cloud-footprint/where-ai-gets-built-poster.webp",
+        "alt": "A screen recording of the live map: the cursor hovers over glowing campuses and a tooltip names each one with its operator, status and capacity.",
+        "caption": "Hover a campus for its operator, status and planned capacity."
+      }
+    ],
+    "system": null,
+    "portals": [
+      { "label": "( OPEN WHERE AI GETS BUILT )", "url": "https://gautamik01.github.io/30-day-map-challenge-2026/output/day01_points-ai.html", "embeddable": true },
+      { "label": "( OPEN WHAT AI DRINKS )", "url": "https://gautamik01.github.io/30-day-map-challenge-2026/output/day03_polygons-water-ai.html", "embeddable": true }
+    ],
+    "source": {
+      "repo": "gautamik01/30-day-map-challenge-2026 (scripts/_template_ai.ipynb, scripts/day03_polygons_water_ai.ipynb, scripts/mapkit)",
+      "notes": "Hero and lead are a fresh Playwright capture of the live day01 page (1600x1000 at 2x) because png_thumbnail/day01_points-ai.png has a typo in its title. Card is a crop of png_thumbnail/day03_polygons-water-ai.png. The recording output/day01_points-ai_2.mp4 (1280x640) is re-encoded without its audio track. GitHub Pages sends no X-Frame-Options or CSP headers, so both maps can be iframed. Coordinates are the geographic centre of the contiguous US; swap for a specific campus if you prefer."
+    }
+  },
+  {
+    "slug": "map-series",
+    "number": "05",
+    "published": true,
+    "title": "30 Day Map Challenge",
+    "kicker": "Seven static maps in seven days, from one shared Python toolkit.",
+    "location": "Big Sur, San Francisco, New York, Philadelphia, Mumbai",
+    "coords": "( 36.37° N, 121.90° W )",
+    "year": "2026",
+    "role": "Data, cartography and code",
+    "tools": ["Python", "GeoPandas", "Matplotlib", "mapkit", "Jupyter"],
+    "data": ["USGS 3DEP elevation", "OpenStreetMap", "DataSF zoning districts", "City of Philadelphia footprints, parks and heat vulnerability", "NYC health department restaurant list", "British Library 1843 map via Wikimedia Commons"],
+    "labels": ["( STATIC CARTOGRAPHY )", "( GRAPHIC SYSTEM )", "( TOOLKIT )"],
+    "card": "assets/projects/map-series/card.webp",
+    "card_video": "",
+    "hero": "assets/projects/map-series/hero.webp",
+    "hero_video": "",
+    "lead": "assets/projects/map-series/lead.webp",
+    "lead_bw": false,
+    "intro": [
+      "Seven maps in seven days for the 30 Day Map Challenge, each one a question about a city answered with a number. 12 towers now stand above the William Penn statue on City Hall, and together they block 18% of his horizon. Outside parks and public land, half of San Francisco is zoned for one or two family houses. In Philadelphia's most heat-vulnerable tracts, 98% of streets reach a park within ten minutes, but only 32% reach one of ten acres.",
+      "The Big Sur Marathon is drawn in plan and section with three line weights and one red line: the 510 ft climb to Hurricane Point. The Bombay map lays today's shoreline over the 1843 survey of the seven islands. New York's 314 Indian restaurants fall into 12 clusters.",
+      "Every map starts from the same Python toolkit, mapkit: the palettes, the credits and the title card live in one style file, and a publish script turns a finished notebook into a live page."
+    ],
+    "gallery": [
+      {
+        "type": "image",
+        "src": "assets/projects/map-series/big-sur.webp",
+        "poster": "",
+        "alt": "Big Sur Marathon: fine grey contour lines of the Santa Lucia coast with the 26.2 mile course in red along Highway 1 and an elevation section below.",
+        "caption": "Lines. The course in plan and section, drawn in three line weights."
+      },
+      {
+        "type": "image",
+        "src": "assets/projects/map-series/sf-zoning.webp",
+        "poster": "",
+        "alt": "What San Francisco Lets You Build: every block coloured by zoning, blue one-family houses across the west, red and purple industry and mixed use along the bay.",
+        "caption": "Polygons. 50% of non-public land is zoned for one or two family houses."
+      },
+      {
+        "type": "image",
+        "src": "assets/projects/map-series/billy-penn.webp",
+        "poster": "",
+        "alt": "What Billy Penn Can No Longer See: a dark map of Philadelphia with twelve pink wedges fanning west from City Hall, one for each tower that now blocks the statue's view.",
+        "caption": "Sight. 12 towers, all behind his back, block 18% of his horizon."
+      },
+      {
+        "type": "image",
+        "src": "assets/projects/map-series/bombay.webp",
+        "poster": "",
+        "alt": "Bombay Was Seven Islands: an 1843 map of the islands on cream paper, with today's coastline drawn over it in red.",
+        "caption": "Vintage. The 1843 map, with today's coastline drawn over it."
+      },
+      {
+        "type": "image",
+        "src": "assets/projects/map-series/philly-parks.webp",
+        "poster": "",
+        "alt": "Philadelphia Passes the 10-Minute Test: the city's streets in orange where they are more than ten minutes from a large park, with the most heat-vulnerable tracts outlined in black.",
+        "caption": "10 minute map. 98% of streets reach a park in ten minutes, 32% reach one of 10 acres."
+      }
+    ],
+    "system": {
+      "note": "One style file drives every map, and the template notebooks plus the publish script turn a new map into a live page in one run.",
+      "typefaces": ["Fraunces (optical size 9 to 144, weights 500 and 600) for titles", "Inter (400 and 600) for everything else"],
+      "palettes": [
+        {
+          "name": "The Cloud Has a Footprint",
+          "series": "ai",
+          "basemap": "dark",
+          "swatches": [
+            { "name": "paper", "hex": "#0e1418" },
+            { "name": "ink", "hex": "#eef3f4" },
+            { "name": "muted", "hex": "#9fb0b6" },
+            { "name": "accent, data centers", "hex": "#f2b134" },
+            { "name": "accent 2, water", "hex": "#2fb5a8" }
+          ],
+          "ramp": ["#13343b", "#1f6f74", "#2fb5a8", "#f2b134", "#f25f3a"],
+          "categorical": ["#f2b134", "#2fb5a8", "#e86a92", "#8fb3ff", "#c3e88d", "#ff9f6e", "#b39ddb"]
+        },
+        {
+          "name": "City Senses",
+          "series": "city",
+          "basemap": "light",
+          "swatches": [
+            { "name": "paper", "hex": "#f7f2ea" },
+            { "name": "ink", "hex": "#24201c" },
+            { "name": "muted", "hex": "#7a6f63" },
+            { "name": "accent", "hex": "#d1495b" },
+            { "name": "accent 2", "hex": "#00798c" }
+          ],
+          "ramp": ["#fbe8d3", "#f4b183", "#e0705a", "#b03a48", "#5c1a33"],
+          "categorical": ["#d1495b", "#00798c", "#edae49", "#30638e", "#6a994e", "#9c6ade", "#e07a5f"]
+        }
+      ],
+      "cast": [
+        { "name": "Existing data centers", "hex": "#8fb3c9" },
+        { "name": "New AI campuses, running", "hex": "#f2b134" },
+        { "name": "New AI campuses, coming", "hex": "#ff5c8a" },
+        { "name": "Water", "hex": "#2fb5a8" },
+        { "name": "Power", "hex": "#f25f3a" }
+      ]
+    },
+    "portals": [
+      { "label": "( OPEN THE SERIES )", "url": "https://gautamik01.github.io/30-day-map-challenge-2026/output/", "embeddable": true }
+    ],
+    "source": {
+      "repo": "gautamik01/30-day-map-challenge-2026 (output/*.png, captions/*.md, output/maps.json, scripts/mapkit/style.py)",
+      "notes": "Card is a crop of day02_lines-big-sur.png around Hurricane Point; hero is a crop of day03_polygons-sf-zoning.png. Coordinates are Hurricane Point on the Big Sur course. The system block is read from scripts/mapkit/style.py: the two SERIES palettes, the LOOK cast colours and the FONTS link. Note that the static PNGs each set their own typography; the typefaces listed are the toolkit's defaults for the interactive card."
+    }
+  }
+]

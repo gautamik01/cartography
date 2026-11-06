@@ -1,0 +1,4 @@
+# python -m pip install -r tools/requirements.txt
+pillow>=10
+imageio-ffmpeg>=0.5
+playwright>=1.50   # only for tools/shoot_portals.py, then: playwright install chromium

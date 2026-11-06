@@ -1,0 +1,4 @@
+references/
+_temp/
+__pycache__/
+.DS_Store
