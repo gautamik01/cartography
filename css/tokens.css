@@ -1,0 +1,48 @@
+/* Design tokens. CLAUDE.md is the source of truth; change values here, not in base.css. */
+:root {
+  /* colour: nothing else gets colour, colour comes from the work */
+  --paper: #E7E4E0;
+  --ink: #0B0B0B;
+  --sage: #B3B7AD;
+  --white: #F5F4F1;
+  --muted: rgba(11, 11, 11, 0.55);
+  --muted-dark: rgba(245, 244, 241, 0.6);
+
+  /* type: Adobe Fonts kit vwk1ddw first, then the Google Fonts fallbacks */
+  --font-display: "kepler-3-display-cond", "Instrument Serif", Georgia, serif;
+  --font-punch: "termina", "Archivo", "Arial Black", sans-serif;
+  --font-text: "neue-haas-grotesk-text", "Inter", "Helvetica Neue", Arial, sans-serif;
+  --punch-weight: 900;
+  --punch-stretch: 125%;              /* only the Archivo fallback has a width axis; Termina ignores it */
+
+  --display-size: clamp(56px, 9vw, 160px);
+  --display-lh: 0.88;
+  --display-track: -0.01em;
+  --text-size: 17px;
+  --text-lh: 1.5;
+  --label-size: 11px;
+  --label-track: 0.08em;
+
+  /* layout: 12 columns, 24px gutter on desktop, 16px on phones */
+  --gutter: 24px;
+  --gap: 24px;
+  --cols: 12;
+
+  /* motion */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --wipe: 700ms;
+
+  /* layers, bottom to top */
+  --z-menu: 800;
+  --z-scale: 850;
+  --z-wipe: 900;
+  --z-head: 950;
+  --z-cursor: 1000;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --gutter: 16px;
+    --gap: 16px;
+  }
+}

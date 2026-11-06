@@ -1,0 +1,22 @@
+[
+  { "src": "assets/projects/raasta/card.webp", "project": "raasta", "scale": "wide", "label": "Center City in 3D, the walk drawn through it", "alt": "A 3D map of Center City Philadelphia with an orange walking route winding between the towers and hand-drawn speech bubbles along it." },
+  { "src": "assets/projects/raasta/tile-mid.webp", "project": "raasta", "scale": "mid", "label": "City Hall to Rittenhouse Square, 22 minutes instead of 14", "alt": "A pale street map of Center City with the scenic route in orange from City Hall to Rittenhouse Square and three callouts along it." },
+  { "src": "assets/projects/raasta/tile-close.webp", "project": "raasta", "scale": "close", "label": "A callout at the City Hall fountain", "alt": "A close detail of the route map: a hand-drawn speech bubble reading City Hall Fountain sits beside a few street trees, a quiet pause, with a yellow pin." },
+
+  { "src": "assets/projects/ski-terrain/tile-wide.webp", "project": "ski-terrain", "scale": "wide", "label": "Blue Mountain Resort as a lidar hillshade", "alt": "A grey lidar hillshade of a wooded ridge with ski trails cut as pale stripes down its face." },
+  { "src": "assets/projects/ski-terrain/card.webp", "project": "ski-terrain", "scale": "close", "label": "The trails, cut into the forest", "alt": "A close hillshade detail of the ski trails and lift lines on the mountain." },
+
+  { "src": "assets/projects/forested-university/tile-wide.webp", "project": "forested-university", "scale": "wide", "label": "The campus from above, along the river", "alt": "An aerial line drawing of a riverside campus, white buildings among pale green trees, with the existing city drawn in outline around it." },
+  { "src": "assets/projects/forested-university/card.webp", "project": "forested-university", "scale": "mid", "label": "Student housing, exploded floor by floor", "alt": "An exploded axonometric of a student housing block on a pink background, its floors lifted apart with tall pines growing through them." },
+  { "src": "assets/projects/forested-university/tile-close.webp", "project": "forested-university", "scale": "close", "label": "Inside the atrium, around the trunks", "alt": "An atrium where tall tree trunks rise through open floors, with people at tables below." },
+  { "src": "assets/projects/forested-university/tile-close-2.webp", "project": "forested-university", "scale": "close", "label": "The street in winter", "alt": "A snowy street between brick housing blocks, bare trees overhead and lit windows." },
+
+  { "src": "assets/projects/cloud-footprint/tile-wide.webp", "project": "cloud-footprint", "scale": "wide", "label": "Where AI gets built: 1,472 data centers and 77 AI campuses", "alt": "A dark map of the United States with small blue dots for data centers, amber dots for AI campuses running and glowing pink dots for campuses coming." },
+  { "src": "assets/projects/cloud-footprint/card.webp", "project": "cloud-footprint", "scale": "mid", "label": "What AI drinks: the campuses over water stress", "alt": "The same campuses over teal basins shaded by water stress, densest in Texas and the Southwest." },
+  { "src": "assets/projects/cloud-footprint/tile-close.webp", "project": "cloud-footprint", "scale": "close", "label": "Texas and the Gulf, close up", "alt": "A close detail of the dark map around Texas and Louisiana with large glowing pink campus dots." },
+
+  { "src": "assets/projects/map-series/tile-wide.webp", "project": "map-series", "scale": "wide", "label": "What San Francisco lets you build", "alt": "San Francisco's blocks coloured by zoning: blue one-family houses across the west, red and purple industry and mixed use along the bay." },
+  { "src": "assets/projects/map-series/tile-mid.webp", "project": "map-series", "scale": "mid", "label": "Philadelphia passes the 10-minute test", "alt": "Philadelphia's streets in orange where they are more than ten minutes from a large park, with the most heat-vulnerable tracts outlined in black." },
+  { "src": "assets/projects/map-series/tile-mid-2.webp", "project": "map-series", "scale": "mid", "label": "What Billy Penn can no longer see", "alt": "A dark map of Philadelphia with pink wedges fanning out from City Hall, one for each tower that blocks the statue's view." },
+  { "src": "assets/projects/map-series/card.webp", "project": "map-series", "scale": "close", "label": "Hurricane Point on the Big Sur course", "alt": "Fine grey contour lines of the Big Sur coast with the marathon course in red around Hurricane Point." }
+]

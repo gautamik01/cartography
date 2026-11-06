@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fonts test, Gautami Kasat</title>
+  <link rel="stylesheet" href="https://use.typekit.net/vwk1ddw.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,900&family=Inter:wght@400;500&family=Instrument+Serif&display=swap">
+  <style>
+    /* Self-contained on purpose, so this page says nothing about the shell. Kit vwk1ddw, read on 2026-11-05:
+       kepler-3-display-cond 400 · termina 800, 900 · obviously 800 · neue-haas-grotesk-text 500 · neue-haas-grotesk-display 500 */
+    :root { --paper: #E7E4E0; --ink: #0B0B0B; --muted: rgba(11,11,11,.55); }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: "neue-haas-grotesk-text", "Inter", sans-serif; font-size: 17px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    .label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    section { padding: 64px 24px; border-top: 1px solid rgba(11,11,11,.15); }
+    section:first-of-type { border-top: 0; padding-top: 48px; }
+    .head { display: flex; justify-content: space-between; gap: 24px; margin-bottom: 32px; }
+    h1 { margin: 0; font-family: "kepler-3-display-cond", "Instrument Serif", serif; font-weight: 400; text-transform: uppercase; font-size: clamp(56px, 9vw, 160px); line-height: .88; letter-spacing: -.01em; max-width: 12ch; }
+    .punch { display: block; font-weight: 900; font-size: .78em; line-height: 1; letter-spacing: 0; }
+    .termina { font-family: "termina", "Archivo", sans-serif; font-stretch: 125%; }
+    .obviously { font-family: "obviously", "Archivo", sans-serif; font-weight: 800; font-stretch: 125%; }
+    .specimen { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px 48px; }
+    .specimen p { margin: 0 0 8px; }
+    .w400 { font-weight: 400; } .w500 { font-weight: 500; }
+    .big { font-size: 28px; line-height: 1.2; }
+    .note { max-width: 62ch; color: var(--muted); }
+    .weights { font-family: ui-monospace, Consolas, monospace; font-size: 13px; }
+    @media (max-width: 760px) { section { padding: 48px 16px; } }
+  </style>
+</head>
+<body>
+  <section>
+    <div class="head"><span class="label">( A ) Punch: Termina Black 900</span><span class="label">Display: Kepler 3 Display Condensed</span></div>
+    <h1>The world,<br>drawn at every<br><span class="punch termina">Scale</span></h1>
+  </section>
+
+  <section>
+    <div class="head"><span class="label">( B ) Punch: Obviously 800</span><span class="label">Display: Kepler 3 Display Condensed</span></div>
+    <h1>The world,<br>drawn at every<br><span class="punch obviously">Scale</span></h1>
+  </section>
+
+  <section>
+    <div class="head"><span class="label">( C ) Text: Neue Haas Grotesk Text</span><span class="label">17px / 1.5</span></div>
+    <div class="specimen">
+      <div>
+        <p class="label">Weight 400, asked for</p>
+        <p class="w400 big">Maps with craft, at every scale.</p>
+        <p class="w400">The kit has no 400 yet, so this line renders in the 500 cut. Once Neue Haas Grotesk Text 55 Roman is added to kit vwk1ddw it will lighten on its own.</p>
+      </div>
+      <div>
+        <p class="label">Weight 500, in the kit</p>
+        <p class="w500 big">Maps with craft, at every scale.</p>
+        <p class="w500">The 65 Medium cut. Labels and emphasis.</p>
+      </div>
+      <div>
+        <p class="label">Labels, 11px, 0.08em</p>
+        <p class="label" style="color: var(--ink)">( MENU ) &nbsp; ( OPEN ) &nbsp; ( CV ↓ ) &nbsp; ( YOU ARE HERE ) &nbsp; ( 39.95° N, 75.16° W )</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="label">What the kit CSS actually contains</p>
+    <p class="weights">kepler-3-display-cond 400 &nbsp;·&nbsp; termina 800, 900 &nbsp;·&nbsp; obviously 800 &nbsp;·&nbsp; neue-haas-grotesk-text 500 &nbsp;·&nbsp; neue-haas-grotesk-display 500</p>
+    <p class="note">Punch goes to Termina: it is the only one of the two with a 900. Obviously tops out at 800, which still qualifies, so pick by eye above. Missing from the kit: Neue Haas Grotesk Text 55 Roman (400).</p>
+  </section>
+</body>
+</html>

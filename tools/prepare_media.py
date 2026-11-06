@@ -71,6 +71,34 @@ def still(src, t, out, aspect=None, box=None, pad=False):
     """A single frame of a video, treated like an image."""
     return dict(kind="still", src=src, t=t, out=out, aspect=aspect, box=box, pad=pad)
 
+# Work-view tiles: 4:5 crops at three scales per project (wide, mid, close). data/work.json lists which
+# file is which. Where the card is already the right crop, work.json points at card.webp instead.
+TILES = {
+    "raasta": [
+        img(SHOTS / "raasta_route_1440x900.png", "tile-mid.webp", CARD, box=(1150, 0, 2590, 1800)),
+        # close: one callout at the City Hall fountain, its pin and the route's end
+        img(SHOTS / "raasta_route_1440x900.png", "tile-close.webp", CARD, box=(2040, 280, 2840, 1280)),
+    ],
+    "ski-terrain": [
+        img(TEMP / "week1/day21_terrain_blue_mountain_resort_shade.jpg", "tile-wide.webp", CARD, box=(200, 8, 1826, 2040)),
+    ],
+    "forested-university": [
+        img(FOREST / "BIE_241216 Aerial view Zoom.png", "tile-wide.webp", CARD, box=(1200, 40, 4100, 3665)),
+        still(FOREST / "Human experiences.mp4", 2.2, "tile-close.webp", CARD, box=(0, 150, 464, 730)),
+        still(FOREST / "Human Scale experience.mp4", 3.9, "tile-close-2.webp", CARD, box=(0, 180, 464, 760)),
+    ],
+    "cloud-footprint": [
+        img(SHOTS / "day01_points-ai_1600x1000.png", "tile-wide.webp", CARD, box=(720, 0, 2320, 2000)),
+        img(SHOTS / "day01_points-ai_1600x1000.png", "tile-close.webp", CARD, box=(1500, 900, 2300, 1900)),
+    ],
+    "map-series": [
+        # map bodies only: below each title block, above each legend or credit line
+        img(TEMP / "output/day03_polygons-sf-zoning.png", "tile-wide.webp", CARD, box=(200, 290, 888, 1150)),
+        img(TEMP / "output/day07_ten-minute-parks-philly.png", "tile-mid.webp", CARD, box=(230, 280, 830, 1030)),
+        img(TEMP / "output/day05_sight-billy-penn.png", "tile-mid-2.webp", CARD, box=(240, 240, 1040, 1240)),
+    ],
+}
+
 MANIFEST = {
     "raasta": [
         # 3D route view, skyline and speech bubbles, panel cropped away
@@ -279,11 +307,52 @@ def contact_sheet(slugs, dest):
     print("sheet  ", dest, sheet.size)
 
 
+def tiles_sheet(dest):
+    """The work-view tiles from data/work.json, grouped by project, with their scale and label."""
+    import json
+    tiles = json.loads((REPO / "data" / "work.json").read_text(encoding="utf-8"))
+    projects = {p["slug"]: p for p in json.loads((REPO / "data" / "projects.json").read_text(encoding="utf-8"))}
+    try:
+        font = ImageFont.truetype("arial.ttf", 20)
+        small = ImageFont.truetype("arial.ttf", 15)
+    except OSError:
+        font = small = ImageFont.load_default()
+    TILE_W, GAP, HEAD, FOOT = 260, 20, 44, 46
+    groups = {}
+    for t in tiles:
+        groups.setdefault(t["project"], []).append(t)
+    row_h = HEAD + round(TILE_W * 1.25) + FOOT
+    width = GAP + max(len(g) for g in groups.values()) * (TILE_W + GAP)
+    sheet = Image.new("RGB", (width, row_h * len(groups) + GAP), (231, 228, 224))
+    draw = ImageDraw.Draw(sheet)
+    y = GAP
+    for slug, group in groups.items():
+        p = projects.get(slug, {})
+        note = "" if p.get("published", True) else "   (unpublished, hidden until published)"
+        draw.text((GAP, y), f"{slug}   {p.get('title', '')}{note}", fill=(11, 11, 11), font=font)
+        for i, t in enumerate(group):
+            x = GAP + i * (TILE_W + GAP)
+            path = REPO / t["src"]
+            if path.exists():
+                im = Image.open(path).convert("RGB")
+                im = im.resize((TILE_W, round(im.height * TILE_W / im.width)), Image.LANCZOS)
+                sheet.paste(im, (x, y + HEAD))
+            else:
+                draw.rectangle((x, y + HEAD, x + TILE_W, y + HEAD + round(TILE_W * 1.25)), outline=(11, 11, 11))
+            draw.text((x, y + HEAD + round(TILE_W * 1.25) + 6), f"{t['scale']}   {Path(t['src']).name}", fill=(11, 11, 11), font=small)
+            draw.text((x, y + HEAD + round(TILE_W * 1.25) + 24), t.get("label", ""), fill=(90, 90, 90), font=small)
+        y += row_h
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    sheet.save(dest, quality=88)
+    print("tiles  ", dest, sheet.size)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--fetch", action="store_true")
     ap.add_argument("--sheet", action="store_true")
+    ap.add_argument("--tiles-sheet", action="store_true")
     ap.add_argument("--only", nargs="*", default=None)
     a = ap.parse_args()
 
@@ -293,10 +362,12 @@ def main():
     slugs = a.only or list(MANIFEST)
     for slug in slugs:
         print(f"[{slug}]")
-        for job in MANIFEST[slug]:
+        for job in MANIFEST[slug] + TILES.get(slug, []):
             build(slug, job, a.force)
     if a.sheet:
         contact_sheet(list(MANIFEST), REPO / "_temp" / "contact_sheet.jpg")
+    if a.tiles_sheet:
+        tiles_sheet(REPO / "_temp" / "tiles_sheet.jpg")
 
     total = sum(p.stat().st_size for p in ASSETS.rglob("*") if p.is_file())
     print(f"assets/projects total {total / 1024 / 1024:.1f} MB")

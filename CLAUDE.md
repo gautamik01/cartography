@@ -29,18 +29,17 @@ Study every PNG in references/. They're frames from a site I love (Our Revolutio
 - 24px gutter on desktop, 16px on mobile. 12-column grid. Generous whitespace.
 
 ## Typography
-- Adobe Fonts kit: (added in Prompt 2)
-- --font-display: condensed high-contrast serif, UPPERCASE headlines, line-height 0.88, tracking -0.01em, clamp(56px, 9vw, 160px).
-- --font-punch: heavy wide sans for exactly ONE word per headline.
-- --font-text: grotesk for body (17px, line-height 1.5) and labels.
+- Adobe Fonts kit vwk1ddw: `<link rel="stylesheet" href="https://use.typekit.net/vwk1ddw.css">` in every page head. What its CSS served on 2026-11-05: kepler-3-display-cond 400; termina 800 and 900; obviously 800; neue-haas-grotesk-text 500; neue-haas-grotesk-display 500.
+- --font-display: "kepler-3-display-cond" 400 (Kepler 3 Display Condensed), fallback Instrument Serif. Condensed high-contrast serif, UPPERCASE headlines, line-height 0.88, tracking -0.01em, clamp(56px, 9vw, 160px).
+- --font-punch: "termina" 900 (Termina Black), fallback Archivo wdth 125 wght 900. Heavy wide sans for exactly ONE word per headline. Obviously 800 is the other heavy face in the kit; fonts-test.html shows both.
+- --font-text: "neue-haas-grotesk-text" 400 and 500, fallback Inter. Grotesk for body (17px, line-height 1.5) and labels. The kit is missing the 400 (Neue Haas Grotesk Text 55 Roman): add it to kit vwk1ddw in Adobe Fonts; until then 400 renders as 500.
 - Labels: 11px, uppercase, letter-spacing 0.08em, always in parentheses with spaces: ( MENU ), ( OPEN ), ( CV ↓ ).
 - Fallbacks: Instrument Serif, Archivo (wdth 125, weight 900) and Inter, from Google Fonts.
 - Copy rule: no em dashes anywhere in site text.
 
 ## Global chrome
-- Fixed header with mix-blend-mode: difference. Left "( MENU )". Centre the wordmark "Gautami Kasat" in the display serif, title case. Right "( CV ↓ )", which downloads assets/cv/Gautami_Kasat_CV.pdf.
-- Menu overlay on sage: WORK, ABOUT, CONTACT, huge and centred, with "( YOU ARE HERE )" on both sides of the current page. Footer: ( LINKEDIN ) ( GITHUB ) ( EMAIL ) ( CV ). The header left becomes "( CLOSE )".
-- Menu hover: the item switches to the punch font in white with a short liquid ripple (SVG feTurbulence + feDisplacementMap animated with GSAP, about 600ms, then settles).
+- No menu overlay. Fixed header with mix-blend-mode: difference so the labels read on paper, ink and images. Left "( WORK )" "( ABOUT )". Centre the wordmark "Gautami Kasat" in the display serif, title case, linking home. Right "( CONTACT )" "( CV ↓ )", which downloads assets/cv/Gautami_Kasat_CV.pdf. The current page's label carries a small filled dot before it. Under 700px: wordmark on the first row, the four labels evenly spaced on a second row.
+- Contact footer at the bottom of every page (home below the hero, work below the strip, about, contact, every project). Left: "( GET IN TOUCH )" then the email large in the display serif (clamp to about 48px), a mailto link that also copies and shows "( COPIED )". Right, stacked: ( LINKEDIN ↗ ) ( GITHUB ↗ ) ( DOWNLOAD CV ↓ ). Bottom row, tiny labels: "© 2026 Gautami Kasat", "( 39.95° N, 75.16° W ) Philadelphia", "( BACK TO TOP ↑ )" at the right. The footer takes the page's colour (--ink on dark pages, --paper on light) with a hairline rule above. The scale bar hides while the footer is in view. LinkedIn: https://www.linkedin.com/in/gautamikasat.
 
 ## Motion
 - Page transitions: an --ink panel wipes up from the bottom (700ms, power4.inOut), the page navigates, then the panel wipes away upward. Faint procedural contour lines (6% opacity) drift across the panel.
@@ -50,6 +49,15 @@ Study every PNG in references/. They're frames from a site I love (Our Revolutio
 - Signature 3: the contour-line wipe.
 - Videos: muted, loop, playsinline, autoplay only while in view, poster first.
 - prefers-reduced-motion: no wipes, ripple, smooth scroll or autoplay. Fades and posters instead.
+
+## Shell contract (css/tokens.css, css/base.css, js/app.js, js/contours.js, js/pages.js, js/hero.js)
+- Pages: index.html (home, the hero project browser), work.html (the featured strip), project.html?p=slug[&h=image], about.html, contact.html. Every page: `<html data-theme="paper|ink" data-page="home|work|about|contact">`, the inline `document.documentElement.classList.add('js')`, the Typekit and Google Fonts links, tokens.css then base.css, `<main id="main" data-theme data-page>` carrying the same two attributes (each main paints its own background), then the pinned GSAP 3.13.0 and Lenis scripts and `js/app.js` as a module.
+- app.js injects the header, the contact footer (appended to each `<main>` so it rolls with the page; `SITE` at the top of app.js holds the email and links), scale bar and cursor. Internal links do not reload: app.js fetches the next page, injects its `<main>` beside the current one, rolls it up (new page y 100vh to 0, old page up 30vh, scale 0.96, brightness 0.5, 900ms power4.inOut, faint contours along the incoming top edge), then pushState. Back and forward roll in reverse; a failed fetch falls back to a normal navigation; reduced motion crossfades in 200ms. Tuning constants: `ROLL` at the top of app.js.
+- pages.js renders `#browser` (home thumbnails and panel, via hero.js), `#cards` (work) and `#project` from data/projects.json for the first load and for every rolled-in page; a renderer may return a cleanup function. With `?h=assets/...` the project opener uses that image as its hero; the hero browser passes its panel image this way and Flips it into the opener.
+- Hero browser tuning: `BROWSER` at the top of js/hero.js (20vw start, slide and swap timings, lerp, close delay).
+- Hooks: `data-split` on a headline (SplitText line reveal), `data-cursor="open"` on anything the cursor should grow over, `data-autoplay` on videos (play only in view), `data-no-transition` on a link to skip the roll.
+- `html.fonts-adobe` or `html.fonts-fallback` is set once the kit is checked; the fallback serif is not condensed, so the display size scales by 0.9 under `fonts-fallback`.
+- fonts-test.html is a standalone specimen page, not part of the site.
 
 ## Quality bar
 Lighthouse performance 90+ on desktop. Lazy-load below the fold. Works fully on a phone. Meaningful alt text. Visible focus. No console errors.
