@@ -18,12 +18,8 @@
 </head>
 <body>
   <main id="main" data-theme="ink" data-page="work">
-    <!-- the featured strip, filled from data/projects.json by js/pages.js -->
-    <section class="featured theme-ink" aria-labelledby="featured-title">
-      <p class="label muted">( FEATURED )</p>
-      <h1 class="display" id="featured-title" data-split>Featured</h1>
-      <div class="cards" id="cards"></div>
-    </section>
+    <!-- the tile strip: sets per project from data/work.json, built and driven by js/work.js -->
+    <section class="work" id="work" aria-label="Featured projects"></section>
   </main>
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>

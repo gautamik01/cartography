@@ -324,12 +324,19 @@ function createRouter(shell, scroll) {
 
   const ctxFor = (main, href) => ({ main, url: new URL(href, location.href), navigate: go });
 
+  // a page is "entered" once it is fully on screen: first load, or after its roll
+  function markEntered(main) {
+    main.dataset.entered = "1";
+    main.dispatchEvent(new CustomEvent("page:enter"));
+  }
+
   async function activate(main, href) {
     watchFooter(mountFooter(main));
     cleanup = (await renderPage(pageOf(main), ctxFor(main, href))) || null;
     initVideos(main);
     scroll.update();
     if (HAS_GSAP) ScrollTrigger.refresh();
+    markEntered(main);
   }
 
   async function roll(old, incoming, direction) {
@@ -364,7 +371,10 @@ function createRouter(shell, scroll) {
     gsap.set(text, { autoAlpha: 0 });
     gsap.set(incoming, { zIndex: 3 });
     scroll.toTop();
-    await Flip.from(state, { targets: target, duration: ROLL.DURATION, ease: ROLL.EASE, absolute: true }).then();
+    const same = Math.abs(flipFrom.getBoundingClientRect().width - window.innerWidth) < 2;   // already full screen: nothing to move
+    const flip = Flip.from(state, { targets: target, duration: same ? 0.01 : ROLL.DURATION, ease: ROLL.EASE, absolute: true });
+    if (flipFrom.classList.contains("work__morph")) flipFrom.remove();   // the work view's morph clone has done its job
+    await flip.then();
     gsap.to(text, { autoAlpha: 1, duration: 0.6, ease: "power2.out" });
     revealHeadlines(incoming);
   }
@@ -415,6 +425,7 @@ function createRouter(shell, scroll) {
     scroll.lenis?.resize();
     if (HAS_GSAP) ScrollTrigger.refresh();
     busy = false;
+    markEntered(incoming);
   }
 
   document.addEventListener("click", (e) => {

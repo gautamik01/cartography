@@ -2,14 +2,20 @@
  * app.js calls renderPage(page, ctx) for the first load and for every page it rolls in.
  * ctx = { main, url, navigate }. A renderer may return a cleanup function. */
 import { initBrowser } from "./hero.js";
+import { initWork } from "./work.js";
 
 const esc = (t) => String(t ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const pad2 = (n) => String(n).padStart(2, "0");
 let cache = null;
+let tileCache = null;
 
 export async function loadProjects() {
   if (!cache) cache = fetch("data/projects.json").then((r) => r.json()).then((all) => all.filter((p) => p.published));
   return cache;
+}
+export async function loadTiles() {
+  if (!tileCache) tileCache = fetch("data/work.json").then((r) => r.json());
+  return tileCache;
 }
 
 const media = (src, poster, alt, autoplay = true) => /\.mp4$/i.test(src)
@@ -32,17 +38,17 @@ async function home(ctx) {
   return initBrowser(root, projects, { navigate: ctx.navigate });
 }
 
-// ---------------------------------------------------------------- work: the featured strip
+// ---------------------------------------------------------------- work: the tile strip (js/work.js)
 async function work(ctx) {
-  const cards = ctx.main.querySelector("#cards");
-  if (!cards) return null;
-  const projects = await loadProjects();
-  cards.innerHTML = projects.map((p, i) =>
-    `<a class="card" href="project.html?p=${esc(p.slug)}" data-cursor="open" aria-label="${esc(p.title)}">` +
-      `<div class="card__media">${media(p.card_video || p.card, p.card, p.card_video ? p.title + ", moving image" : "")}</div>` +
-      `<div class="card__meta"><span class="card__title">${esc(p.title)}</span><span class="label muted">( ${pad2(i + 1)} )</span></div>` +
-    `</a>`).join("");
-  return null;
+  if (!ctx.main.querySelector("#work")) return null;
+  const [projects, tiles] = await Promise.all([loadProjects(), loadTiles()]);
+  const published = new Set(projects.map((p) => p.slug));
+  return initWork(ctx.main, {
+    projects,
+    tiles: tiles.filter((t) => published.has(t.project)),   // unpublished projects' tiles stay hidden
+    navigate: ctx.navigate,
+    entered: ctx.main.dataset.entered === "1",
+  });
 }
 
 // ---------------------------------------------------------------- project: one template for every project
@@ -92,7 +98,7 @@ async function project(ctx) {
 
 export async function renderPage(page, ctx) {
   if (page === "home") return home(ctx);
-  if (ctx.main.querySelector("#cards")) return work(ctx);
+  if (ctx.main.querySelector("#work")) return work(ctx);
   if (ctx.main.querySelector("#project")) return project(ctx);
   return null;
 }

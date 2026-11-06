@@ -231,6 +231,117 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
   .project__meta > :nth-child(2) { grid-column: 1 / -1; order: 3; }
 }
 
+/* ------------------------------------------------------------------ work: the tile strip */
+.work {
+  position: relative;
+  background: var(--ink);
+  color: var(--white);
+  --muted-c: var(--muted-dark);
+}
+.work__intro {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100svh;        /* the section itself is much taller: it holds the scroll distance of the loop */
+  z-index: 5;
+  background: transparent;   /* the page is already ink; the tiles must show through while the words drop */
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  padding: var(--gutter);
+  pointer-events: none;
+}
+.work__mask { overflow: hidden; padding-inline: 0.06em; }
+.work__word { display: block; line-height: 1; }
+.work__word--punch { font-size: calc(var(--display-size) * 0.86 * var(--display-scale)); }
+.work__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+}
+.work__track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: flex;
+  align-items: flex-start;
+  transform: translate3d(var(--gutter), -50%, 0);
+  will-change: transform;
+}
+.work__set {
+  position: relative;
+  display: flex;
+  gap: 2vw;
+  margin-right: 6vw;
+  flex: none;
+}
+.work__set-label { position: absolute; left: 0; top: -30px; }
+.tile {
+  position: relative;
+  flex: none;
+  width: 22vw;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #1a1a1a;
+  border-radius: 0;
+  transition: border-radius 600ms cubic-bezier(0.215, 0.61, 0.355, 1), opacity 300ms;
+}
+.tile img { width: 100%; height: 100%; object-fit: cover; }
+.tile.is-oval { border-radius: 50%; }
+.tile.is-dim { opacity: 0.55; }
+.tile.is-hidden { clip-path: inset(100% 0% 0% 0%); }     /* grows up from its bottom edge on entering; units match the GSAP target */
+.work__caption {
+  position: absolute;
+  left: var(--gutter); right: var(--gutter);
+  bottom: 14vh;
+  text-align: center;
+  white-space: normal;
+}
+.work__pill {
+  position: absolute;
+  left: 50%;
+  bottom: 36px;
+  transform: translateX(-50%);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 12px 22px;
+  line-height: 1;
+  color: var(--white);
+}
+.work__pill:hover { background: var(--white); color: var(--ink); }
+.work__morph {
+  position: fixed;
+  z-index: 70;
+  overflow: hidden;
+  background: #1a1a1a;
+  pointer-events: none;
+}
+.work__morph img { width: 100%; height: 100%; object-fit: cover; }
+/* touch devices: a native horizontal swipe with snap, no sticky loop */
+.work.is-touch .work__stage { position: relative; height: auto; min-height: 100svh; display: grid; align-content: center; padding: calc(var(--header-h) + 24px) 0 96px; }
+.work.is-touch .work__track {
+  position: static;
+  transform: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 36px var(--gutter) 0;
+  gap: 0;
+  scrollbar-width: none;
+}
+.work.is-touch .work__track::-webkit-scrollbar { display: none; }
+.work.is-touch .tile { width: 72vw; scroll-snap-align: start; }
+.work.is-touch .work__set { gap: 3vw; margin-right: 8vw; }
+.work.is-touch .work__caption { position: static; margin-top: 28px; }
+.work.is-touch .work__pill { position: static; transform: none; justify-self: center; margin-top: 28px; }
+@media (prefers-reduced-motion: reduce) {
+  .tile { transition: none; }
+  .work__intro { display: none; }
+}
+
 /* ------------------------------------------------------------------ project opener */
 .opener {
   position: relative;
