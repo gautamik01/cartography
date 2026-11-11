@@ -102,7 +102,7 @@ async function project(ctx) {
         `</div>` +
       `</div>` +
     `</section>` +
-    `<section class="gallery">` + (p.gallery || []).map((g) =>
+    `<section class="gallery gallery--editorial">` + (p.gallery || []).map((g) =>
       `<figure class="gallery__item">${media(g.src, g.poster, g.alt)}${g.caption ? `<figcaption class="label muted">${esc(g.caption)}</figcaption>` : ""}</figure>`).join("") +
     `</section>`;
   return initProject(ctx.main, { entered: ctx.main.dataset.entered === "1" });

@@ -485,6 +485,23 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 .tool:hover, .tool:focus-visible, .tool.is-on { border-color: currentColor; }
 .tool:focus-visible { outline: none; }
 .tools__use { min-height: 1.6em; text-transform: none; letter-spacing: 0.02em; }
+
+/* ------------------------------------------------------------------ editorial gallery: a staggered rhythm every six items */
+.gallery--editorial {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(32px, 5vw, 80px) var(--gap);
+  padding: clamp(64px, 10vw, 140px) var(--gutter);
+  align-items: start;
+}
+.gallery--editorial > :nth-child(6n + 1) { grid-column: 1 / 8; }
+.gallery--editorial > :nth-child(6n + 2) { grid-column: 8 / 13; margin-top: 18vh; }
+.gallery--editorial > :nth-child(6n + 3) { grid-column: 3 / 13; }
+.gallery--editorial > :nth-child(6n + 4) { grid-column: 1 / 7; }
+.gallery--editorial > :nth-child(6n + 5) { grid-column: 7 / 13; margin-top: 12vh; }
+.gallery--editorial > :nth-child(6n + 6) { grid-column: 2 / 12; }
+@media (max-width: 760px) {
+  .gallery--editorial > * { grid-column: 1 / -1 !important; margin-top: 0 !important; }
+}
 @media (max-width: 760px) {
   .panel-text { padding-top: calc(var(--header-h) + 24px); }
   .panel-text__lead { grid-column: 1 / -1; position: static; margin-bottom: 28px; }
