@@ -211,64 +211,76 @@
   {
     "slug": "cloud-footprint",
     "number": "04",
-    "published": false,
+    "published": true,
     "title": "The Cloud Has a Footprint",
-    "kicker": "US data centers and AI campuses, mapped against water stress.",
+    "kicker": "US data centers and the AI campuses on the way, mapped against water stress.",
     "location": "United States",
     "coords": "( 39.83° N, 98.58° W )",
     "year": "2026",
-    "role": "Data, cartography and code",
+    "role": "",
+    "opener_fit": "contain",
     "tools": [
-      { "name": "Python", "use": "" },
-      { "name": "GeoPandas", "use": "" },
-      { "name": "Mapbox GL JS", "use": "" },
-      { "name": "Jupyter", "use": "" },
-      { "name": "mapkit", "use": "" }
+      { "name": "Python", "use": "every map is a notebook, run top to bottom" },
+      { "name": "GeoPandas", "use": "joins the campuses to the basins and the states" },
+      { "name": "Shapely", "use": "the geometry under the joins" },
+      { "name": "Mapbox GL JS", "use": "the live pages: glow layers, hover details, the legend" },
+      { "name": "Jupyter", "use": "one notebook per map" },
+      { "name": "mapkit", "use": "the shared toolkit: palettes, credits, the title card, the publish step" }
     ],
-    "data": ["IM3 Open Source Data Center Atlas (PNNL), derived from OpenStreetMap", "Epoch AI Frontier Data Centers", "WRI Aqueduct 4.0 water stress", "US Census cartographic boundaries"],
-    "labels": ["( INTERACTIVE )", "( DATA )", "( WATER )"],
+    "data": ["IM3 Open Source Data Center Atlas (PNNL), derived from OpenStreetMap", "Epoch AI Frontier Data Centers", "WRI Aqueduct 4.0 water stress", "US Census Bureau cartographic boundaries"],
+    "labels": ["( INTERACTIVE )", "( PYTHON + MAPBOX )", "( DATA CENTERS )"],
     "card": "assets/projects/cloud-footprint/card.webp",
     "card_video": "",
-    "hero": "assets/projects/cloud-footprint/hero.webp",
-    "hero_video": "",
-    "lead": "assets/projects/cloud-footprint/lead.webp",
+    "hero": "assets/projects/cloud-footprint/where-ai-gets-built-poster.webp",
+    "hero_video": "assets/projects/cloud-footprint/where-ai-gets-built.mp4",
+    "lead": "assets/projects/cloud-footprint/card.webp",
     "lead_bw": false,
+    "lead_focus": "center",
     "intro": [
-      "Two interactive maps of the physical side of AI. The first puts 1,472 existing US data centers on the map alongside 34 new AI campuses that are already running and 43 more that are coming. The second lays the same campuses over the basins where water is already scarce.",
-      "39% of the new AI campuses sit in those basins. The maps are built in Python from the IM3 Data Center Atlas, Epoch AI's Frontier Data Centers list and WRI Aqueduct 4.0, and published as Mapbox pages with a floating card, hover details and a legend that toggles each layer.",
-      "They are the first two studies in a series called The Cloud Has a Footprint. What AI Burns and Where AI Is at Risk come next."
+      "Two interactive maps of the physical side of AI. Where AI Gets Built puts 1,472 existing US data centers on one map with the 34 new AI campuses already running and the 43 more that are coming. What AI Drinks lays the same campuses over the basins where water is already scarce: 39% of the new campuses sit in them.",
+      "Both are built in Python from the IM3 Data Center Atlas, Epoch AI's Frontier Data Centers list and WRI Aqueduct 4.0, and published as Mapbox GL pages with a floating card, hover details on every point and a legend that switches each layer on and off.",
+      "They are the first two studies in a series that follows the data centers into the water, power and climate risk around them. What AI Burns and Where AI Is at Risk come next."
     ],
     "gallery": [
       {
         "type": "image",
         "src": "assets/projects/cloud-footprint/where-ai-gets-built.webp",
         "poster": "",
-        "alt": "A dark map of the United States with small blue dots for existing data centers, amber dots for AI campuses that are running and large glowing pink dots for campuses that are coming, densest in Texas, the Midwest and Virginia.",
-        "caption": "Where AI Gets Built: 1,472 data centers today, 34 AI campuses running, 43 coming."
+        "alt": "A dark map of the United States with small blue dots for existing data centers, amber dots for AI campuses that are running and large glowing pink dots for campuses that are coming, densest in Texas, the Midwest and Virginia. A floating card at the top left carries the title and legend.",
+        "caption": "Where AI Gets Built: 1,472 data centers today, 34 AI campuses running, 43 coming.",
+        "width": "full"
       },
       {
         "type": "image",
         "src": "assets/projects/cloud-footprint/what-ai-drinks.webp",
         "poster": "",
-        "alt": "The same campuses over teal basins shaded by water stress, with the pink dots clustered in the dry Southwest and Texas.",
-        "caption": "What AI Drinks: 39% of the new campuses sit where water is already scarce."
-      },
-      {
-        "type": "video",
-        "src": "assets/projects/cloud-footprint/where-ai-gets-built.mp4",
-        "poster": "assets/projects/cloud-footprint/where-ai-gets-built-poster.webp",
-        "alt": "A screen recording of the live map: the cursor hovers over glowing campuses and a tooltip names each one with its operator, status and capacity.",
-        "caption": "Hover a campus for its operator, status and planned capacity."
+        "alt": "The same campuses over teal basins shaded by water stress, with the pink dots clustered in the dry Southwest and Texas, and the title card What AI Drinks at the top left.",
+        "caption": "What AI Drinks: 39% of the new AI campuses sit where water is already scarce.",
+        "width": "full"
       }
     ],
     "system": null,
     "portals": [
-      { "label": "( OPEN WHERE AI GETS BUILT )", "url": "https://gautamik01.github.io/30-day-map-challenge-2026/output/day01_points-ai.html", "embeddable": true },
-      { "label": "( OPEN WHAT AI DRINKS )", "url": "https://gautamik01.github.io/30-day-map-challenge-2026/output/day03_polygons-water-ai.html", "embeddable": true }
+      {
+        "label": "( OPEN WHERE AI GETS BUILT ↗ )",
+        "cta": "Try the map",
+        "url": "https://gautamik01.github.io/30-day-map-challenge-2026/output/day01_points-ai.html",
+        "window": "assets/projects/cloud-footprint/where-ai-gets-built.mp4",
+        "window_poster": "assets/projects/cloud-footprint/where-ai-gets-built-poster.webp",
+        "embeddable": true
+      },
+      {
+        "label": "( OPEN WHAT AI DRINKS ↗ )",
+        "cta": "Try the map",
+        "url": "https://gautamik01.github.io/30-day-map-challenge-2026/output/day03_polygons-water-ai.html",
+        "window_poster": "assets/projects/cloud-footprint/card.webp",
+        "size": "small",
+        "embeddable": true
+      }
     ],
     "source": {
-      "repo": "gautamik01/30-day-map-challenge-2026 (scripts/_template_ai.ipynb, scripts/day03_polygons_water_ai.ipynb, scripts/mapkit)",
-      "notes": "Hero and lead are a fresh Playwright capture of the live day01 page (1600x1000 at 2x) because png_thumbnail/day01_points-ai.png has a typo in its title. Card is a crop of png_thumbnail/day03_polygons-water-ai.png. The recording output/day01_points-ai_2.mp4 (1280x640) is re-encoded without its audio track. GitHub Pages sends no X-Frame-Options or CSP headers, so both maps can be iframed. Coordinates are the geographic centre of the contiguous US; swap for a specific campus if you prefer."
+      "repo": "gautamik01/30-day-map-challenge-2026 (README, captions/day01_points-ai.md, captions/day03_polygons-water-ai.md, output/maps.json, scripts/mapkit/style.py, scripts/mapkit/ai.py)",
+      "notes": "The opener is output/day01_points-ai_2.mp4 (1280x640, re-encoded without its audio track, shown whole), its poster the first frame. The lead is the 4:5 crop of png_thumbnail/day03_polygons-water-ai.png, so the panel pairs the dark dots map with the teal water map. The counts (1,472 / 34 / 43) and the 39% line were read from the live pages' layer data and cards on 2026-11-11; the live pages load mapbox-gl-js v3.7.0. Coordinates are the geographic centre of the contiguous US."
     }
   },
   {

@@ -473,6 +473,13 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 .portal:hover .portal__arrow, .portal:focus-visible .portal__arrow { transform: translate(2px, -2px); }
 .portal:hover .portal__url, .portal:focus-visible .portal__url { max-height: 18px; opacity: 1; transform: translateY(0); }
 .portal:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+/* the smaller second button: same anatomy, about three quarters the size */
+.portal--small { padding: 6px 18px 6px 6px; gap: 10px; }
+.portal--small .portal__window { width: 30px; height: 30px; }
+.portal--small .portal__cta { font-size: 13px; }
+.portal--small .portal__live { font-size: 9px; }
+.portal--small:hover .portal__window, .portal--small:focus-visible .portal__window { width: 38px; height: 38px; }
+.panel-text .portal + .portal { margin-top: -6px; }
 @media (prefers-reduced-motion: reduce) { .portal__dot { animation: none; } }
 
 /* ------------------------------------------------------------------ tools: hairline labels, the use on hover */

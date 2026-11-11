@@ -135,8 +135,9 @@ function portalButton(x, p) {
     ? `<video data-autoplay muted loop playsinline preload="none" poster="${esc(x.window_poster || "")}" aria-hidden="true"><source src="${esc(x.window)}" type="video/mp4"></video>`
     : `<img src="${esc(x.window_poster || p.card)}" alt="" aria-hidden="true">`;
   const cta = esc(x.cta || "Try the prototype");
+  const small = x.size === "small" ? " portal--small" : "";   // a second, quieter button for a second portal
   return `
-    <a class="portal" href="${esc(x.url)}" target="_blank" rel="noopener" data-cursor="open" aria-label="${cta}: ${esc(p.title)} opens in a new tab">
+    <a class="portal${small}" href="${esc(x.url)}" target="_blank" rel="noopener" data-cursor="open" aria-label="${cta}: ${esc(p.title)} opens in a new tab">
       <span class="portal__window">${window_}</span>
       <span class="portal__live" aria-hidden="true"><span class="portal__dot"></span>LIVE</span>
       <span class="portal__text">
