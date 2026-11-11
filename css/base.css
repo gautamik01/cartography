@@ -470,6 +470,21 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 .portal:hover .portal__url, .portal:focus-visible .portal__url { max-height: 18px; opacity: 1; transform: translateY(0); }
 .portal:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 @media (prefers-reduced-motion: reduce) { .portal__dot { animation: none; } }
+
+/* ------------------------------------------------------------------ tools: hairline labels, the use on hover */
+.tools { display: grid; gap: 12px; margin-top: 16px; }
+.tools__row { display: flex; flex-wrap: wrap; gap: 8px; }
+.tool {
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 8px 12px;
+  line-height: 1;
+  cursor: default;
+  transition: border-color 250ms;
+}
+.tool:hover, .tool:focus-visible, .tool.is-on { border-color: currentColor; }
+.tool:focus-visible { outline: none; }
+.tools__use { min-height: 1.6em; text-transform: none; letter-spacing: 0.02em; }
 @media (max-width: 760px) {
   .panel-text { padding-top: calc(var(--header-h) + 24px); }
   .panel-text__lead { grid-column: 1 / -1; position: static; margin-bottom: 28px; }

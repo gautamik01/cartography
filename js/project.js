@@ -11,6 +11,7 @@ export const PROJECT = {
   SNAP_AT: 0.08,          // once the panel has risen this far (0 to 1) a scroll commits to it
   SNAP_MIN_S: 0.3,
   SNAP_MAX_S: 0.7,
+  USE_CLEAR_MS: 160,      // the tool's "use" line lingers this long after the pointer leaves
 };
 
 export function initProject(main, { entered } = {}) {
@@ -54,6 +55,35 @@ export function initProject(main, { entered } = {}) {
       },
     });
     cleanups.push(() => st.kill());
+  }
+
+  // ---------------------------------------------------------------- tools: hover or focus shows what each was used for
+  const tools = main.querySelector(".tools");
+  if (tools) {
+    const use = tools.querySelector(".tools__use");
+    let timer = 0;
+    const show = (e) => {
+      const t = e.target.closest(".tool");
+      if (!t) return;
+      clearTimeout(timer);
+      tools.querySelectorAll(".tool.is-on").forEach((x) => x.classList.remove("is-on"));
+      t.classList.add("is-on");
+      use.textContent = t.dataset.use || "";
+    };
+    const hide = (e) => {
+      const t = e.target.closest(".tool");
+      if (!t) return;
+      timer = setTimeout(() => { t.classList.remove("is-on"); use.textContent = ""; }, PROJECT.USE_CLEAR_MS);
+    };
+    tools.addEventListener("mouseover", show);
+    tools.addEventListener("mouseout", hide);
+    tools.addEventListener("focusin", show);
+    tools.addEventListener("focusout", hide);
+    cleanups.push(() => {
+      tools.removeEventListener("mouseover", show); tools.removeEventListener("mouseout", hide);
+      tools.removeEventListener("focusin", show); tools.removeEventListener("focusout", hide);
+      clearTimeout(timer);
+    });
   }
 
   return function cleanup() { cleanups.forEach((fn) => fn()); };

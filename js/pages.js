@@ -71,6 +71,7 @@ async function project(ctx) {
   const num = pad2(Math.max(i, 0) + 1);
   const tone = p.opener_text === "dark" ? "dark" : "light";
   const place = [p.location, p.year].filter((s) => s && !/^TODO/i.test(s)).join(" · ");
+  const tools = (p.tools || []).filter((t) => t && t.name);
   root.innerHTML =
     // the opener: hero video playing over its poster (or the ?h= image), text that holds then fades, a scroll cue
     `<section class="opener" data-text="${tone}">` +
@@ -97,6 +98,7 @@ async function project(ctx) {
           (place ? `<p class="label muted">${esc(place)}</p>` : "") +
           portals.map((x) => portalButton(x, p)).join("") +
           `<div class="text panel-text__intro">${(p.intro || []).map((t) => `<p>${esc(t)}</p>`).join("")}</div>` +
+          (tools.length ? toolsBlock(tools) : "") +
         `</div>` +
       `</div>` +
     `</section>` +
@@ -104,6 +106,17 @@ async function project(ctx) {
       `<figure class="gallery__item">${media(g.src, g.poster, g.alt)}${g.caption ? `<figcaption class="label muted">${esc(g.caption)}</figcaption>` : ""}</figure>`).join("") +
     `</section>`;
   return initProject(ctx.main, { entered: ctx.main.dataset.entered === "1" });
+}
+
+function toolsBlock(tools) {
+  return `
+    <div class="tools">
+      <p class="label muted">( BUILT WITH )</p>
+      <ul class="tools__row" role="list">
+        ${tools.map((t) => `<li><button class="tool label" type="button" data-use="${esc(t.use || "")}">${esc(t.name)}</button></li>`).join("")}
+      </ul>
+      <p class="tools__use label muted" aria-live="polite"></p>
+    </div>`;
 }
 
 // "there is a live thing you can use": an ink capsule with a small moving window into the portal
