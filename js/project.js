@@ -8,9 +8,7 @@
 export const PROJECT = {
   TEXT_HOLD_S: 2.5,       // title, kicker and meta stay this long
   TEXT_FADE_S: 0.8,
-  SNAP_AT: 0.08,          // once the panel has risen this far (0 to 1) a scroll commits to it
-  SNAP_MIN_S: 0.3,
-  SNAP_MAX_S: 0.7,
+  SNAP_S: 0.6,            // one scroll from the opener snaps to the text panel in this long (power3.inOut), and back
   USE_CLEAR_MS: 160,      // the tool's "use" line lingers this long after the pointer leaves
 };
 
@@ -40,21 +38,52 @@ export function initProject(main, { entered } = {}) {
   if (entered) fadeText(); else main.addEventListener("page:enter", fadeText, { once: true });
   cleanups.push(() => { main.removeEventListener("page:enter", fadeText); fadeTween?.kill(); });
 
-  // ---------------------------------------------------------------- scrolling snaps to the text panel and holds there
+  // ---------------------------------------------------------------- one scroll or swipe from the opener snaps to the text panel, and back
+  // A triggered move, not a scrubbed rise: the first wheel tick or swipe is swallowed and the page travels in SNAP_S.
   const panel = main.querySelector(".panel-text");
-  if (motion && window.ScrollTrigger && panel) {
-    const st = ScrollTrigger.create({
-      trigger: panel,
-      start: "top bottom",
-      end: "top top",
-      snap: {
-        snapTo: (value) => (value > PROJECT.SNAP_AT ? 1 : 0),
-        duration: { min: PROJECT.SNAP_MIN_S, max: PROJECT.SNAP_MAX_S },
-        delay: 0.05,
-        ease: "power2.inOut",
-      },
+  if (motion && panel) {
+    const lenis = window.__shell?.lenis;
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);   // power3.inOut
+    let snapping = false;
+    const panelTop = () => Math.round(panel.getBoundingClientRect().top + window.scrollY);
+    const goTo = (y) => {
+      snapping = true;
+      const done = () => { snapping = false; };
+      if (lenis) lenis.scrollTo(y, { duration: PROJECT.SNAP_S, easing: ease, lock: true, force: true, onComplete: done });
+      else {
+        const o = { y: window.scrollY };
+        gsap.to(o, { y, duration: PROJECT.SNAP_S, ease: "power3.inOut", onUpdate: () => window.scrollTo(0, o.y), onComplete: done });
+      }
+    };
+    // returns true when the input was used for a snap (or swallowed mid-snap)
+    const decide = (down) => {
+      if (snapping) return true;
+      const top = panelTop(), y = window.scrollY;
+      if (down && y < top - 2) { goTo(top); return true; }
+      if (!down && y > 0 && y <= top + 2) { goTo(0); return true; }
+      return false;
+    };
+    const onWheel = (e) => {
+      if (Math.abs(e.deltaY) < 2) return;
+      if (decide(e.deltaY > 0)) { e.preventDefault(); e.stopImmediatePropagation(); }
+    };
+    let touchY = null;
+    const onTouchStart = (e) => { touchY = e.touches[0].clientY; };
+    const onTouchMove = (e) => {
+      if (touchY == null) return;
+      const dy = touchY - e.touches[0].clientY;
+      if (Math.abs(dy) < 12) return;
+      touchY = null;
+      if (decide(dy > 0)) e.preventDefault();
+    };
+    window.addEventListener("wheel", onWheel, { capture: true, passive: false });
+    window.addEventListener("touchstart", onTouchStart, { capture: true, passive: true });
+    window.addEventListener("touchmove", onTouchMove, { capture: true, passive: false });
+    cleanups.push(() => {
+      window.removeEventListener("wheel", onWheel, { capture: true });
+      window.removeEventListener("touchstart", onTouchStart, { capture: true });
+      window.removeEventListener("touchmove", onTouchMove, { capture: true });
     });
-    cleanups.push(() => st.kill());
   }
 
   // ---------------------------------------------------------------- tools: hover or focus shows what each was used for

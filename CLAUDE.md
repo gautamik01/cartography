@@ -59,6 +59,12 @@ Study every PNG in references/. They're frames from a site I love (Our Revolutio
 - `html.fonts-adobe` or `html.fonts-fallback` is set once the kit is checked; the fallback serif is not condensed, so the display size scales by 0.9 under `fonts-fallback`.
 - fonts-test.html is a standalone specimen page, not part of the site.
 
+## Project page rules (every project, from now on)
+- Never crop UI, dashboards, text, map labels or legends. Images are never cropped in galleries (object-fit contain, natural ratio); leads only crop empty margins, with a focal point (`lead_focus`) that keeps the subject whole.
+- Opener to text panel is a fast triggered snap (about 600ms, power3.inOut) in both directions, never a slow scroll-scrubbed rise.
+- The text panel fits one screen. The gallery is a strict grid of full-width rows (`"width": "full"`) or equal 6/6 pairs whose images share a ratio; nothing staggered or offset.
+- Before finishing any project page, look at each image placement yourself and confirm nothing important is cut off.
+
 ## Quality bar
 Lighthouse performance 90+ on desktop. Lazy-load below the fold. Works fully on a phone. Meaningful alt text. Visible focus. No console errors.
 

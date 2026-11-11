@@ -91,7 +91,8 @@ async function project(ctx) {
     // the text panel: lead image left (sticky, black and white), everything else right
     `<section class="panel-text" id="panel-text">` +
       `<div class="panel-text__grid">` +
-        `<figure class="panel-text__lead"><img class="lead-img${p.lead_bw ? " is-bw" : ""}" src="${esc(p.lead)}" alt="${esc(p.title)}" loading="lazy" decoding="async"></figure>` +
+        // lead_focus anchors the crop so the subject (a dashboard, say) stays whole: "left", "right", "top", "bottom" or "center"
+        `<figure class="panel-text__lead"><img class="lead-img${p.lead_bw ? " is-bw" : ""}" src="${esc(p.lead)}" alt="${esc(p.title)}" loading="lazy" decoding="async" style="object-position: ${esc(p.lead_focus || "center")}"></figure>` +
         `<div class="panel-text__body">` +
           `<h2 class="display panel-text__title">${esc(p.title)}</h2>` +
           `<p class="label panel-text__labels">${(p.labels || []).map(esc).join("  ")}</p>` +
@@ -102,8 +103,9 @@ async function project(ctx) {
         `</div>` +
       `</div>` +
     `</section>` +
+    // every item at its natural ratio, never cropped: "width": "full" takes a row, anything else pairs up 6/6
     `<section class="gallery gallery--grid">` + (p.gallery || []).map((g) =>
-      `<figure class="gallery__item">${media(g.src, g.poster, g.alt)}${g.caption ? `<figcaption class="label muted">${esc(g.caption)}</figcaption>` : ""}</figure>`).join("") +
+      `<figure class="gallery__item${g.width === "full" ? " gallery__item--full" : ""}">${media(g.src, g.poster, g.alt)}${g.caption ? `<figcaption class="label muted">${esc(g.caption)}</figcaption>` : ""}</figure>`).join("") +
     `</section>`;
   return initProject(ctx.main, { entered: ctx.main.dataset.entered === "1" });
 }

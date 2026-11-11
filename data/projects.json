@@ -27,6 +27,7 @@
     "hero_video": "assets/projects/raasta/clip-2.mp4",
     "lead": "assets/projects/raasta/lead.webp",
     "lead_bw": true,
+    "lead_focus": "left center",
     "intro": [
       "Raasta finds the most scenic walk in Philadelphia, not the fastest one. Tell it your mood and how many extra minutes you can spare, and it builds a real route, then narrates it as you go.",
       "A Python engine scores all 196,411 walkable street segments for trees, parks, water, public art and history. A language model turns your mood into weights, but it never picks the streets, and nothing can switch off what is dangerous."
@@ -37,21 +38,24 @@
         "src": "assets/projects/raasta/clip-3.mp4",
         "poster": "assets/projects/raasta/clip-3-poster.webp",
         "alt": "Screen recording of Raasta in 3D: the camera moves along the route between Center City's towers as callouts appear.",
-        "caption": "Walking the route in 3D. Callouts are written from the real things it passes."
+        "caption": "Walking the route in 3D. Callouts are written from the real things it passes.",
+        "width": "full"
       },
       {
         "type": "video",
         "src": "assets/projects/raasta/clip-1.mp4",
         "poster": "assets/projects/raasta/clip-1-poster.webp",
         "alt": "Screen recording of Raasta: a mood is typed, a start and an end are picked, and the scenic route draws itself across the map.",
-        "caption": ""
+        "caption": "",
+        "width": "full"
       },
       {
         "type": "image",
         "src": "assets/projects/raasta/route.webp",
         "poster": "",
         "alt": "The route result: 22 minutes instead of 14, 1.7 km, the walk drawn in orange from City Hall to Rittenhouse Square with hand-drawn speech bubbles along it.",
-        "caption": ""
+        "caption": "",
+        "width": "full"
       }
     ],
     "system": null,

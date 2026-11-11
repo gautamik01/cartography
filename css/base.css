@@ -499,9 +499,9 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
   align-items: start;
 }
 .site-footer { position: relative; z-index: 2; }
-.gallery--grid > :first-child { grid-column: 1 / -1; }
-.gallery--grid > :not(:first-child) { grid-column: span 6; }
-.gallery--grid > :not(:first-child) img, .gallery--grid > :not(:first-child) video { aspect-ratio: 16 / 10; object-fit: cover; }
+.gallery--grid > * { grid-column: span 6; }
+.gallery--grid > .gallery__item--full { grid-column: 1 / -1; }
+.gallery--grid img, .gallery--grid video { width: 100%; height: auto; object-fit: contain; }   /* natural ratio, nothing cut */
 @media (max-width: 760px) {
   .gallery--grid > * { grid-column: 1 / -1; }
 }
