@@ -121,7 +121,7 @@
   {
     "slug": "forested-university",
     "number": "03",
-    "published": true,
+    "published": false,
     "title": "Forested University",
     "kicker": "A campus built around the trees that are already there.",
     "location": "TODO: site city and country",
@@ -193,7 +193,7 @@
   {
     "slug": "cloud-footprint",
     "number": "04",
-    "published": true,
+    "published": false,
     "title": "The Cloud Has a Footprint",
     "kicker": "US data centers and AI campuses, mapped against water stress.",
     "location": "United States",
@@ -256,7 +256,7 @@
   {
     "slug": "map-series",
     "number": "05",
-    "published": true,
+    "published": false,
     "title": "30 Day Map Challenge",
     "kicker": "Seven static maps in seven days, from one shared Python toolkit.",
     "location": "Big Sur, San Francisco, New York, Philadelphia, Mumbai",
