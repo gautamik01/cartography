@@ -60,10 +60,13 @@ Study every PNG in references/. They're frames from a site I love (Our Revolutio
 - fonts-test.html is a standalone specimen page, not part of the site.
 
 ## Project page rules (every project, from now on)
-- Never crop UI, dashboards, text, map labels or legends. Images are never cropped in galleries (object-fit contain, natural ratio); leads only crop empty margins, with a focal point (`lead_focus`) that keeps the subject whole.
+- Never crop UI, dashboards, text, map labels or legends. Gallery images are never cropped (natural aspect ratio, object-fit contain). Lead images only crop empty margins, with a focal point (`lead_focus`) that keeps the subject whole.
 - Opener to text panel is a fast triggered snap (about 600ms, power3.inOut) in both directions, never a slow scroll-scrubbed rise.
-- The text panel fits one screen. The gallery is a strict grid of full-width rows (`"width": "full"`) or equal 6/6 pairs whose images share a ratio; nothing staggered or offset.
-- Before finishing any project page, look at each image placement yourself and confirm nothing important is cut off.
+- The text panel fits one screen at 1440x900. The lead image matches the text column's height.
+- Gallery: a strict grid of full-width rows (`"width": "full"`) or equal 6/6 pairs whose images share an aspect ratio, top-aligned. Nothing staggered or offset.
+- Fixed UI (scale bar, header, labels) never overlaps text or media labels on any page or screen size. The scale bar hides on the home hero and while a caption passes under it.
+- Opener media that is not 16:9 (a portrait clip, a 2:1 recording, a poster) is shown whole with `"opener_fit": "contain"` on ink, never cover-cropped.
+- Before finishing any project page, look at every image placement yourself and confirm nothing important is cut off.
 
 ## Quality bar
 Lighthouse performance 90+ on desktop. Lazy-load below the fold. Works fully on a phone. Meaningful alt text. Visible focus. No console errors.

@@ -747,7 +747,8 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
   text-transform: none;          /* "1 km", not "1 KM" */
   transition: opacity 300ms;
 }
-html.panel-open .scalebar, html.footer-in-view .scalebar { opacity: 0; }
+/* hidden on the home hero (its note sits in that corner), over the footer, and while a caption passes under it */
+html.panel-open .scalebar, html.footer-in-view .scalebar, html.scalebar-clash .scalebar, html[data-page="home"] .scalebar { opacity: 0; }
 .scalebar__track {
   position: relative;
   height: 7px;

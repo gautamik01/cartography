@@ -119,6 +119,27 @@ function footerMarkup() {
     </footer>`;
 }
 
+// the scale bar steps aside while a caption or note would pass under it (bottom-left band of the viewport)
+const CLASH = { BAND: 72, RIGHT: 176 };   // px: the band above the bottom edge, and how far right the bar reaches
+let clashObserver = null;
+let clashTargets = [];
+function buildClashObserver() {
+  clashObserver?.disconnect();
+  clashObserver = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { e.target._clash = e.isIntersecting && e.boundingClientRect.left < CLASH.RIGHT; });
+    html.classList.toggle("scalebar-clash", clashTargets.some((t) => t._clash));
+  }, { rootMargin: `${-(window.innerHeight - CLASH.BAND)}px 0px 0px 0px`, threshold: 0 });
+  clashTargets.forEach((t) => clashObserver.observe(t));
+}
+function watchClashes(main) {
+  clashTargets.forEach((t) => { t._clash = false; });
+  clashTargets = [...main.querySelectorAll("figcaption, .hero__note, .system__note")];
+  html.classList.remove("scalebar-clash");
+  buildClashObserver();
+}
+let clashResize = 0;
+window.addEventListener("resize", () => { clearTimeout(clashResize); clashResize = setTimeout(buildClashObserver, 150); }, { passive: true });
+
 let footerObserver = null;
 function mountFooter(main) {
   let footer = main.querySelector(".site-footer");
@@ -335,6 +356,7 @@ function createRouter(shell, scroll) {
   async function activate(main, href) {
     watchFooter(mountFooter(main));
     cleanup = (await renderPage(pageOf(main), ctxFor(main, href))) || null;
+    watchClashes(main);
     initVideos(main);
     scroll.update();
     if (HAS_GSAP) ScrollTrigger.refresh();
@@ -422,6 +444,7 @@ function createRouter(shell, scroll) {
     current = incoming;
     cleanup = nextCleanup || null;
     watchFooter(footer);
+    watchClashes(incoming);
     initVideos(incoming);
     scroll.update();
     scroll.lenis?.resize();

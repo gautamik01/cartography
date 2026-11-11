@@ -8,16 +8,15 @@
     "location": "Philadelphia, PA",
     "coords": "( 39.95° N, 75.16° W )",
     "year": "2026",
-    "role": "TODO: Concept, cartography, route engine and front end (solo, for the Wharton Generative AI Studio?)",
+    "role": "For the Wharton Generative AI Studio",
     "opener_text": "dark",
     "tools": [
-      { "name": "Mapbox GL JS", "use": "3D map and navigation" },
-      { "name": "Python", "use": "route engine" },
-      { "name": "Claude Code", "use": "build and iteration" },
-      { "name": "Vercel", "use": "hosting" },
-      { "name": "Next.js", "use": "front end (TODO confirm)" },
-      { "name": "FastAPI", "use": "route API on Render (TODO confirm)" },
-      { "name": "Groq", "use": "mood reading and callouts (TODO confirm)" }
+      { "name": "Mapbox GL JS", "use": "the 3D map and the walk camera" },
+      { "name": "Python", "use": "the route engine, scoring every walkable segment" },
+      { "name": "FastAPI", "use": "the route API, on Render" },
+      { "name": "Next.js", "use": "the front end, on Vercel" },
+      { "name": "Groq", "use": "reads your mood into weights and writes the callouts" },
+      { "name": "Claude Code", "use": "build and iteration" }
     ],
     "data": ["OpenStreetMap walk network", "Philadelphia street tree inventory 2025", "PPR tree canopy 2015", "City street centerlines and High Injury Network", "OpenDataPhilly parks, hydrology, art and historic districts", "phila.gov farmers markets and events"],
     "labels": ["( 3D NAVIGATION )", "( PROTOTYPE )", "( ROUTE ENGINE )"],
@@ -51,10 +50,18 @@
       },
       {
         "type": "image",
+        "src": "assets/projects/raasta/route-3d.webp",
+        "poster": "",
+        "alt": "The same route in 3D: Center City's towers in pale blue and tan, the orange walk threading between them, with the three callouts pinned to their streets and the route panel on the left.",
+        "caption": "The route in 3D. Each callout stays pinned to the street it describes.",
+        "width": "full"
+      },
+      {
+        "type": "image",
         "src": "assets/projects/raasta/route.webp",
         "poster": "",
         "alt": "The route result: 22 minutes instead of 14, 1.7 km, the walk drawn in orange from City Hall to Rittenhouse Square with hand-drawn speech bubbles along it.",
-        "caption": "",
+        "caption": "The plan view. 22 minutes instead of 14, and 8 of them on nicer streets.",
         "width": "full"
       }
     ],
@@ -71,7 +78,7 @@
     ],
     "source": {
       "repo": "Private working repo (local: D:/00_MUSA_EVERTHING/GEN_AI_Studio/raasta); front end on Vercel, API on Render",
-      "notes": "Screens captured with tools/shoot_portals.py (Playwright, 1440x900 at 2x). The API sleeps on Render's free tier, so the first route of a session can take a minute: the site says 'Waking up the route engine'. No X-Frame-Options or CSP frame-ancestors headers, so it can be iframed. TODO: confirm 'Mapbox GL JS' (the repo README says MapLibre, the live site loads Mapbox GL) and team credit."
+      "notes": "Screens captured with tools/shoot_portals.py (Playwright, 1440x900 at 2x). The API sleeps on Render's free tier, so the first route of a session can take a minute: the site says 'Waking up the route engine'. No X-Frame-Options or CSP frame-ancestors headers, so it can be iframed. Tools confirmed from the repo on 2026-11-11: requirements.txt (fastapi, groq), README (Next.js front end on Vercel, API on Render, built for the Wharton Generative AI Studio), PROGRESS.md (mapbox-gl 3.34 replaced maplibre on 4 November 2026)."
     }
   },
   {
