@@ -3,6 +3,7 @@
  * ctx = { main, url, navigate }. A renderer may return a cleanup function. */
 import { initBrowser } from "./hero.js";
 import { initWork } from "./work.js";
+import { initProject } from "./project.js";
 
 const esc = (t) => String(t ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const pad2 = (n) => String(n).padStart(2, "0");
@@ -68,9 +69,12 @@ async function project(ctx) {
   const hero = safeHero(url.searchParams.get("h")) || p.hero || p.lead;
   const portals = (p.portals || []).filter((x) => x.url && !/^TODO/i.test(x.url));
   const num = pad2(Math.max(i, 0) + 1);
+  const tone = p.opener_text === "dark" ? "dark" : "light";
   root.innerHTML =
-    `<section class="opener">` +
+    // the opener: hero video playing over its poster (or the ?h= image), text that holds then fades, a scroll cue
+    `<section class="opener" data-text="${tone}">` +
       `<img class="opener__img" src="${esc(hero)}" alt="${esc(p.title)}" decoding="async" fetchpriority="high">` +
+      (p.hero_video ? `<video class="opener__video" muted loop playsinline autoplay preload="auto" poster="${esc(p.hero)}" aria-hidden="true"><source src="${esc(p.hero_video)}" type="video/mp4"></video>` : "") +
       `<div class="opener__text">` +
         `<p class="label">( ${num} )</p>` +
         `<h1 class="display opener__title" data-split>${esc(p.title)}</h1>` +
@@ -78,8 +82,9 @@ async function project(ctx) {
       `</div>` +
       `<div class="opener__meta label">` +
         `<div>${esc((p.labels || [])[0] || "")}<br>${esc(p.coords || "")}</div>` +
-        `<div>${esc(p.title)}<br>${esc(notTodo(p.role) || esc(p.location || ""))}</div>` +
+        `<div>${esc(p.title)}<br>${esc(notTodo(p.role) || p.location || "")}</div>` +
       `</div>` +
+      `<p class="label opener__cue" aria-hidden="true">( SCROLL )</p>` +
     `</section>` +
     `<section class="project__intro">` +
       `<div class="project__meta label">` +
@@ -93,7 +98,7 @@ async function project(ctx) {
     `</section>` +
     (portals.length ? `<section class="portals">${portals.map((x) =>
       `<a class="label" href="${esc(x.url)}" target="_blank" rel="noopener" data-cursor="open">${esc(x.label)}</a>`).join("")}</section>` : "");
-  return null;
+  return initProject(ctx.main, { entered: ctx.main.dataset.entered === "1" });
 }
 
 export async function renderPage(page, ctx) {
