@@ -25,6 +25,12 @@ export function initProject(main, { entered } = {}) {
     const live = () => video.classList.add("is-live");
     video.addEventListener("playing", live, { once: true });
     if (!video.paused && !video.ended && video.readyState > 2) live();
+    // &t= from the home panel: carry on from where the panel was
+    const start = parseFloat(video.dataset.start) || 0;
+    if (start > 0) {
+      const seek = () => { try { if (Math.abs(video.currentTime - start) > 0.3) video.currentTime = start; } catch { /* not seekable yet */ } };
+      if (video.readyState >= 1) seek(); else video.addEventListener("loadedmetadata", seek, { once: true });
+    }
     video.play().catch(() => { /* autoplay refused: the poster stays */ });
     cleanups.push(() => { video.removeEventListener("playing", live); video.pause(); });
   }

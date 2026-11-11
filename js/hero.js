@@ -106,21 +106,38 @@ export function initBrowser(root, projects, { navigate } = {}) {
     else { panel.style.transform = ""; done(); }
   }
 
-  function swap(i) {
-    const p = projects[i];
-    current = i;
+  // the project's real hero: its opener video, buffering the moment the thumbnail is hovered, or its poster
+  function heroVideo(p) {
+    const v = document.createElement("video");
+    v.className = "panel__img";
+    v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true; v.preload = "auto";
+    v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("aria-hidden", "true");
+    v.poster = p.hero;
+    v.src = p.hero_video;
+    v.play().catch(() => { /* the poster stays until the browser allows it */ });
+    return v;
+  }
+  function heroImage(p) {
     const img = new Image();
     img.className = "panel__img";
     img.alt = "";
     img.decoding = "async";
-    img.src = p.card;
+    img.src = p.hero || p.card;
+    return img;
+  }
+
+  function swap(i) {
+    const p = projects[i];
+    current = i;
+    const el = p.hero_video && !reduced ? heroVideo(p) : heroImage(p);
     const old = [...media.querySelectorAll(".panel__img")];
-    media.append(img);
-    currentImg = img;
+    const drop = () => old.forEach((o) => { if (o.tagName === "VIDEO") o.pause(); o.remove(); });
+    media.append(el);
+    currentImg = el;
     if (hasGsap && old.length && !reduced) {
-      gsap.fromTo(img, { yPercent: 100 }, { yPercent: 0, duration: BROWSER.SWAP_MS / 1000, ease: "power3.out", onComplete: () => old.forEach((o) => o.remove()) });
+      gsap.fromTo(el, { yPercent: 100 }, { yPercent: 0, duration: BROWSER.SWAP_MS / 1000, ease: "power3.out", onComplete: drop });
     } else {
-      old.forEach((o) => o.remove());
+      drop();
     }
     top.textContent = `${(p.labels && p.labels[0]) || ""}  ${p.coords || ""}`.trim();
     bottom.textContent = `${p.title}  ${p.role && !/^TODO/i.test(p.role) ? p.role : ""}`.trim();
@@ -145,7 +162,12 @@ export function initBrowser(root, projects, { navigate } = {}) {
     if (closeTimer) { clearTimeout(closeTimer); closeTimer = 0; }
   }
 
-  const projectUrl = (p) => `project.html?p=${encodeURIComponent(p.slug)}&h=${encodeURIComponent(p.card)}`;
+  // the opener gets the hero poster as its image and, when the panel is playing the hero video, its playback time
+  const projectUrl = (p) => {
+    const v = currentImg && currentImg.tagName === "VIDEO" ? currentImg : null;
+    const t = v && v.currentTime > 0.05 ? `&t=${v.currentTime.toFixed(2)}` : "";
+    return `project.html?p=${encodeURIComponent(p.slug)}&h=${encodeURIComponent(p.hero || p.card)}${t}`;
+  };
 
   function openProject(e, flipFrom) {
     const p = projects[current];

@@ -33,7 +33,7 @@ async function home(ctx) {
   if (!root) return null;
   const projects = await loadProjects();
   root.querySelector(".browser__thumbs").innerHTML = projects.map((p, i) =>
-    `<a class="thumb" href="project.html?p=${esc(p.slug)}&h=${esc(p.card)}" aria-label="${esc(p.title)}">` +
+    `<a class="thumb" href="project.html?p=${esc(p.slug)}&h=${esc(p.hero || p.card)}" aria-label="${esc(p.title)}">` +
       `<img src="${esc(p.card)}" alt="" loading="eager" decoding="async"></a>`).join("");
   root.querySelector(".browser__counter").textContent = `( 01 / ${pad2(projects.length)} )`;
   return initBrowser(root, projects, { navigate: ctx.navigate });
@@ -67,6 +67,8 @@ async function project(ctx) {
   }
   document.title = `${p.title}, Gautami Kasat`;
   const hero = safeHero(url.searchParams.get("h")) || p.hero || p.lead;
+  const start = Math.max(0, parseFloat(url.searchParams.get("t")) || 0);   // &t=: resume the opener video here
+  const fit = p.opener_fit === "contain" ? "contain" : "cover";              // contain: non-16:9 media shown whole on ink
   const portals = (p.portals || []).filter((x) => x.url && !/^TODO/i.test(x.url));
   const num = pad2(Math.max(i, 0) + 1);
   const tone = p.opener_text === "dark" ? "dark" : "light";
@@ -74,9 +76,9 @@ async function project(ctx) {
   const tools = (p.tools || []).filter((t) => t && t.name);
   root.innerHTML =
     // the opener: hero video playing over its poster (or the ?h= image), text that holds then fades, a scroll cue
-    `<section class="opener" data-text="${tone}">` +
+    `<section class="opener" data-text="${tone}" data-fit="${fit}">` +
       `<img class="opener__img" src="${esc(hero)}" alt="${esc(p.title)}" decoding="async" fetchpriority="high">` +
-      (p.hero_video ? `<video class="opener__video" muted loop playsinline autoplay preload="auto" poster="${esc(p.hero)}" aria-hidden="true"><source src="${esc(p.hero_video)}" type="video/mp4"></video>` : "") +
+      (p.hero_video ? `<video class="opener__video" muted loop playsinline autoplay preload="auto" poster="${esc(p.hero)}" data-start="${start.toFixed(2)}" aria-hidden="true"><source src="${esc(p.hero_video)}" type="video/mp4"></video>` : "") +
       `<div class="opener__text">` +
         `<p class="label">( ${num} )</p>` +
         `<h1 class="display opener__title" data-split>${esc(p.title)}</h1>` +

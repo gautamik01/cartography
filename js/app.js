@@ -38,16 +38,13 @@ const SITE = {
   coords: "( 39.95° N, 75.16° W )",
   city: "Philadelphia",
   year: "2026",
-  nav: {
-    left: [
-      { label: "( WORK )", href: "work.html", page: "work" },
-      { label: "( ABOUT )", href: "about.html", page: "about" },
-    ],
-    right: [
-      { label: "( CONTACT )", href: "contact.html", page: "contact" },
-      { label: "( CV &#8595; )", href: "assets/cv/Gautami_Kasat_CV.pdf", download: true },
-    ],
-  },
+  // the four labels sit together top right; the wordmark is centred on its own
+  nav: [
+    { label: "( WORK )", href: "work.html", page: "work" },
+    { label: "( ABOUT )", href: "about.html", page: "about" },
+    { label: "( CONTACT )", href: "contact.html", page: "contact" },
+    { label: "( CV &#8595; )", href: "assets/cv/Gautami_Kasat_CV.pdf", download: true },
+  ],
 };
 
 if (REDUCED) html.classList.add("reduced");
@@ -68,9 +65,8 @@ const navLink = (n) => `<a class="label" href="${n.href}"${n.page ? ` data-nav="
 function injectShell() {
   const header = el(`
     <header class="site-header">
-      <nav class="site-header__group site-header__left" aria-label="Pages">${SITE.nav.left.map(navLink).join("")}</nav>
       <a class="wordmark" href="index.html" aria-label="${SITE.name}, home">${SITE.name}</a>
-      <nav class="site-header__group site-header__right" aria-label="Contact and CV">${SITE.nav.right.map(navLink).join("")}</nav>
+      <nav class="site-header__links" aria-label="Site">${SITE.nav.map(navLink).join("")}</nav>
     </header>`);
   const bar = el(`
     <div class="scalebar label" aria-hidden="true">
@@ -384,20 +380,33 @@ function createRouter(shell, scroll) {
     html.classList.remove("is-rolling");
   }
 
-  // the browser panel image becomes the project opener image
+  // the browser panel's media becomes the project opener: an image Flips into the opener image; a playing hero
+  // video is adopted by the opener as its own video, so nothing reloads, seeks or jumps
   async function flipInto(old, incoming, flipFrom) {
     const target = incoming.querySelector(".opener__img");
     if (!target || !flipFrom || !flipFrom.isConnected) return roll(old, incoming, 1);
-    flipFrom.dataset.flipId = "hero";
-    target.dataset.flipId = "hero";
-    const state = Flip.getState(flipFrom);
     const text = incoming.querySelectorAll(".opener__text, .opener__meta");
     gsap.set(text, { autoAlpha: 0 });
     gsap.set(incoming, { zIndex: 3 });
     scroll.toTop();
     const same = Math.abs(flipFrom.getBoundingClientRect().width - window.innerWidth) < 2;   // already full screen: nothing to move
-    const flip = Flip.from(state, { targets: target, duration: same ? 0.01 : ROLL.DURATION, ease: ROLL.EASE, absolute: true });
-    if (flipFrom.classList.contains("work__morph")) flipFrom.remove();   // the work view's morph clone has done its job
+    const duration = same ? 0.01 : ROLL.DURATION;
+    let flip;
+    if (flipFrom.tagName === "VIDEO") {
+      const state = Flip.getState(flipFrom);
+      incoming.querySelector(".opener__video")?.remove();
+      flipFrom.className = "opener__video is-live";
+      flipFrom.removeAttribute("style");
+      flipFrom.setAttribute("aria-hidden", "true");
+      target.after(flipFrom);
+      flip = Flip.from(state, { targets: flipFrom, duration, ease: ROLL.EASE, absolute: true });
+    } else {
+      flipFrom.dataset.flipId = "hero";
+      target.dataset.flipId = "hero";
+      const state = Flip.getState(flipFrom);
+      flip = Flip.from(state, { targets: target, duration, ease: ROLL.EASE, absolute: true });
+      if (flipFrom.classList.contains("work__morph")) flipFrom.remove();   // the work view's morph clone has done its job
+    }
     await flip.then();
     gsap.to(text, { autoAlpha: 1, duration: 0.6, ease: "power2.out" });
     revealHeadlines(incoming);
