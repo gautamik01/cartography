@@ -81,10 +81,10 @@ async function project(ctx) {
         `<p class="label">( ${num} )</p>` +
         `<h1 class="display opener__title" data-split>${esc(p.title)}</h1>` +
         `<p class="opener__kicker">${esc(p.kicker)}</p>` +
-      `</div>` +
-      `<div class="opener__meta label">` +
-        `<div>${esc((p.labels || [])[0] || "")}<br>${esc(p.coords || "")}</div>` +
-        `<div>${esc(p.title)}<br>${esc(notTodo(p.role) || p.location || "")}</div>` +
+        `<div class="opener__meta label">` +
+          `<span>${esc((p.labels || [])[0] || "")}  ${esc(p.coords || "")}</span>` +
+          `<span>${esc(notTodo(p.role) || p.location || "")}</span>` +
+        `</div>` +
       `</div>` +
       `<p class="label opener__cue" aria-hidden="true">( SCROLL )</p>` +
     `</section>` +
@@ -102,7 +102,7 @@ async function project(ctx) {
         `</div>` +
       `</div>` +
     `</section>` +
-    `<section class="gallery gallery--editorial">` + (p.gallery || []).map((g) =>
+    `<section class="gallery gallery--grid">` + (p.gallery || []).map((g) =>
       `<figure class="gallery__item">${media(g.src, g.poster, g.alt)}${g.caption ? `<figcaption class="label muted">${esc(g.caption)}</figcaption>` : ""}</figure>`).join("") +
     `</section>`;
   return initProject(ctx.main, { entered: ctx.main.dataset.entered === "1" });
