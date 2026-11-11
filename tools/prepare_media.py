@@ -129,11 +129,12 @@ MANIFEST = {
         img(FOREST / "BIE_241216 Aerial view Zoom.png", "hero.webp", HERO, box=(0, 440, 4962, 3231)),
         img(FOREST / "BIE_241216 Aerial view Zoom.png", "lead.webp"),
         img(FOREST / "BIE_241216 Aerial view Zoom.png", "aerial.webp"),
-        vid(FOREST / "Forest Campus..mp4", "campus.mp4", poster_t=0.4),
-        vid(FOREST / "Forest student housing exploded.mp4", "housing-exploded.mp4", poster_t=4.9),
-        vid(FOREST / "Human experiences.mp4", "atrium.mp4", poster_t=2.2),
-        vid(FOREST / "Human Scale experience.mp4", "winter-street.mp4", poster_t=3.9),
-        vid(FOREST / "The forest campus .mp4", "montage.mp4", poster_t=0.5),
+        # posters are the exact first frame, so a clip starts where its poster was
+        vid(FOREST / "Forest Campus..mp4", "campus.mp4", poster_t=0.0),
+        vid(FOREST / "Forest student housing exploded.mp4", "housing-exploded.mp4", poster_t=0.0),
+        vid(FOREST / "Human experiences.mp4", "atrium.mp4", poster_t=0.0),
+        vid(FOREST / "Human Scale experience.mp4", "winter-street.mp4", poster_t=0.0),
+        vid(FOREST / "The forest campus .mp4", "montage.mp4", poster_t=0.0),
     ],
     "cloud-footprint": [
         # card: What AI Drinks, the glowing campuses over the water-stress basins, title card cropped away
@@ -142,7 +143,7 @@ MANIFEST = {
         img(SHOTS / "day01_points-ai_1600x1000.png", "lead.webp"),
         img(SHOTS / "day01_points-ai_1600x1000.png", "where-ai-gets-built.webp"),
         img(TEMP / "png_thumbnail/day03_polygons-water-ai.png", "what-ai-drinks.webp"),
-        vid(TEMP / "output/day01_points-ai_2.mp4", "where-ai-gets-built.mp4", poster_t=1.0),
+        vid(TEMP / "output/day01_points-ai_2.mp4", "where-ai-gets-built.mp4", poster_t=0.0),
     ],
     "map-series": [
         # card: Big Sur contours and the red course around Hurricane Point, no title block

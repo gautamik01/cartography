@@ -349,13 +349,12 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 /* media that is not 16:9 (a portrait clip, a 2:1 recording, a poster) is shown whole on ink, between the header and the title block */
 .opener[data-fit="contain"] .opener__img, .opener[data-fit="contain"] .opener__video {
   top: var(--header-h);
-  bottom: 224px;
-  height: auto;
+  height: calc(100% - var(--header-h) - 224px);   /* explicit: an absolutely positioned video with height auto takes its intrinsic height */
   object-fit: contain;
 }
 .opener[data-fit="contain"]::after { background: none; }
 @media (max-width: 760px) {
-  .opener[data-fit="contain"] .opener__img, .opener[data-fit="contain"] .opener__video { bottom: 260px; }
+  .opener[data-fit="contain"] .opener__img, .opener[data-fit="contain"] .opener__video { height: calc(100% - var(--header-h) - 260px); }
 }
 .opener::after {
   content: "";
@@ -402,7 +401,7 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 }
 .panel-text__lead {
   grid-column: 1 / 6;
-  min-height: 0;
+  min-height: 54vh;              /* a short text column never squeezes the lead into a strip; a tall one stretches it */
 }
 .panel-text__lead img { width: 100%; height: 100%; object-fit: cover; }
 .lead-img.is-bw { filter: grayscale(1); transition: filter 700ms cubic-bezier(0.19, 1, 0.22, 1); }
@@ -505,6 +504,8 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 .gallery--grid > * { grid-column: span 6; }
 .gallery--grid > .gallery__item--full { grid-column: 1 / -1; }
 .gallery--grid img, .gallery--grid video { width: 100%; height: auto; object-fit: contain; }   /* natural ratio, nothing cut */
+/* a clip never grows past its own pixels or the viewport's height: a portrait clip sits centred in its cell at natural size */
+.gallery--grid video { width: auto; max-width: 100%; max-height: 82vh; margin-inline: auto; }
 @media (max-width: 760px) {
   .gallery--grid > * { grid-column: 1 / -1; }
 }

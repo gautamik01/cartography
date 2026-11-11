@@ -128,73 +128,84 @@
   {
     "slug": "forested-university",
     "number": "03",
-    "published": false,
+    "published": true,
     "title": "Forested University",
-    "kicker": "A campus built around the trees that are already there.",
-    "location": "TODO: site city and country",
-    "coords": "( TODO° N, TODO° W )",
-    "year": "TODO: 2024? (the aerial file is dated 241216)",
-    "role": "TODO: role, studio and team credit",
+    "kicker": "A university campus set inside a forest, from the aerial down to the atrium.",
+    "location": "",
+    "coords": "",
+    "year": "",
+    "role": "",
+    "opener_fit": "contain",
     "tools": [
-      { "name": "TODO: modelling tool (Rhino?)", "use": "" },
-      { "name": "TODO: drawing tool (Illustrator?)", "use": "" },
-      { "name": "TODO: animation tool", "use": "" }
+      { "name": "Rhino", "use": "" },
+      { "name": "Photoshop", "use": "" },
+      { "name": "Midjourney", "use": "" },
+      { "name": "Meta AI", "use": "" }
     ],
     "data": [],
-    "labels": ["( 3D ENVIRONMENT )", "( AXONOMETRIC )", "( ANIMATION )"],
+    "labels": ["( 3D ENVIRONMENT )", "( ANIMATION )", "( LANDSCAPE )"],
     "card": "assets/projects/forested-university/card.webp",
-    "card_video": "assets/projects/forested-university/housing-exploded.mp4",
-    "hero": "assets/projects/forested-university/hero.webp",
-    "hero_video": "",
+    "card_video": "",
+    "hero": "assets/projects/forested-university/campus-poster.webp",
+    "hero_video": "assets/projects/forested-university/campus.mp4",
     "lead": "assets/projects/forested-university/lead.webp",
     "lead_bw": true,
+    "lead_focus": "center",
     "intro": [
-      "A campus where the forest comes first and the buildings move in among the trees. The aerial drawing sets out the plan: housing, teaching and sports strung along a river edge, with the existing woodland kept as the structure of the site.",
-      "The exploded axonometric takes one student housing block apart floor by floor to show how the trees pass through it. The walkthroughs drop to eye level: an atrium built around the trunks, and a winter street between the brick blocks.",
-      "TODO: one paragraph on the brief, the site and what the design does that a conventional campus would not. Confirm the first two paragraphs describe the project correctly."
+      "A university campus set inside a forest. Seen from above, white buildings stand among the trees beside the water, with pink blossom along the paths that thread between them. One student housing block is pulled apart floor by floor, so the pines can be seen rising through every level.",
+      "At eye level the walkthroughs move through an atrium built around the trunks and along a street of brick blocks in winter. The visuals were built in Rhino and developed with AI image tools."
     ],
     "gallery": [
       {
         "type": "image",
         "src": "assets/projects/forested-university/aerial.webp",
         "poster": "",
-        "alt": "An aerial line drawing of a riverside campus, white buildings among pale green trees, a highway interchange to the north and the existing city drawn in outline around it.",
-        "caption": "The campus from above. TODO: confirm the caption."
-      },
-      {
-        "type": "video",
-        "src": "assets/projects/forested-university/campus.mp4",
-        "poster": "assets/projects/forested-university/campus-poster.webp",
-        "alt": "An animated flight from an aerial view of the campus with pink blossom trees down to a path through the forest between the buildings.",
-        "caption": "From the aerial down to the path. TODO: confirm."
+        "alt": "An aerial line drawing of the campus: white buildings among pale green trees beside the water, with the surrounding city drawn in outline.",
+        "caption": "The campus from above: buildings among the trees, beside the water.",
+        "width": "full"
       },
       {
         "type": "video",
         "src": "assets/projects/forested-university/housing-exploded.mp4",
         "poster": "assets/projects/forested-university/housing-exploded-poster.webp",
         "alt": "An exploded axonometric of a student housing block on a pink background, its floors lifted apart with tall pines growing up through them.",
-        "caption": "Student housing, exploded. The trees pass through every floor."
+        "caption": "Student housing, exploded floor by floor. The pines rise through every level."
       },
       {
         "type": "video",
         "src": "assets/projects/forested-university/atrium.mp4",
         "poster": "assets/projects/forested-university/atrium-poster.webp",
         "alt": "A walkthrough of an atrium where tall tree trunks rise through open floors, with people at tables below.",
-        "caption": "Inside, at human scale: an atrium around the trunks."
+        "caption": "At eye level: an atrium built around the trunks."
       },
       {
         "type": "video",
         "src": "assets/projects/forested-university/winter-street.mp4",
         "poster": "assets/projects/forested-university/winter-street-poster.webp",
         "alt": "A winter walkthrough along a snowy street between brick housing blocks, bare trees overhead and lit windows.",
-        "caption": "The same street in winter."
+        "caption": "The street between the brick blocks, in winter."
+      },
+      {
+        "type": "video",
+        "src": "assets/projects/forested-university/campus.mp4",
+        "poster": "assets/projects/forested-university/campus-poster.webp",
+        "alt": "A flight from an aerial view of the campus, pink blossom along its paths, down to a path through the forest between the buildings.",
+        "caption": "From the aerial down to the path."
+      },
+      {
+        "type": "video",
+        "src": "assets/projects/forested-university/montage.mp4",
+        "poster": "assets/projects/forested-university/montage-poster.webp",
+        "alt": "A reel that shows the campus clips two at a time: the aerial, the atrium, the housing block and the winter street.",
+        "caption": "The forest campus, as a reel.",
+        "width": "full"
       }
     ],
     "system": null,
     "portals": [],
     "source": {
       "repo": "Local folder only (Some Material/Forested_University), read only. This site is the project's home.",
-      "notes": "Four portrait clips are 464x832 and 5 seconds each; the card is a frame of the exploded axonometric padded with its own pink to 4:5. montage.mp4 (the 4:3 'The forest campus' reel, which repeats the other clips side by side with black bars) is compressed but left out of the gallery. TODO: a higher-resolution still of the exploded axonometric would make a sharper card."
+      "notes": "Four portrait clips are 464x832 and 5 seconds each, shown at their natural size in 6/6 pairs; montage.mp4 is the 4:3 reel. The card is a frame of the exploded axonometric padded with its own pink to 4:5. Every poster is the clip's first frame. Place, year and role are left out on purpose; the tools are names only."
     }
   },
   {
