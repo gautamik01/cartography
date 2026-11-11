@@ -70,6 +70,7 @@ async function project(ctx) {
   const portals = (p.portals || []).filter((x) => x.url && !/^TODO/i.test(x.url));
   const num = pad2(Math.max(i, 0) + 1);
   const tone = p.opener_text === "dark" ? "dark" : "light";
+  const place = [p.location, p.year].filter((s) => s && !/^TODO/i.test(s)).join(" · ");
   root.innerHTML =
     // the opener: hero video playing over its poster (or the ?h= image), text that holds then fades, a scroll cue
     `<section class="opener" data-text="${tone}">` +
@@ -86,12 +87,17 @@ async function project(ctx) {
       `</div>` +
       `<p class="label opener__cue" aria-hidden="true">( SCROLL )</p>` +
     `</section>` +
-    `<section class="project__intro">` +
-      `<div class="project__meta label">` +
-        `<div>${(p.labels || []).map(esc).join("<br>")}</div>` +
-        `<div class="muted">${esc(p.location || "")}<br>${esc(p.year || "")}</div>` +
+    // the text panel: lead image left (sticky, black and white), everything else right
+    `<section class="panel-text" id="panel-text">` +
+      `<div class="panel-text__grid">` +
+        `<figure class="panel-text__lead"><img class="lead-img${p.lead_bw ? " is-bw" : ""}" src="${esc(p.lead)}" alt="${esc(p.title)}" loading="lazy" decoding="async"></figure>` +
+        `<div class="panel-text__body">` +
+          `<h2 class="display panel-text__title">${esc(p.title)}</h2>` +
+          `<p class="label panel-text__labels">${(p.labels || []).map(esc).join("  ")}</p>` +
+          (place ? `<p class="label muted">${esc(place)}</p>` : "") +
+          `<div class="text panel-text__intro">${(p.intro || []).map((t) => `<p>${esc(t)}</p>`).join("")}</div>` +
+        `</div>` +
       `</div>` +
-      (p.intro || []).map((t) => `<p>${esc(t)}</p>`).join("") +
     `</section>` +
     `<section class="gallery">` + (p.gallery || []).map((g) =>
       `<figure class="gallery__item">${media(g.src, g.poster, g.alt)}${g.caption ? `<figcaption class="label muted">${esc(g.caption)}</figcaption>` : ""}</figure>`).join("") +
