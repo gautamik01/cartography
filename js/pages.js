@@ -95,16 +95,39 @@ async function project(ctx) {
           `<h2 class="display panel-text__title">${esc(p.title)}</h2>` +
           `<p class="label panel-text__labels">${(p.labels || []).map(esc).join("  ")}</p>` +
           (place ? `<p class="label muted">${esc(place)}</p>` : "") +
+          portals.map((x) => portalButton(x, p)).join("") +
           `<div class="text panel-text__intro">${(p.intro || []).map((t) => `<p>${esc(t)}</p>`).join("")}</div>` +
         `</div>` +
       `</div>` +
     `</section>` +
     `<section class="gallery">` + (p.gallery || []).map((g) =>
       `<figure class="gallery__item">${media(g.src, g.poster, g.alt)}${g.caption ? `<figcaption class="label muted">${esc(g.caption)}</figcaption>` : ""}</figure>`).join("") +
-    `</section>` +
-    (portals.length ? `<section class="portals">${portals.map((x) =>
-      `<a class="label" href="${esc(x.url)}" target="_blank" rel="noopener" data-cursor="open">${esc(x.label)}</a>`).join("")}</section>` : "");
+    `</section>`;
   return initProject(ctx.main, { entered: ctx.main.dataset.entered === "1" });
+}
+
+// "there is a live thing you can use": an ink capsule with a small moving window into the portal
+function portalButton(x, p) {
+  let host = "";
+  try { host = new URL(x.url).host; } catch { host = x.url; }
+  const label = esc(x.label || "( OPEN ↗ )");
+  const open = label.includes("↗")
+    ? label.replace("↗", `<span class="portal__arrow" aria-hidden="true">↗</span>`)
+    : label.replace(/\s*\)\s*$/, ` <span class="portal__arrow" aria-hidden="true">↗</span> )`);
+  const window_ = x.window
+    ? `<video data-autoplay muted loop playsinline preload="none" poster="${esc(x.window_poster || "")}" aria-hidden="true"><source src="${esc(x.window)}" type="video/mp4"></video>`
+    : `<img src="${esc(x.window_poster || p.card)}" alt="" aria-hidden="true">`;
+  const cta = esc(x.cta || "Try the prototype");
+  return `
+    <a class="portal" href="${esc(x.url)}" target="_blank" rel="noopener" data-cursor="open" aria-label="${cta}: ${esc(p.title)} opens in a new tab">
+      <span class="portal__window">${window_}</span>
+      <span class="portal__live" aria-hidden="true"><span class="portal__dot"></span>LIVE</span>
+      <span class="portal__text">
+        <span class="portal__cta">${cta}</span>
+        <span class="label portal__open">${open}</span>
+        <span class="label portal__url" aria-hidden="true">${esc(host)}</span>
+      </span>
+    </a>`;
 }
 
 export async function renderPage(page, ctx) {
