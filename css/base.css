@@ -488,11 +488,15 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 
 /* ------------------------------------------------------------------ editorial gallery: a staggered rhythm every six items */
 .gallery--editorial {
+  position: relative;          /* paints over the sticky opener, as the panel does */
+  z-index: 2;
+  background: var(--bg);
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: clamp(32px, 5vw, 80px) var(--gap);
   padding: clamp(64px, 10vw, 140px) var(--gutter);
   align-items: start;
 }
+.site-footer { position: relative; z-index: 2; }
 .gallery--editorial > :nth-child(6n + 1) { grid-column: 1 / 8; }
 .gallery--editorial > :nth-child(6n + 2) { grid-column: 8 / 13; margin-top: 18vh; }
 .gallery--editorial > :nth-child(6n + 3) { grid-column: 3 / 13; }
