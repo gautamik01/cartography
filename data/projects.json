@@ -95,10 +95,9 @@
     "coords": "( 40.82° N, 75.52° W )",
     "year": "2026",
     "role": "TODO: Cartography and code",
-    "opener_text": "dark",
     "tools": [
-      { "name": "Python", "use": "terrain processing" },
-      { "name": "Mapbox GL JS", "use": "TODO confirm" }
+      { "name": "Python", "use": "" },
+      { "name": "TODO: Mapbox GL JS?", "use": "" }
     ],
     "data": ["TODO: lidar elevation source for the hillshade (USGS 3DEP?)", "TODO: trail and lift data source"],
     "labels": ["( TERRAIN )", "( INTERACTIVE )", "( IN PROGRESS )"],
@@ -140,11 +139,10 @@
     "coords": "( TODO° N, TODO° W )",
     "year": "TODO: 2024? (the aerial file is dated 241216)",
     "role": "TODO: role, studio and team credit",
-    "opener_text": "light",
     "tools": [
-      { "name": "TODO modelling tool", "use": "Rhino?" },
-      { "name": "TODO drawing tool", "use": "Illustrator?" },
-      { "name": "TODO animation tool", "use": "" }
+      { "name": "TODO: modelling tool (Rhino?)", "use": "" },
+      { "name": "TODO: drawing tool (Illustrator?)", "use": "" },
+      { "name": "TODO: animation tool", "use": "" }
     ],
     "data": [],
     "labels": ["( 3D ENVIRONMENT )", "( AXONOMETRIC )", "( ANIMATION )"],
@@ -213,13 +211,12 @@
     "coords": "( 39.83° N, 98.58° W )",
     "year": "2026",
     "role": "Data, cartography and code",
-    "opener_text": "light",
     "tools": [
-      { "name": "Python", "use": "data and map build" },
-      { "name": "GeoPandas", "use": "spatial joins and clipping" },
-      { "name": "Mapbox GL JS", "use": "interactive maps" },
-      { "name": "Jupyter", "use": "template notebooks" },
-      { "name": "mapkit", "use": "shared style and publish script" }
+      { "name": "Python", "use": "" },
+      { "name": "GeoPandas", "use": "" },
+      { "name": "Mapbox GL JS", "use": "" },
+      { "name": "Jupyter", "use": "" },
+      { "name": "mapkit", "use": "" }
     ],
     "data": ["IM3 Open Source Data Center Atlas (PNNL), derived from OpenStreetMap", "Epoch AI Frontier Data Centers", "WRI Aqueduct 4.0 water stress", "US Census cartographic boundaries"],
     "labels": ["( INTERACTIVE )", "( DATA )", "( WATER )"],
@@ -277,13 +274,12 @@
     "coords": "( 36.37° N, 121.90° W )",
     "year": "2026",
     "role": "Data, cartography and code",
-    "opener_text": "light",
     "tools": [
-      { "name": "Python", "use": "every map" },
-      { "name": "GeoPandas", "use": "geometry and joins" },
-      { "name": "Matplotlib", "use": "drawing the static maps" },
-      { "name": "mapkit", "use": "palettes, credits and publishing" },
-      { "name": "Jupyter", "use": "one notebook per map" }
+      { "name": "Python", "use": "" },
+      { "name": "GeoPandas", "use": "" },
+      { "name": "Matplotlib", "use": "" },
+      { "name": "mapkit", "use": "" },
+      { "name": "Jupyter", "use": "" }
     ],
     "data": ["USGS 3DEP elevation", "OpenStreetMap", "DataSF zoning districts", "City of Philadelphia footprints, parks and heat vulnerability", "NYC health department restaurant list", "British Library 1843 map via Wikimedia Commons"],
     "labels": ["( STATIC CARTOGRAPHY )", "( GRAPHIC SYSTEM )", "( TOOLKIT )"],
