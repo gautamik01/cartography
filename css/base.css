@@ -144,6 +144,20 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 }
 .page__body .label a { padding: 4px 0; }
 .contact .page__body { gap: 12px; }
+/* the about page: one paragraph and a pill */
+.about .page__body { gap: 28px; justify-items: start; }
+.about .text { max-width: 58ch; }
+.pill {
+  display: inline-block;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 12px 22px;
+  line-height: 1;
+  transition: background 250ms, color 250ms;
+}
+.pill:hover, .pill:focus-visible { background: var(--fg); color: var(--bg); outline: none; }
+.pill .arrow { display: inline-block; transition: transform 250ms; }
+.pill:hover .arrow--down { transform: translateY(2px); }
 
 .featured {
   padding: max(clamp(64px, 10vw, 140px), calc(var(--header-h) + 40px)) 0 clamp(64px, 10vw, 140px);
@@ -404,6 +418,7 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
   min-height: 54vh;              /* a short text column never squeezes the lead into a strip; a tall one stretches it */
 }
 .panel-text__lead img { width: 100%; height: 100%; object-fit: cover; }
+.lead-img.is-contain { object-fit: contain; }   /* a map with its title and legend: shown whole */
 .lead-img.is-bw { filter: grayscale(1); transition: filter 700ms cubic-bezier(0.19, 1, 0.22, 1); }
 .lead-img.is-bw:hover { filter: grayscale(0); }
 .panel-text__body {
@@ -496,6 +511,7 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 .tool:hover, .tool:focus-visible, .tool.is-on { border-color: currentColor; }
 .tool:focus-visible { outline: none; }
 .tools__use { min-height: 1.6em; text-transform: none; letter-spacing: 0.02em; }
+.tools__data { max-width: 62ch; text-transform: none; letter-spacing: 0.02em; }
 
 /* ------------------------------------------------------------------ gallery on a strict grid: first item full width, the rest in rows of two */
 .gallery--grid {
@@ -511,8 +527,42 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 .gallery--grid > * { grid-column: span 6; }
 .gallery--grid > .gallery__item--full { grid-column: 1 / -1; }
 .gallery--grid img, .gallery--grid video { width: 100%; height: auto; object-fit: contain; }   /* natural ratio, nothing cut */
-/* a clip never grows past its own pixels or the viewport's height: a portrait clip sits centred in its cell at natural size */
+/* nothing grows past its own pixels: a small image or a portrait clip sits centred in its cell at natural size */
+.gallery--grid img { width: auto; max-width: 100%; margin-inline: auto; }
 .gallery--grid video { width: auto; max-width: 100%; max-height: 82vh; margin-inline: auto; }
+
+/* ------------------------------------------------------------------ the graphic system block */
+.system {
+  position: relative;
+  z-index: 2;
+  background: var(--bg);
+  padding: 0 var(--gutter) clamp(64px, 10vw, 140px);
+}
+.system__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gap);
+  row-gap: 36px;
+  border-top: 1px solid var(--rule);
+  padding-top: 40px;
+}
+.system__intro { grid-column: 1 / 6; display: grid; gap: 18px; align-content: start; }
+.system__note { max-width: 46ch; }
+.system__type { display: grid; gap: 8px; }
+.system__type li { text-transform: none; letter-spacing: 0.02em; max-width: 46ch; }
+.system__palettes { grid-column: 7 / 13; display: grid; gap: 32px; align-content: start; }
+.palette { display: grid; gap: 12px; }
+.palette__swatches { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+.swatch { display: flex; align-items: center; gap: 8px; }
+.swatch__chip { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--rule); flex: none; }
+.swatch .label { text-transform: none; letter-spacing: 0.02em; }
+.swatch__hex { font-variant-numeric: tabular-nums; opacity: 0.7; }
+.ramp { height: 10px; border-radius: 999px; }
+.dots { display: flex; gap: 8px; }
+.dots span { width: 14px; height: 14px; border-radius: 50%; }
+@media (max-width: 760px) {
+  .system__intro, .system__palettes { grid-column: 1 / -1; }
+}
 @media (max-width: 760px) {
   .gallery--grid > * { grid-column: 1 / -1; }
 }

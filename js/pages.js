@@ -94,25 +94,28 @@ async function project(ctx) {
     `<section class="panel-text" id="panel-text">` +
       `<div class="panel-text__grid">` +
         // lead_focus anchors the crop so the subject (a dashboard, say) stays whole: "left", "right", "top", "bottom" or "center"
-        `<figure class="panel-text__lead"><img class="lead-img${p.lead_bw ? " is-bw" : ""}" src="${esc(p.lead)}" alt="${esc(p.title)}" loading="lazy" decoding="async" style="object-position: ${esc(p.lead_focus || "center")}"></figure>` +
+        // lead_fit "contain" shows the whole image (a map with its title and legend) inside the column instead of cropping it
+        `<figure class="panel-text__lead"><img class="lead-img${p.lead_bw ? " is-bw" : ""}${p.lead_fit === "contain" ? " is-contain" : ""}" src="${esc(p.lead)}" alt="${esc(p.title)}" loading="lazy" decoding="async" style="object-position: ${esc(p.lead_focus || "center")}"></figure>` +
         `<div class="panel-text__body">` +
           `<h2 class="display panel-text__title">${esc(p.title)}</h2>` +
           `<p class="label panel-text__labels">${(p.labels || []).map(esc).join("  ")}</p>` +
           (place ? `<p class="label muted">${esc(place)}</p>` : "") +
           portals.map((x) => portalButton(x, p)).join("") +
           `<div class="text panel-text__intro">${(p.intro || []).map((t) => `<p>${esc(t)}</p>`).join("")}</div>` +
-          (tools.length ? toolsBlock(tools) : "") +
+          (tools.length ? toolsBlock(tools, p.data || []) : "") +
         `</div>` +
       `</div>` +
     `</section>` +
     // every item at its natural ratio, never cropped: "width": "full" takes a row, anything else pairs up 6/6
     `<section class="gallery gallery--grid">` + (p.gallery || []).map((g) =>
       `<figure class="gallery__item${g.width === "full" ? " gallery__item--full" : ""}">${media(g.src, g.poster, g.alt)}${g.caption ? `<figcaption class="label muted">${esc(g.caption)}</figcaption>` : ""}</figure>`).join("") +
-    `</section>`;
+    `</section>` +
+    // the graphic system behind a series: palettes, cast and typefaces, read from the project's own style file
+    (p.system ? systemBlock(p.system) : "");
   return initProject(ctx.main, { entered: ctx.main.dataset.entered === "1" });
 }
 
-function toolsBlock(tools) {
+function toolsBlock(tools, data) {
   return `
     <div class="tools">
       <p class="label muted">( BUILT WITH )</p>
@@ -120,7 +123,36 @@ function toolsBlock(tools) {
         ${tools.map((t) => `<li><button class="tool label" type="button" data-use="${esc(t.use || "")}">${esc(t.name)}</button></li>`).join("")}
       </ul>
       <p class="tools__use label muted" aria-live="polite"></p>
+      ${data.length ? `<p class="tools__data label muted">( DATA )  ${data.map(esc).join("  ·  ")}</p>` : ""}
     </div>`;
+}
+
+// ( ONE TOOLKIT, EVERY MAP ): one sentence, the typefaces, then each palette as swatches, ramp and categorical dots
+function systemBlock(s) {
+  const swatch = (c) => `<li class="swatch"><span class="swatch__chip" style="background:${esc(c.hex)}"></span><span class="label muted">${esc(c.name)} <span class="swatch__hex">${esc(c.hex)}</span></span></li>`;
+  const ramp = (cols) => `<div class="ramp" aria-hidden="true" style="background: linear-gradient(90deg, ${cols.map(esc).join(", ")})"></div>`;
+  const dots = (cols) => `<div class="dots" aria-hidden="true">${cols.map((c) => `<span style="background:${esc(c)}"></span>`).join("")}</div>`;
+  const palette = (p) => `
+    <div class="palette">
+      <p class="label">${esc(p.name)}${p.basemap ? ` <span class="muted">( ${esc(p.basemap)} basemap )</span>` : ""}</p>
+      <ul class="palette__swatches" role="list">${(p.swatches || []).map(swatch).join("")}</ul>
+      ${p.ramp ? ramp(p.ramp) : ""}
+      ${p.categorical ? dots(p.categorical) : ""}
+    </div>`;
+  return `
+    <section class="system" aria-label="The graphic system">
+      <div class="system__grid">
+        <div class="system__intro">
+          <p class="label muted">( ONE TOOLKIT, EVERY MAP )</p>
+          <p class="text system__note">${esc(s.note || "")}</p>
+          ${s.typefaces?.length ? `<ul class="system__type" role="list">${s.typefaces.map((t) => `<li class="label muted">${esc(t)}</li>`).join("")}</ul>` : ""}
+        </div>
+        <div class="system__palettes">
+          ${(s.palettes || []).map(palette).join("")}
+          ${s.cast?.length ? palette({ name: "The cast, the same on every map", swatches: s.cast }) : ""}
+        </div>
+      </div>
+    </section>`;
 }
 
 // "there is a live thing you can use": an ink capsule with a small moving window into the portal
