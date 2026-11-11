@@ -269,17 +269,11 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
   left: 0;
   display: flex;
   align-items: flex-start;
+  gap: 2vw;                      /* work.js sets this from WORK.GAP_VW; every gap is the same */
   transform: translate3d(var(--gutter), -50%, 0);
   will-change: transform;
 }
-.work__set {
-  position: relative;
-  display: flex;
-  gap: 2vw;
-  margin-right: 6vw;
-  flex: none;
-}
-.work__set-label { position: absolute; left: 0; top: -30px; }
+.work__clips { position: absolute; width: 0; height: 0; overflow: hidden; }   /* the tilted-oval clipPaths */
 .tile {
   position: relative;
   flex: none;
@@ -287,11 +281,10 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
   aspect-ratio: 4 / 5;
   overflow: hidden;
   background: #1a1a1a;
-  border-radius: 0;
-  transition: border-radius 600ms cubic-bezier(0.215, 0.61, 0.355, 1), opacity 300ms;
+  transition: opacity 300ms;     /* the oval itself is an SVG ellipse tweened by work.js */
 }
 .tile img { width: 100%; height: 100%; object-fit: cover; }
-.tile.is-oval { border-radius: 50%; }
+.tile.is-oval { border-radius: 50%; }   /* without GSAP: a plain oval */
 .tile.is-dim { opacity: 0.55; }
 .tile.is-hidden { clip-path: inset(100% 0% 0% 0%); }     /* grows up from its bottom edge on entering; units match the GSAP target */
 .work__caption {
@@ -329,12 +322,11 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding: 36px var(--gutter) 0;
-  gap: 0;
   scrollbar-width: none;
 }
 .work.is-touch .work__track::-webkit-scrollbar { display: none; }
 .work.is-touch .tile { width: 72vw; scroll-snap-align: start; }
-.work.is-touch .work__set { gap: 3vw; margin-right: 8vw; }
+.work.is-touch .work__track { gap: 3vw !important; }
 .work.is-touch .work__caption { position: static; margin-top: 28px; }
 .work.is-touch .work__pill { position: static; transform: none; justify-self: center; margin-top: 28px; }
 @media (prefers-reduced-motion: reduce) {
