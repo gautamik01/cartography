@@ -31,7 +31,7 @@ export const ROLL = {
 
 const SITE = {
   name: "Gautami Kasat",
-  email: "gautami.kasat@gmail.com",
+  email: "gautamik@upenn.edu",     // the one place the address lives: footer and contact page
   cv: "assets/cv/Gautami_Kasat_CV.pdf",
   github: "https://github.com/gautamik01",
   linkedin: "https://www.linkedin.com/in/gautamikasat",
@@ -95,9 +95,8 @@ function setCurrentNav(page) {
 
 // the contact footer, one per page, appended to its <main> so it rolls with the page
 function footerMarkup() {
-  const linkedin = SITE.linkedin === "TODO"
-    ? `<a class="label" href="https://www.linkedin.com/" target="_blank" rel="noopener" title="TODO: LinkedIn URL">( LINKEDIN &#8599; )</a>`
-    : `<a class="label" href="${SITE.linkedin}" target="_blank" rel="noopener">( LINKEDIN &#8599; )</a>`;
+  const ne = `<span class="arrow arrow--ne" aria-hidden="true">&#8599;</span>`;
+  const down = `<span class="arrow arrow--down" aria-hidden="true">&#8595;</span>`;
   return `
     <footer class="site-footer">
       <div class="site-footer__top">
@@ -107,9 +106,9 @@ function footerMarkup() {
           <span class="label site-footer__copied" aria-live="polite"></span>
         </div>
         <nav class="site-footer__links" aria-label="Elsewhere">
-          ${linkedin}
-          <a class="label" href="${SITE.github}" target="_blank" rel="noopener">( GITHUB &#8599; )</a>
-          <a class="label" href="${SITE.cv}" download>( DOWNLOAD CV &#8595; )</a>
+          <a class="label" href="${SITE.linkedin}" target="_blank" rel="noopener">( LINKEDIN ${ne} )</a>
+          <a class="label" href="${SITE.cv}" download>( CV ${down} )</a>
+          <a class="label" href="${SITE.github}" target="_blank" rel="noopener">( GITHUB ${ne} )</a>
         </nav>
       </div>
       <div class="site-footer__bottom label muted">
@@ -127,6 +126,9 @@ function mountFooter(main) {
     footer = el(footerMarkup());
     main.append(footer);
   }
+  // the contact page shows the address too; it reads SITE.email rather than carrying its own copy
+  main.querySelectorAll("[data-site-email]").forEach((n) => { n.textContent = SITE.email; });
+  main.querySelectorAll("[data-site-email-link]").forEach((a) => { a.href = `mailto:${SITE.email}`; });
   return footer;
 }
 function watchFooter(footer) {

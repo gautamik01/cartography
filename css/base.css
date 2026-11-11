@@ -691,10 +691,29 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
   letter-spacing: 0;
   overflow-wrap: anywhere;
 }
-.site-footer__email:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+/* the underline draws in from the left */
+.site-footer__email {
+  padding-bottom: 4px;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  background-position: 0 100%;
+  transition: background-size 500ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+.site-footer__email:hover, .site-footer__email:focus-visible { background-size: 100% 2px; outline: none; }
 .site-footer__copied { min-height: 1.6em; }
-.site-footer__links { display: grid; gap: 8px; justify-items: end; text-align: right; }
-.site-footer__links a { padding: 2px 0; }
+/* one row of links; the hovered or focused one inverts to a capsule, the others dim */
+.site-footer__links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+.site-footer__links a {
+  padding: 8px 14px;
+  border-radius: 999px;
+  transition: background 250ms, color 250ms, opacity 250ms;
+}
+.site-footer__links a:hover, .site-footer__links a:focus-visible { background: var(--fg); color: var(--bg); outline: none; }
+.site-footer__links:hover a:not(:hover), .site-footer__links:focus-within a:not(:focus-visible):not(:hover) { opacity: 0.5; }
+.site-footer__links .arrow { display: inline-block; transition: transform 250ms; }
+.site-footer__links a:hover .arrow--ne, .site-footer__links a:focus-visible .arrow--ne { transform: translate(2px, -2px); }
+.site-footer__links a:hover .arrow--down, .site-footer__links a:focus-visible .arrow--down { transform: translateY(2px); }
 .site-footer__bottom {
   display: flex;
   justify-content: space-between;
@@ -708,7 +727,8 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 @media (max-width: 699px) {
   .site-footer { padding-top: 48px; }
   .site-footer__top { grid-template-columns: 1fr; }
-  .site-footer__links { justify-items: start; text-align: left; }
+  .site-footer__links { justify-content: flex-start; }
+  .site-footer__links a { padding: 8px 10px; }
   .site-footer__bottom { margin-top: 48px; }
 }
 
