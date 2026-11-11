@@ -13,7 +13,7 @@
  */
 
 export const BROWSER = {
-  START_VW: 40,          // panel width when it slides in, and the right end of the pointer mapping
+  START_VW: 33.33,       // panel width when it slides in, and the right end of the pointer mapping
   COMMIT_VW: 75,         // at this width the panel commits and opens the project
   COMMIT_MS: 500,        // power3.inOut, the last stretch to 100vw
   SLIDE_IN_MS: 700,      // power3.out

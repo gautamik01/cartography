@@ -31,10 +31,12 @@ ASSETS = REPO / "assets" / "projects"
 TEMP = REPO.parent / "_temp_sources"          # outside the repo, deleted after a build
 SHOTS = TEMP / "shots"                        # written by tools/shoot_portals.py
 FOREST = Path(r"D:\00_MUSA_EVERTHING\Gautami_Portfolio\gautami_apple\Some Material\Forested_University")
+RAASTA_DEMO = Path(r"D:\00_MUSA_EVERTHING\GEN_AI_Studio\raasta\demo-video")   # read only, never modified
 
 IMG_MAX = 2400
 WEBP_Q = 82
 VID_MAX_W = 1920
+VID_MAX_FPS = 30
 VID_CRF = 26
 VID_PRESET = "veryfast"
 VID_MAX_BYTES = 15 * 1024 * 1024
@@ -109,6 +111,10 @@ MANIFEST = {
         img(SHOTS / "raasta_landing_1440x900.png", "landing.webp"),
         img(SHOTS / "raasta_route_1440x900.png", "route.webp"),
         img(SHOTS / "raasta_route_3d_1440x900.png", "route-3d.webp"),
+        # demo clips: clip-2 is the opener, clip-1 the portal button's window, clip-1 and clip-3 the gallery
+        vid(RAASTA_DEMO / "raasta-clip-1.mp4", "clip-1.mp4", poster_t=0.0),
+        vid(RAASTA_DEMO / "raasta-clip-2.mp4", "clip-2.mp4", poster_t=0.0),
+        vid(RAASTA_DEMO / "raasta-clip-3.mp4", "clip-3.mp4", poster_t=0.0),
     ],
     "ski-terrain": [
         img(TEMP / "week1/day21_terrain_blue_mountain_resort_shade.jpg", "card.webp", CARD, box=(560, 400, 1560, 1650)),
@@ -230,7 +236,7 @@ def encode_video(src, out):
     crf = VID_CRF
     for attempt in range(4):
         cmd = [ffmpeg_exe(), "-hide_banner", "-loglevel", "error", "-y", "-i", str(src), "-an",
-               "-vf", f"scale='min({VID_MAX_W},iw)':-2", "-c:v", "libx264", "-preset", VID_PRESET,
+               "-vf", f"scale='min({VID_MAX_W},iw)':-2,fps='min({VID_MAX_FPS},source_fps)'", "-c:v", "libx264", "-preset", VID_PRESET,
                "-crf", str(crf), "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(out)]
         subprocess.run(cmd, check=True)
         if out.stat().st_size <= VID_MAX_BYTES:

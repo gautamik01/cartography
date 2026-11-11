@@ -9,15 +9,24 @@
     "coords": "( 39.95° N, 75.16° W )",
     "year": "2026",
     "role": "TODO: Concept, cartography, route engine and front end (solo, for the Wharton Generative AI Studio?)",
-    "tools": ["Mapbox GL JS", "Next.js", "Python", "OSMnx", "GeoPandas", "SciPy", "FastAPI", "Groq", "Render", "Vercel"],
+    "opener_text": "dark",
+    "tools": [
+      { "name": "Mapbox GL JS", "use": "3D map and navigation" },
+      { "name": "Python", "use": "route engine" },
+      { "name": "Claude Code", "use": "build and iteration" },
+      { "name": "Vercel", "use": "hosting" },
+      { "name": "Next.js", "use": "front end (TODO confirm)" },
+      { "name": "FastAPI", "use": "route API on Render (TODO confirm)" },
+      { "name": "Groq", "use": "mood reading and callouts (TODO confirm)" }
+    ],
     "data": ["OpenStreetMap walk network", "Philadelphia street tree inventory 2025", "PPR tree canopy 2015", "City street centerlines and High Injury Network", "OpenDataPhilly parks, hydrology, art and historic districts", "phila.gov farmers markets and events"],
     "labels": ["( 3D NAVIGATION )", "( PROTOTYPE )", "( ROUTE ENGINE )"],
     "card": "assets/projects/raasta/card.webp",
     "card_video": "",
-    "hero": "assets/projects/raasta/hero.webp",
-    "hero_video": "",
+    "hero": "assets/projects/raasta/clip-2-poster.webp",
+    "hero_video": "assets/projects/raasta/clip-2.mp4",
     "lead": "assets/projects/raasta/lead.webp",
-    "lead_bw": false,
+    "lead_bw": true,
     "intro": [
       "Raasta finds the most scenic walk in Philadelphia, not the fastest one. You say how you feel, or what kind of walk you want, pick how many extra minutes you can spare, and it builds a real route around that, then narrates it as you go.",
       "Underneath is a Python engine that scores all 196,411 walkable segments in the city: 151,726 street trees, the 2015 tree canopy, parks, water, public art, historic districts, a noise model and the High Injury Network. A language model reads your mood into a recipe that re-weights what is attractive. It never picks the streets, and nothing can switch off what is dangerous.",
@@ -25,11 +34,11 @@
     ],
     "gallery": [
       {
-        "type": "image",
-        "src": "assets/projects/raasta/landing.webp",
-        "poster": "",
-        "alt": "Raasta's landing screen: a panel asking what's your mood today, with From and To fields, over a pale street map of Philadelphia and the Delaware River.",
-        "caption": "Start with a mood, a corner or a landmark. The route engine wakes up while you type."
+        "type": "video",
+        "src": "assets/projects/raasta/clip-1.mp4",
+        "poster": "assets/projects/raasta/clip-1-poster.webp",
+        "alt": "Screen recording of Raasta: a mood is typed, a start and an end are picked, and the scenic route draws itself across the map.",
+        "caption": "Say how you feel, pick a corner and a landmark, and the route draws itself."
       },
       {
         "type": "image",
@@ -39,16 +48,37 @@
         "caption": "City Hall to Rittenhouse Square: 22 minutes instead of 14, with 8 of them spent on nicer streets."
       },
       {
+        "type": "video",
+        "src": "assets/projects/raasta/clip-3.mp4",
+        "poster": "assets/projects/raasta/clip-3-poster.webp",
+        "alt": "Screen recording of Raasta in 3D: the camera moves along the route between Center City's towers as callouts appear.",
+        "caption": "Walking the route in 3D. Callouts are written from the real things it passes."
+      },
+      {
         "type": "image",
         "src": "assets/projects/raasta/route-3d.webp",
         "poster": "",
         "alt": "The same route seen in 3D, winding between Center City's towers, with callouts for the City Hall fountain and the Rittenhouse-Fitler historic district.",
-        "caption": "The same walk in 3D. Callouts are written from the actual things the route passes."
+        "caption": "The 3D view, with the summary panel: 14 minutes direct, 22 the scenic way."
+      },
+      {
+        "type": "image",
+        "src": "assets/projects/raasta/landing.webp",
+        "poster": "",
+        "alt": "Raasta's landing screen: a panel asking what's your mood today, with From and To fields, over a pale street map of Philadelphia and the Delaware River.",
+        "caption": "The start: a mood, a corner or a landmark. The route engine wakes up while you type."
       }
     ],
     "system": null,
     "portals": [
-      { "label": "( OPEN RAASTA )", "url": "https://raasta-prototype.vercel.app/", "embeddable": true }
+      {
+        "label": "( OPEN RAASTA ↗ )",
+        "cta": "Try the prototype",
+        "url": "https://raasta-prototype.vercel.app/",
+        "window": "assets/projects/raasta/clip-1.mp4",
+        "window_poster": "assets/projects/raasta/clip-1-poster.webp",
+        "embeddable": true
+      }
     ],
     "source": {
       "repo": "Private working repo (local: D:/00_MUSA_EVERTHING/GEN_AI_Studio/raasta); front end on Vercel, API on Render",
@@ -65,7 +95,11 @@
     "coords": "( 40.82° N, 75.52° W )",
     "year": "2026",
     "role": "TODO: Cartography and code",
-    "tools": ["Python", "TODO: Mapbox GL JS?"],
+    "opener_text": "dark",
+    "tools": [
+      { "name": "Python", "use": "terrain processing" },
+      { "name": "Mapbox GL JS", "use": "TODO confirm" }
+    ],
     "data": ["TODO: lidar elevation source for the hillshade (USGS 3DEP?)", "TODO: trail and lift data source"],
     "labels": ["( TERRAIN )", "( INTERACTIVE )", "( IN PROGRESS )"],
     "card": "assets/projects/ski-terrain/card.webp",
@@ -106,7 +140,12 @@
     "coords": "( TODO° N, TODO° W )",
     "year": "TODO: 2024? (the aerial file is dated 241216)",
     "role": "TODO: role, studio and team credit",
-    "tools": ["TODO: modelling tool (Rhino?)", "TODO: drawing tool (Illustrator?)", "TODO: animation tool"],
+    "opener_text": "light",
+    "tools": [
+      { "name": "TODO modelling tool", "use": "Rhino?" },
+      { "name": "TODO drawing tool", "use": "Illustrator?" },
+      { "name": "TODO animation tool", "use": "" }
+    ],
     "data": [],
     "labels": ["( 3D ENVIRONMENT )", "( AXONOMETRIC )", "( ANIMATION )"],
     "card": "assets/projects/forested-university/card.webp",
@@ -174,7 +213,14 @@
     "coords": "( 39.83° N, 98.58° W )",
     "year": "2026",
     "role": "Data, cartography and code",
-    "tools": ["Python", "GeoPandas", "Mapbox GL JS", "Jupyter", "mapkit"],
+    "opener_text": "light",
+    "tools": [
+      { "name": "Python", "use": "data and map build" },
+      { "name": "GeoPandas", "use": "spatial joins and clipping" },
+      { "name": "Mapbox GL JS", "use": "interactive maps" },
+      { "name": "Jupyter", "use": "template notebooks" },
+      { "name": "mapkit", "use": "shared style and publish script" }
+    ],
     "data": ["IM3 Open Source Data Center Atlas (PNNL), derived from OpenStreetMap", "Epoch AI Frontier Data Centers", "WRI Aqueduct 4.0 water stress", "US Census cartographic boundaries"],
     "labels": ["( INTERACTIVE )", "( DATA )", "( WATER )"],
     "card": "assets/projects/cloud-footprint/card.webp",
@@ -231,7 +277,14 @@
     "coords": "( 36.37° N, 121.90° W )",
     "year": "2026",
     "role": "Data, cartography and code",
-    "tools": ["Python", "GeoPandas", "Matplotlib", "mapkit", "Jupyter"],
+    "opener_text": "light",
+    "tools": [
+      { "name": "Python", "use": "every map" },
+      { "name": "GeoPandas", "use": "geometry and joins" },
+      { "name": "Matplotlib", "use": "drawing the static maps" },
+      { "name": "mapkit", "use": "palettes, credits and publishing" },
+      { "name": "Jupyter", "use": "one notebook per map" }
+    ],
     "data": ["USGS 3DEP elevation", "OpenStreetMap", "DataSF zoning districts", "City of Philadelphia footprints, parks and heat vulnerability", "NYC health department restaurant list", "British Library 1843 map via Wikimedia Commons"],
     "labels": ["( STATIC CARTOGRAPHY )", "( GRAPHIC SYSTEM )", "( TOOLKIT )"],
     "card": "assets/projects/map-series/card.webp",
