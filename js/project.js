@@ -5,6 +5,8 @@
  * entered, then fade, leaving the moving video and a ( SCROLL ) cue.
  */
 
+import { initCarousel } from "./carousel.js";
+
 export const PROJECT = {
   TEXT_HOLD_S: 2.5,       // title, kicker and meta stay this long
   TEXT_FADE_S: 0.8,
@@ -33,6 +35,13 @@ export function initProject(main, { entered } = {}) {
     }
     video.play().catch(() => { /* autoplay refused: the poster stays */ });
     cleanups.push(() => { video.removeEventListener("playing", live); video.pause(); });
+  }
+
+  // ---------------------------------------------------------------- a carousel opener drifts and drags (js/carousel.js)
+  const carousel = main.querySelector(".carousel");
+  if (carousel) {
+    const stop = initCarousel(carousel);
+    if (stop) cleanups.push(stop);
   }
 
   // ---------------------------------------------------------------- the text holds, then fades

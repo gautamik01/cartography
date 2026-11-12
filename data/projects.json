@@ -333,7 +333,15 @@
     "coords": "( 36.37° N, 121.90° W )",
     "year": "2026",
     "role": "",
-    "opener_fit": "contain",
+    "opener": "carousel",
+    "carousel": [
+      { "src": "assets/projects/map-series/big-sur.webp", "alt": "Big Sur Marathon: the course in plan and section on fine contour lines." },
+      { "src": "assets/projects/map-series/sf-zoning.webp", "alt": "What San Francisco Lets You Build: every block coloured by zoning." },
+      { "src": "assets/projects/map-series/billy-penn.webp", "alt": "What Billy Penn Can No Longer See: pink wedges for the towers that block the statue's view." },
+      { "src": "assets/projects/map-series/bombay.webp", "alt": "Bombay Was Seven Islands: the 1843 map with today's shoreline in red." },
+      { "src": "assets/projects/map-series/philly-parks.webp", "alt": "Philadelphia Passes the 10-Minute Test: streets by their walk to a large park." },
+      { "src": "assets/projects/map-series/nyc-indian.webp", "alt": "Naan Stop in New York: 314 Indian restaurants and their 12 clusters." }
+    ],
     "tools": [
       { "name": "Python", "use": "one notebook per map, run top to bottom" },
       { "name": "GeoPandas", "use": "the joins, the overlays and the street-length sums" },
@@ -357,47 +365,10 @@
       "In Philadelphia, 12 towers now rise above William Penn's hat, all of them behind his back, and together they block 18% of his horizon. In the city's most heat-vulnerable tracts, 98% of streets are a ten minute walk from a park, but only 32% reach one of ten acres. Bombay's 1843 map of the seven islands carries today's shoreline in red.",
       "Every map starts from the same Python toolkit, mapkit: the palettes, the credits and the title card live in one style file, each map is a notebook run top to bottom, and a publish step turns it into a live page and a thumbnail."
     ],
-    "gallery": [
-      {
-        "type": "image",
-        "src": "assets/projects/map-series/big-sur.webp",
-        "poster": "",
-        "alt": "Big Sur Marathon: fine grey contour lines of the Santa Lucia coast with the 26.2 mile course in red along Highway 1 from Big Sur to Carmel, and an elevation section below with Hurricane Point marked.",
-        "caption": "Big Sur Marathon. The course in plan and section, drawn in three line weights and one red line: the 510 ft climb to Hurricane Point.",
-        "width": "full"
-      },
-      {
-        "type": "image",
-        "src": "assets/projects/map-series/sf-zoning.webp",
-        "poster": "",
-        "alt": "What San Francisco Lets You Build: every block coloured by zoning, blue one-family houses across the west, red and purple shops, offices and industry along the bay, with a legend of six categories.",
-        "caption": "What San Francisco Lets You Build. Outside parks and public land, 50% of the city is zoned for one or two family houses."
-      },
-      {
-        "type": "image",
-        "src": "assets/projects/map-series/billy-penn.webp",
-        "poster": "",
-        "alt": "What Billy Penn Can No Longer See: a dark map of Philadelphia with twelve pink wedges fanning west from City Hall, one for each tower that now blocks the statue's view, and a dotted line to Penn Treaty Park where he faces.",
-        "caption": "What Billy Penn Can No Longer See. 12 towers now stand taller, all behind his back, and block 18% of his horizon."
-      },
-      {
-        "type": "image",
-        "src": "assets/projects/map-series/bombay.webp",
-        "poster": "",
-        "alt": "Bombay Was Seven Islands: an 1843 map of the islands on cream paper, with today's shoreline drawn over it in red and the islands named.",
-        "caption": "Bombay Was Seven Islands. The 1843 map, with today's shoreline drawn over it in red."
-      },
-      {
-        "type": "image",
-        "src": "assets/projects/map-series/philly-parks.webp",
-        "poster": "",
-        "alt": "Philadelphia Passes the 10-Minute Test: the city's streets in orange where they are more than ten minutes from a park of ten acres, green where they are within reach, large parks in dark green and the most heat-vulnerable tracts outlined in black.",
-        "caption": "Philadelphia Passes the 10-Minute Test. In its most heat-vulnerable tracts, 98% of streets are a 10 minute walk from a park. Only 32% reach one of 10 acres."
-      }
-    ],
+    "gallery": [],
     "system": {
       "note": "One style file holds the palettes, the credits and the title card. Every map starts from the same template notebook, and a publish step turns a finished notebook into a live page, a thumbnail and a caption stub, so a new map is one run away.",
-      "typefaces": ["Fraunces for titles and Inter for everything else, by default", "A case of display faces kept in the kit for a map that asks for one: Cinzel, DM Serif Display, IM Fell English, Abril Fatface, Bebas Neue, Zilla Slab"],
+      "typefaces": ["Fraunces for titles and Inter for everything else, by default.", "A case of display faces kept in the kit for a map that asks for one: Cinzel, DM Serif Display, IM Fell English, Abril Fatface, Bebas Neue, Zilla Slab."],
       "palettes": [
         {
           "name": "The Cloud Has a Footprint",
@@ -447,7 +418,7 @@
     ],
     "source": {
       "repo": "gautamik01/30-day-map-challenge-2026 (output/*.png, captions/*.md, output/maps.json, README, scripts/mapkit/style.py, the mapkit font files)",
-      "notes": "The opener is the Big Sur map itself, shown whole (a pan would upscale a 1080px source). The lead is the San Francisco zoning map, shown whole. Card is a crop of day02_lines-big-sur.png around Hurricane Point. Coordinates are Hurricane Point on the Big Sur course. Findings and credits come from each map's own title block and credit line and from captions/*.md. The system block is read from scripts/mapkit/style.py: the two SERIES palettes, the LOOK cast colours and the FONTS link, plus the display faces bundled in scripts/mapkit/*.ttf."
+      "notes": "The opener is a full-screen carousel of six whole maps (the five static maps plus day04 Naan Stop in New York), drifting and draggable (js/carousel.js); the home panel still shows the Big Sur map. The gallery is empty on purpose: the text panel goes straight to the toolkit block. The lead is the San Francisco zoning map, shown whole. Card is a crop of day02_lines-big-sur.png around Hurricane Point. Coordinates are Hurricane Point on the Big Sur course. Findings and credits come from each map's own title block and credit line and from captions/*.md. The system block is read from scripts/mapkit/style.py: the two SERIES palettes, the LOOK cast colours and the FONTS link, plus the display faces bundled in scripts/mapkit/*.ttf."
     }
   }
 ]

@@ -116,9 +116,9 @@ async function project(ctx) {
       `</div>` +
     `</section>` +
     // every item at its natural ratio, never cropped: "width": "full" takes a row, "quarter" is one of four, anything else pairs up 6/6
-    `<section class="gallery gallery--grid">` + (p.gallery || []).map((g) =>
+    ((p.gallery || []).length ? `<section class="gallery gallery--grid">` + p.gallery.map((g) =>
       `<figure class="gallery__item${g.width === "full" ? " gallery__item--full" : g.width === "quarter" ? " gallery__item--quarter" : ""}">${media(g.src, g.poster, g.alt)}${g.caption ? `<figcaption class="label muted">${esc(g.caption)}</figcaption>` : ""}</figure>`).join("") +
-    `</section>` +
+    `</section>` : "") +
     // the graphic system behind a series: palettes, cast and typefaces, read from the project's own style file
     (p.system ? systemBlock(p.system) : "");
   return initProject(ctx.main, { entered: ctx.main.dataset.entered === "1" });

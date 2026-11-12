@@ -167,6 +167,45 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 .pill:hover, .pill:focus-visible { background: var(--fg); color: var(--bg); outline: none; }
 .pill .arrow { display: inline-block; transition: transform 250ms; }
 .pill:hover .arrow--down { transform: translateY(2px); }
+/* the portrait tucks under the headline's last word with the bio beside it; black and white until hovered */
+.about .page__title { position: relative; z-index: 1; }
+.about__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gap);
+  row-gap: 32px;
+  align-items: start;
+  margin-top: calc(var(--display-size) * var(--display-scale) * -0.3);
+}
+.about__portrait { grid-column: 3 / 8; margin: 0; }
+.about__portrait img {
+  width: 100%;
+  height: auto;
+  filter: grayscale(1);
+  transition: filter 800ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+.about__portrait:hover img, .about__portrait:focus-within img { filter: grayscale(0); }
+.about__body { grid-column: 8 / 13; display: grid; gap: 28px; justify-items: start; padding-top: calc(var(--display-size) * var(--display-scale) * 0.55); }
+.about__body .text { max-width: 46ch; }
+@media (max-width: 760px) {
+  .about__grid { margin-top: 24px; }
+  .about__portrait { grid-column: 1 / -1; }
+  .about__body { grid-column: 1 / -1; padding-top: 0; }
+}
+
+/* contact: every line is a link, with the footer's capsule hover */
+.contact .contact__links { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-top: 40px; }
+.contact__links a {
+  padding: 8px 14px;
+  margin-left: -14px;
+  border-radius: 999px;
+  transition: background 250ms, color 250ms, opacity 250ms;
+}
+.contact__links a:hover, .contact__links a:focus-visible { background: var(--fg); color: var(--bg); outline: none; }
+.contact__links:hover a:not(:hover), .contact__links:focus-within a:not(:focus-visible):not(:hover) { opacity: 0.5; }
+.contact__links .arrow { display: inline-block; transition: transform 250ms; }
+.contact__links a:hover .arrow--ne, .contact__links a:focus-visible .arrow--ne { transform: translate(2px, -2px); }
+.contact__links a:hover .arrow--down, .contact__links a:focus-visible .arrow--down { transform: translateY(2px); }
 
 .featured {
   padding: max(clamp(64px, 10vw, 140px), calc(var(--header-h) + 40px)) 0 clamp(64px, 10vw, 140px);
@@ -376,6 +415,34 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
   object-fit: contain;
 }
 .opener[data-fit="contain"]::after { background: none; }
+
+/* ------------------------------------------------------------------ the carousel opener: a strip of whole maps */
+.opener--carousel { background: var(--ink); }
+.opener--carousel::after { background: none; }
+.carousel {
+  position: absolute;
+  left: 0; right: 0;
+  top: var(--header-h);
+  height: calc(100% - var(--header-h) - 224px);
+  overflow: hidden;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+.carousel.is-dragging { cursor: grabbing; }
+.carousel__track {
+  position: absolute;
+  top: 0; left: var(--gutter);
+  height: 100%;
+  display: flex;
+  gap: var(--gap);
+  will-change: transform;
+}
+.carousel__item { height: 100%; flex: none; margin: 0; }
+.carousel__item img { height: 100%; width: auto; max-width: none; object-fit: contain; pointer-events: none; }
+@media (max-width: 760px) {
+  .carousel { height: calc(100% - var(--header-h) - 260px); }
+}
 @media (max-width: 760px) {
   .opener[data-fit="contain"] .opener__img, .opener[data-fit="contain"] .opener__video { height: calc(100% - var(--header-h) - 260px); }
 }
@@ -553,6 +620,7 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
   background: var(--bg);
   padding: 0 var(--gutter) clamp(64px, 10vw, 140px);
 }
+.panel-text + .system { padding-top: clamp(64px, 10vw, 140px); }   /* straight after the text panel, with no gallery between */
 .system__grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
