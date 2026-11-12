@@ -152,8 +152,8 @@ MANIFEST = {
         vid(FOREST / "The forest campus .mp4", "montage.mp4", poster_t=0.0),
     ],
     "cloud-footprint": [
-        # hero: an 18 s camera move across the clusters recorded from the live day01 map (scratch cloud_record.py);
-        # card: the Texas keyframe of the same recording at 2x, centre 4:5; lead: What AI Drinks over the basins
+        # hero: a 13 s recording from the live day01 map (scratch cloud_record2.py): a cursor rests on a pink, a yellow and a
+        # blue dot so each one's card opens; card: the pink campus with its card open, at 2x, centre 4:5; lead: What AI Drinks
         vid(CLOUD / "hero_master.mp4", "hero.mp4", poster_t=0.0),
         img(CLOUD / "still_card.png", "card.webp", CARD, box=(1056, 0, 2784, 2160)),
         img(TEMP / "png_thumbnail/day03_polygons-water-ai.png", "lead.webp", CARD, box=(512, 0, 1312, 1000)),
