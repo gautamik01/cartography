@@ -24,6 +24,8 @@ export const BROWSER = {
   FULL_AT: 0.995,        // fraction of the viewport width that counts as fully open (click path)
   FULL_FADE_MS: 400,     // title, kicker and ( OPEN PROJECT ) fade at full width
   ZONE_PAD: 24,          // px of slack around the thumbnails
+  LOCK_LEFT_PX: 12,      // once the pointer has moved left this far after a project is shown, that project is locked
+  UNLOCK_RIGHT_PX: 40,   // and only a move back right this far (from the leftmost point) unlocks it
 };
 
 const pad2 = (n) => String(n).padStart(2, "0");
@@ -52,6 +54,9 @@ export function initBrowser(root, projects, { navigate } = {}) {
 
   let open = false, committed = false, current = -1, width = 0, targetW = 0, raf = 0, closeTimer = 0, isFull = false;
   let currentImg = null, commitTween = null;
+  // the lock: moving left toward the panel crosses other thumbnails, which must not switch the project
+  let locked = -1, lastX = null, anchorX = null, minX = null;
+  function unlock() { locked = -1; anchorX = lastX; minX = null; }
   const vw = () => window.innerWidth;
   const startPx = () => (vw() * BROWSER.START_VW) / 100;
   const commitPx = () => (vw() * BROWSER.COMMIT_VW) / 100;
@@ -99,6 +104,7 @@ export function initBrowser(root, projects, { navigate } = {}) {
   function slideOut() {
     if (committed) return;
     open = false;
+    unlock();
     html.classList.remove("panel-open");
     cancelAnimationFrame(raf);
     const done = () => { panel.setAttribute("aria-hidden", "true"); setFull(false); };
@@ -149,9 +155,10 @@ export function initBrowser(root, projects, { navigate } = {}) {
 
   function show(i) {
     if (committed) return;
+    if (locked >= 0 && i !== locked) return;      // a hover crossed on the way left: ignored
     cancelClose();
     if (!open) slideIn();
-    if (i !== current) swap(i);
+    if (i !== current) { swap(i); anchorX = lastX; minX = null; }   // the leftward count starts from here
   }
 
   function scheduleClose() {
@@ -181,6 +188,7 @@ export function initBrowser(root, projects, { navigate } = {}) {
   // past COMMIT_VW the pointer no longer matters: finish growing, then open the project
   function commit() {
     committed = true;
+    if (locked >= 0 && locked !== current) swap(locked);   // the grow belongs to the locked project
     cancelClose();
     cancelAnimationFrame(raf);
     html.classList.add("panel-committed");
@@ -195,9 +203,19 @@ export function initBrowser(root, projects, { navigate } = {}) {
 
   // pointer x drives the width: thumbnails = START_VW, the panel's resting edge = 100vw
   function onMove(e) {
+    lastX = e.clientX;
     if (!open || touch || committed) return;
     const t = thumbs.getBoundingClientRect();
     const x = e.clientX, y = e.clientY;
+    // direction: right (or vertical) keeps hovering live; LOCK_LEFT_PX of leftward travel locks the shown project,
+    // and only UNLOCK_RIGHT_PX back to the right from the leftmost point unlocks it
+    if (locked < 0) {
+      if (anchorX == null || x > anchorX) anchorX = x;
+      if (current >= 0 && anchorX - x > BROWSER.LOCK_LEFT_PX) { locked = current; minX = x; }
+    } else {
+      if (minX == null || x < minX) minX = x;
+      if (x - minX >= BROWSER.UNLOCK_RIGHT_PX) unlock();
+    }
     const overThumbs = x >= t.left - BROWSER.ZONE_PAD && x <= t.right + BROWSER.ZONE_PAD && y >= t.top - BROWSER.ZONE_PAD && y <= t.bottom + BROWSER.ZONE_PAD;
     const x0 = t.left, x1 = startPx();
     if (overThumbs || x >= x0) targetW = startPx();
@@ -215,6 +233,7 @@ export function initBrowser(root, projects, { navigate } = {}) {
     const click = (e) => {
       if (committed) { e.preventDefault(); return; }
       if (touch && (!open || current !== i)) { e.preventDefault(); show(i); return; }   // first tap opens the panel
+      if (locked >= 0 && locked !== i) { unlock(); }   // a deliberate click always wins over the lock
       if (!open || current !== i) swap(i);
       openProject(e);
     };
