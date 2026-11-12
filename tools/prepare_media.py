@@ -111,7 +111,8 @@ MANIFEST = {
         img(SHOTS / "raasta_route_3d_1440x900.png", "card.webp", CARD, box=(1116, 0, 2556, 1800)),
         # hero: map only (panel and zoom controls cropped away), skyline tops kept
         img(SHOTS / "raasta_route_3d_1440x900.png", "hero.webp", HERO, box=(880, 130, 2760, 1187)),
-        img(SHOTS / "raasta_route_1440x900.png", "lead.webp"),
+        # lead: the route with all three callouts and both ends whole, no dashboard (shown whole beside the text)
+        img(SHOTS / "raasta_route_1440x900.png", "lead.webp", box=(1100, 280, 2760, 1480)),
         img(SHOTS / "raasta_landing_1440x900.png", "landing.webp"),
         img(SHOTS / "raasta_route_1440x900.png", "route.webp"),
         img(SHOTS / "raasta_route_3d_1440x900.png", "route-3d.webp"),
@@ -133,8 +134,8 @@ MANIFEST = {
         img(SKI / "stills/02_hero_end.png", "lead.webp", CARD, box=(1056, 0, 2784, 2160)),
     ],
     "forested-university": [
-        # card: the exploded housing axonometric, padded with its own pink to 4:5 so nothing is cut
-        still(FOREST / "Forest student housing exploded.mp4", 4.9, "card.webp", CARD, pad=True),
+        # card: the aerial drawing, the same 4:5 window as the wide tile
+        img(FOREST / "BIE_241216 Aerial view Zoom.png", "card.webp", CARD, box=(1200, 40, 4100, 3665)),
         img(FOREST / "BIE_241216 Aerial view Zoom.png", "hero.webp", HERO, box=(0, 440, 4962, 3231)),
         img(FOREST / "BIE_241216 Aerial view Zoom.png", "lead.webp"),
         img(FOREST / "BIE_241216 Aerial view Zoom.png", "aerial.webp"),

@@ -26,7 +26,9 @@
     "hero_video": "assets/projects/raasta/clip-2.mp4",
     "lead": "assets/projects/raasta/lead.webp",
     "lead_bw": true,
-    "lead_focus": "left center",
+    "lead_fit": "contain",
+    "lead_wide": true,
+    "lead_focus": "center",
     "intro": [
       "Raasta finds the most scenic walk in Philadelphia, not the fastest one. Tell it your mood and how many extra minutes you can spare, and it builds a real route, then narrates it as you go.",
       "A Python engine scores all 196,411 walkable street segments for trees, parks, water, public art and history. A language model turns your mood into weights, but it never picks the streets, and nothing can switch off what is dangerous."

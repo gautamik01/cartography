@@ -92,7 +92,8 @@ async function project(ctx) {
     `</section>` +
     // the text panel: lead image left (sticky, black and white), everything else right
     `<section class="panel-text" id="panel-text">` +
-      `<div class="panel-text__grid">` +
+      // lead_wide: a 6/6 split instead of 5/7, for a lead whose detail has to stay legible
+      `<div class="panel-text__grid${p.lead_wide ? " is-wide" : ""}">` +
         // lead_focus anchors the crop so the subject (a dashboard, say) stays whole: "left", "right", "top", "bottom" or "center"
         // lead_fit "contain" shows the whole image (a map with its title and legend) inside the column instead of cropping it
         `<figure class="panel-text__lead"><img class="lead-img${p.lead_bw ? " is-bw" : ""}${p.lead_fit === "contain" ? " is-contain" : ""}" src="${esc(p.lead)}" alt="${esc(p.title)}" loading="lazy" decoding="async" style="object-position: ${esc(p.lead_focus || "center")}"></figure>` +
