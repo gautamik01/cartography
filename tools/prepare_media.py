@@ -30,6 +30,7 @@ REPO = Path(__file__).resolve().parents[1]
 ASSETS = REPO / "assets" / "projects"
 TEMP = REPO.parent / "_temp_sources"          # outside the repo, deleted after a build
 SHOTS = TEMP / "shots"                        # written by tools/shoot_portals.py
+SKI = TEMP / "ski"                            # the ski map recordings (hero_master.mp4, hover_master.mp4, zoom_master.mp4, stills/)
 FOREST = Path(r"D:\00_MUSA_EVERTHING\Gautami_Portfolio\gautami_apple\Some Material\Forested_University")
 RAASTA_DEMO = Path(r"D:\00_MUSA_EVERTHING\GEN_AI_Studio\raasta\demo-video")   # read only, never modified
 
@@ -82,7 +83,10 @@ TILES = {
         img(SHOTS / "raasta_route_1440x900.png", "tile-close.webp", CARD, box=(2040, 280, 2840, 1280)),
     ],
     "ski-terrain": [
-        img(TEMP / "week1/day21_terrain_blue_mountain_resort_shade.jpg", "tile-wide.webp", CARD, box=(200, 8, 1826, 2040)),
+        # the overview's map column only (no page UI), the hero mid-orbit, and the beginner slopes close up at the hero's end
+        img(SKI / "stills/01_overview.png", "tile-wide.webp", CARD, box=(1300, 0, 3028, 2160)),
+        still(SKI / "hero_master.mp4", 11.5, "tile-mid.webp", CARD, box=(576, 0, 1440, 1080)),
+        img(SKI / "stills/02_hero_end.png", "tile-close.webp", CARD, box=(1300, 0, 2596, 1620)),
     ],
     "forested-university": [
         img(FOREST / "BIE_241216 Aerial view Zoom.png", "tile-wide.webp", CARD, box=(1200, 40, 4100, 3665)),
@@ -117,11 +121,16 @@ MANIFEST = {
         vid(RAASTA_DEMO / "raasta-clip-3.mp4", "clip-3.mp4", poster_t=0.0),
     ],
     "ski-terrain": [
-        img(TEMP / "week1/day21_terrain_blue_mountain_resort_shade.jpg", "card.webp", CARD, box=(560, 400, 1560, 1650)),
-        # the source jpg has a thin black frame, so every box sits 8px inside it
-        img(TEMP / "week1/day21_terrain_blue_mountain_resort_shade.jpg", "hero.webp", HERO, box=(8, 350, 2022, 1483)),
-        img(TEMP / "week1/day21_terrain_blue_mountain_resort_shade.jpg", "lead.webp", box=(8, 8, 2022, 2040)),
-        img(TEMP / "week1/day21_terrain_blue_mountain_resort_shade.jpg", "hillshade.webp", box=(8, 8, 2022, 2040)),
+        # recorded from the live map by scratch ski_record.py (Playwright, 1920x1080, 30 fps frames stitched; stills at 2x)
+        vid(SKI / "hero_master.mp4", "hero.mp4", poster_t=0.0),
+        vid(SKI / "hover_master.mp4", "clip-hover.mp4", poster_t=0.0),
+        vid(SKI / "zoom_master.mp4", "clip-zoom.mp4", poster_t=0.0),
+        img(SKI / "stills/01_overview.png", "overview.webp"),
+        img(SKI / "stills/03_mountain_page.png", "mountain.webp"),
+        img(SKI / "stills/04_trail_hover.png", "trail.webp"),
+        # card and lead: the hero's final view (terrain only, no UI), centre 4:5
+        img(SKI / "stills/02_hero_end.png", "card.webp", CARD, box=(1056, 0, 2784, 2160)),
+        img(SKI / "stills/02_hero_end.png", "lead.webp", CARD, box=(1056, 0, 2784, 2160)),
     ],
     "forested-university": [
         # card: the exploded housing axonometric, padded with its own pink to 4:5 so nothing is cut

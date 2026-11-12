@@ -568,7 +568,7 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 }
 @media (max-width: 760px) {
   .panel-text { padding-top: calc(var(--header-h) + 24px); }
-  .panel-text__lead { grid-column: 1 / -1; margin-bottom: 28px; aspect-ratio: 16 / 10; }
+  .panel-text__lead { grid-column: 1 / -1; min-height: 0; margin-bottom: 28px; aspect-ratio: 16 / 10; }   /* min-height 0: with the ratio, a min-height would force the width past the phone */
   .panel-text__body { grid-column: 1 / -1; }
 }
 /* the title block sits at the bottom centre, just above ( SCROLL ) */
@@ -830,7 +830,8 @@ html.panel-open .scalebar, html.footer-in-view .scalebar, html.scalebar-clash .s
   transform: scaleX(0);
 }
 .scalebar__labels { display: flex; justify-content: space-between; margin-top: 7px; }
-@media (max-width: 640px) { .scalebar { bottom: 16px; width: 96px; } }
+/* a phone is one column: the bottom-left corner is always someone's text, so the bar stays off */
+@media (max-width: 760px) { .scalebar { display: none; } }
 
 /* ------------------------------------------------------------------ cursor */
 .cursor {

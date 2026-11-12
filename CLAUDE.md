@@ -73,7 +73,7 @@ Lighthouse performance 90+ on desktop. Lazy-load below the fold. Works fully on 
 
 ## Projects (this order)
 01 raasta: Raasta. "The most scenic walk in Philadelphia, not the fastest one." Walking-route prototype with 3D Mapbox navigation and a Python route engine. Portal: https://raasta-prototype.vercel.app/
-02 ski-terrain: Learning to Ski from NYC and Philly. Interactive terrain map of beginner ski areas within a day trip. Still being built, so "published": false until I give you the portal URL.
+02 ski-terrain: Learning to Ski from NYC and Philly. Interactive terrain map of every ski area within three hours of either city, ranked by beginner terrain. Portal: https://gautamik01.github.io/30-day-map-challenge-2026/output/day21_openstreetmap-ski.html. Its clips and stills are recorded from the live page (Playwright, see tools/record_ski.py) into ../_temp_sources/ski/, which tools/prepare_media.py compresses.
 03 forested-university: Forested University. 3D forested campus: aerial, exploded housing axonometric, human-scale walkthrough animations. No portal: this site is its home.
 04 cloud-footprint: The Cloud Has a Footprint. Interactive Mapbox maps of US data centers and AI campuses against water stress, built in Python. Portals: https://gautamik01.github.io/30-day-map-challenge-2026/output/day01_points-ai.html and https://gautamik01.github.io/30-day-map-challenge-2026/output/day03_polygons-water-ai.html
 05 map-series: 30 Day Map Challenge, static cartography built from one shared Python toolkit (mapkit). Portal: https://gautamik01.github.io/30-day-map-challenge-2026/output/

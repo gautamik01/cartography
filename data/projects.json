@@ -84,45 +84,88 @@
   {
     "slug": "ski-terrain",
     "number": "02",
-    "published": false,
+    "published": true,
     "title": "Learning to Ski from NYC and Philly",
-    "kicker": "Beginner ski terrain within a day trip of New York and Philadelphia.",
-    "location": "TODO: Blue Mountain Resort, Pennsylvania (and which others?)",
-    "coords": "( 40.82° N, 75.52° W )",
+    "kicker": "Every ski area within three hours of New York or Philadelphia, ranked by beginner terrain and set on its real mountain.",
+    "location": "New York + Philadelphia day trips",
+    "coords": "( 42.56° N, 73.29° W )",
     "year": "2026",
-    "role": "TODO: Cartography and code",
+    "role": "",
     "tools": [
-      { "name": "Python", "use": "" },
-      { "name": "TODO: Mapbox GL JS?", "use": "" }
+      { "name": "Python", "use": "one notebook builds the whole page, with NumPy, SciPy and GeoPandas" },
+      { "name": "GeoPandas", "use": "trail lengths in UTM, the ranked list, the trail and lift layers" },
+      { "name": "ArcGIS Pro", "use": "3 m USGS elevation per mountain, a multidirectional hillshade and 20 m contours, through arcpy" },
+      { "name": "MapLibre GL JS", "use": "the page, which builds its own 3D terrain tiles in the browser" },
+      { "name": "Mapbox Matrix API", "use": "drive times from each city, no traffic" },
+      { "name": "mapkit", "use": "the shared toolkit: credits, style, the publish step" }
     ],
-    "data": ["TODO: lidar elevation source for the hillshade (USGS 3DEP?)", "TODO: trail and lift data source"],
-    "labels": ["( TERRAIN )", "( INTERACTIVE )", "( IN PROGRESS )"],
+    "data": ["OpenStreetMap via OpenSkiMap (ODbL)", "USGS 3DEP elevation", "Mapbox Matrix API drive times", "US Census Bureau boundaries"],
+    "labels": ["( TERRAIN )", "( INTERACTIVE MAP )", "( OPENSTREETMAP )"],
     "card": "assets/projects/ski-terrain/card.webp",
     "card_video": "",
-    "hero": "assets/projects/ski-terrain/hero.webp",
-    "hero_video": "",
+    "hero": "assets/projects/ski-terrain/hero-poster.webp",
+    "hero_video": "assets/projects/ski-terrain/hero.mp4",
     "lead": "assets/projects/ski-terrain/lead.webp",
-    "lead_bw": true,
+    "lead_bw": false,
+    "lead_focus": "center",
     "intro": [
-      "Learning to ski from New York or Philadelphia means a day trip, and most of the mountains within reach are small. This map puts the beginner areas on the terrain itself, so you can see how long and how steep a green run really is before you book.",
-      "The base is a lidar hillshade of each resort, drawn so the trails read as cuts in the forest. TODO: two or three sentences on which resorts are in, how the drive times are measured, and what the map lets you compare."
+      "Learning to ski from New York or Philadelphia means a day trip, so this map starts with a rule: every ski area within three hours' drive of either city, with no traffic. It ranks them by beginner terrain, the kilometres of bunny hill and green trail, and puts each one on its real mountain.",
+      "The overview is a relief of the whole region from USGS elevation. Click a mountain and its own terrain loads: 3 m elevation, a multidirectional hillshade and 20 m contours made in ArcGIS Pro, on 3D tiles the page builds in the browser. Hover a trail for its length, drop and slope, with a profile that draws every trail on the mountain at one scale, so they compare. Trails and lifts come from OpenStreetMap through OpenSkiMap."
     ],
     "gallery": [
       {
+        "type": "video",
+        "src": "assets/projects/ski-terrain/clip-zoom.mp4",
+        "poster": "assets/projects/ski-terrain/clip-zoom-poster.webp",
+        "alt": "Screen recording of the live map: from the regional relief with every ski area marked, the view dives onto Mountain Creek and tilts into its 3D terrain, the ranked list and the trail panel beside it.",
+        "caption": "From the region down to one resort. The mountain's own terrain loads as you arrive.",
+        "width": "full"
+      },
+      {
+        "type": "video",
+        "src": "assets/projects/ski-terrain/clip-hover.mp4",
+        "poster": "assets/projects/ski-terrain/clip-hover-poster.webp",
+        "alt": "Screen recording of the live map: hovering ski areas in the ranked list lights each one up on the relief with a lead line, while the right panel draws its trails and lifts.",
+        "caption": "Hover a ski area: its circle lights up on the map and the panel draws its trails, lifts and magic carpets.",
+        "width": "full"
+      },
+      {
         "type": "image",
-        "src": "assets/projects/ski-terrain/hillshade.webp",
+        "src": "assets/projects/ski-terrain/overview.webp",
         "poster": "",
-        "alt": "A grey lidar hillshade of Blue Mountain Resort in Pennsylvania, the ski trails cut as pale stripes down the wooded ridge.",
-        "caption": "Blue Mountain Resort as a lidar hillshade. The trails read as cuts in the forest."
+        "alt": "The full page: the ranked list of ski areas by beginner kilometres on the left, the regional relief with numbered circles in the middle, and Jiminy Peak's trail drawing and stats on the right.",
+        "caption": "The overview. Circles are sized by beginner kilometres; the first seven carry their names.",
+        "width": "full"
+      },
+      {
+        "type": "image",
+        "src": "assets/projects/ski-terrain/mountain.webp",
+        "poster": "",
+        "alt": "Windham in 3D: its hillshade and contours with the trails drawn over them, the trail profile at the bottom left and the mountain's stats on the right.",
+        "caption": "Windham, selected. 3 m terrain, 20 m contours and every trail, with a profile of the longest green run."
+      },
+      {
+        "type": "image",
+        "src": "assets/projects/ski-terrain/trail.webp",
+        "poster": "",
+        "alt": "The same view with one trail hovered: it turns black on the terrain and in the panel, and a tooltip reads its elevation at that point.",
+        "caption": "A trail hovered: it reads black in both views, with its elevation under the pointer."
       }
     ],
     "system": null,
     "portals": [
-      { "label": "( OPEN LIVE MAP )", "url": "TODO", "embeddable": true }
+      {
+        "label": "( OPEN THE SKI MAP ↗ )",
+        "cta": "Try the map",
+        "url": "https://gautamik01.github.io/30-day-map-challenge-2026/output/day21_openstreetmap-ski.html",
+        "window": "assets/projects/ski-terrain/clip-zoom.mp4",
+        "window_poster": "assets/projects/ski-terrain/clip-zoom-poster.webp",
+        "embeddable": true
+      }
     ],
     "source": {
-      "repo": "gautamik01/30-day-map-challenge-2026, branch week1-maps, output/day21_terrain_blue_mountain_resort_shade.jpg",
-      "notes": "Hidden until the portal URL arrives. The source jpg has a thin black frame; every crop sits 8px inside it."
+      "repo": "gautamik01/30-day-map-challenge-2026 (scripts/day21_openstreetmap_ski.ipynb, scripts/day21_terrain_arcgis.py, scripts/day21_page_template.html, captions/day21_openstreetmap-ski.md)",
+      "notes": "The clips and stills were recorded from the live page on 2026-11-11 with Playwright at 1920x1080 (stills at 2x): the hero is a frame-by-frame camera path (an overview, a top-down dive onto Jiminy Peak, the top-ranked mountain with 11.2 beginner km, then a tilt into 3D and an orbit onto its beginner slopes); the two short clips use the page as it is. Coordinates are Jiminy Peak. Place and year as asked: New York + Philadelphia day trips · 2026."
     }
   },
   {
