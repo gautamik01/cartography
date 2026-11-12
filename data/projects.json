@@ -259,7 +259,6 @@
     "coords": "( 39.83° N, 98.58° W )",
     "year": "2026",
     "role": "",
-    "opener_fit": "contain",
     "tools": [
       { "name": "Python", "use": "every map is a notebook, run top to bottom" },
       { "name": "GeoPandas", "use": "joins the campuses to the basins and the states" },
@@ -272,9 +271,9 @@
     "labels": ["( INTERACTIVE )", "( PYTHON + MAPBOX )", "( DATA CENTERS )"],
     "card": "assets/projects/cloud-footprint/card.webp",
     "card_video": "",
-    "hero": "assets/projects/cloud-footprint/where-ai-gets-built-poster.webp",
-    "hero_video": "assets/projects/cloud-footprint/where-ai-gets-built.mp4",
-    "lead": "assets/projects/cloud-footprint/card.webp",
+    "hero": "assets/projects/cloud-footprint/hero-poster.webp",
+    "hero_video": "assets/projects/cloud-footprint/hero.mp4",
+    "lead": "assets/projects/cloud-footprint/lead.webp",
     "lead_bw": false,
     "lead_focus": "center",
     "intro": [
@@ -306,22 +305,22 @@
         "label": "( OPEN WHERE AI GETS BUILT ↗ )",
         "cta": "Try the map",
         "url": "https://gautamik01.github.io/30-day-map-challenge-2026/output/day01_points-ai.html",
-        "window": "assets/projects/cloud-footprint/where-ai-gets-built.mp4",
-        "window_poster": "assets/projects/cloud-footprint/where-ai-gets-built-poster.webp",
+        "window": "assets/projects/cloud-footprint/hero.mp4",
+        "window_poster": "assets/projects/cloud-footprint/hero-poster.webp",
         "embeddable": true
       },
       {
         "label": "( OPEN WHAT AI DRINKS ↗ )",
         "cta": "Try the map",
         "url": "https://gautamik01.github.io/30-day-map-challenge-2026/output/day03_polygons-water-ai.html",
-        "window_poster": "assets/projects/cloud-footprint/card.webp",
+        "window_poster": "assets/projects/cloud-footprint/lead.webp",
         "size": "small",
         "embeddable": true
       }
     ],
     "source": {
       "repo": "gautamik01/30-day-map-challenge-2026 (README, captions/day01_points-ai.md, captions/day03_polygons-water-ai.md, output/maps.json, scripts/mapkit/style.py, scripts/mapkit/ai.py)",
-      "notes": "The opener is output/day01_points-ai_2.mp4 (1280x640, re-encoded without its audio track, shown whole), its poster the first frame. The lead is the 4:5 crop of png_thumbnail/day03_polygons-water-ai.png, so the panel pairs the dark dots map with the teal water map. The counts (1,472 / 34 / 43) and the 39% line were read from the live pages' layer data and cards on 2026-11-11; the live pages load mapbox-gl-js v3.7.0. Coordinates are the geographic centre of the contiguous US."
+      "notes": "The opener is an 18 s camera move across the clusters recorded from the live day01 map on 2026-11-11 (scratch cloud_record.py: Playwright on the GPU, the page's own map object stepped frame by frame, the title card and zoom buttons hidden), its poster the first frame; the card is the Texas keyframe of the same recording at 2x. The lead is the 4:5 crop of png_thumbnail/day03_polygons-water-ai.png, so the panel pairs the dark dots map with the teal water map. The counts (1,472 / 34 / 43) and the 39% line were read from the live pages' layer data and cards on 2026-11-11; the live pages load mapbox-gl-js v3.7.0. Coordinates are the geographic centre of the contiguous US."
     }
   },
   {
