@@ -74,12 +74,20 @@ async function project(ctx) {
   const tone = p.opener_text === "dark" ? "dark" : "light";
   const place = [p.location, p.year].filter((s) => s && !/^TODO/i.test(s)).join(" · ");
   const tools = (p.tools || []).filter((t) => t && t.name);
+  // "opener": "carousel" replaces the hero with a drifting strip of whole images (js/carousel.js), the track doubled so it loops
+  const carousel = p.opener === "carousel" && Array.isArray(p.carousel) && p.carousel.length;
+  const openerMedia = carousel
+    ? `<div class="carousel" aria-label="${esc(p.title)}, the maps"><div class="carousel__track">` +
+        [...p.carousel, ...p.carousel].map((c) => `<figure class="carousel__item"><img src="${esc(c.src)}" alt="${esc(c.alt || "")}" loading="eager" decoding="async"></figure>`).join("") +
+      `</div></div>`
+    : `<img class="opener__img" src="${esc(hero)}" alt="${esc(p.title)}" decoding="async" fetchpriority="high">` +
+      (p.hero_video ? `<video class="opener__video" muted loop playsinline autoplay preload="auto" poster="${esc(p.hero)}" data-start="${start.toFixed(2)}" aria-hidden="true"><source src="${esc(p.hero_video)}" type="video/mp4"></video>` : "");
   root.innerHTML =
     // the opener: hero video playing over its poster (or the ?h= image), text that holds then fades, a scroll cue
-    `<section class="opener" data-text="${tone}" data-fit="${fit}">` +
-      `<img class="opener__img" src="${esc(hero)}" alt="${esc(p.title)}" decoding="async" fetchpriority="high">` +
-      (p.hero_video ? `<video class="opener__video" muted loop playsinline autoplay preload="auto" poster="${esc(p.hero)}" data-start="${start.toFixed(2)}" aria-hidden="true"><source src="${esc(p.hero_video)}" type="video/mp4"></video>` : "") +
-      `<div class="opener__text">` +
+    `<section class="opener${carousel ? " opener--carousel" : ""}" data-text="${tone}" data-fit="${fit}">` +
+      openerMedia +
+      // opener_color: the title block in a colour sampled from the work (the ski map's trail orange, say)
+      `<div class="opener__text"${p.opener_color ? ` style="color:${esc(p.opener_color)}"` : ""}>` +
         `<p class="label">( ${num} )</p>` +
         `<h1 class="display opener__title" data-split>${esc(p.title)}</h1>` +
         `<p class="opener__kicker">${esc(p.kicker)}</p>` +

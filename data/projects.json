@@ -93,6 +93,7 @@
     "coords": "( 42.56° N, 73.29° W )",
     "year": "2026",
     "role": "",
+    "opener_color": "#A5401B",
     "tools": [
       { "name": "Python", "use": "one notebook builds the whole page, with NumPy, SciPy and GeoPandas" },
       { "name": "GeoPandas", "use": "trail lengths in UTM, the ranked list, the trail and lift layers" },

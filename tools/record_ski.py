@@ -1,16 +1,11 @@
-"""record_ski.py : the ski map's clips and stills, recorded from the live page.
+"""Records the ski map (MapLibre, live on GitHub Pages) frame by frame at 1920x1080 and 30 fps, then stitches the
+frames into master clips. Every frame is rendered with the camera placed by map.jumpTo and the map waited to idle,
+so the motion is smooth however slow the software renderer is.
 
-The ski map (MapLibre, 3D terrain the page builds itself) is driven in headless Chromium at 1920x1080: every frame
-places the camera with map.jumpTo and waits until the tiles that camera asked for have arrived (the page never
-reports idle while terrain is on), so the motion is smooth at 30 fps whatever the render speed. Chromium uses the
-machine's GPU through ANGLE/D3D11.
-
-    pip install playwright imageio-ffmpeg pillow && playwright install chromium
     python tools/record_ski.py --out ../_temp_sources/ski [--only hero hover zoom stills]
 
-Outputs in --out: hero_master.mp4 (16 s), hover_master.mp4 (9.6 s), zoom_master.mp4 (9 s), all libx264 crf 14,
-one contact sheet per clip (<name>_sheet.jpg), stills/*.png at 2x, and hero_meta.json. tools/prepare_media.py
-then compresses them into assets/projects/ski-terrain/.
+Outputs in <dir>: hero_master.mp4, hover_master.mp4, zoom_master.mp4 (libx264 crf 14), one contact sheet per
+clip (<name>_sheet.jpg), stills/*.png at 2x, and log lines on stdout.
 """
 import argparse
 import io

@@ -31,6 +31,7 @@ ASSETS = REPO / "assets" / "projects"
 TEMP = REPO.parent / "_temp_sources"          # outside the repo, deleted after a build
 SHOTS = TEMP / "shots"                        # written by tools/shoot_portals.py
 SKI = TEMP / "ski"                            # the ski map recordings (hero_master.mp4, hover_master.mp4, zoom_master.mp4, stills/)
+CLOUD = TEMP / "cloud"                        # the day01 map recording (hero_master.mp4, still_card.png)
 FOREST = Path(r"D:\00_MUSA_EVERTHING\Gautami_Portfolio\gautami_apple\Some Material\Forested_University")
 RAASTA_DEMO = Path(r"D:\00_MUSA_EVERTHING\GEN_AI_Studio\raasta\demo-video")   # read only, never modified
 
@@ -64,8 +65,9 @@ FETCH = [
 # aspect from its centre, so a box that is a few pixels off still yields a true 4:5 or 16:9.
 # pad=True extends the canvas with the border colour instead of cropping (flat backgrounds only).
 
-def img(src, out, aspect=None, box=None, pad=False):
-    return dict(kind="image", src=src, out=out, aspect=aspect, box=box, pad=pad)
+def img(src, out, aspect=None, box=None, pad=False, contrast=False):
+    """contrast=True stretches the levels (1% cutoff) for a pale capture such as the ski map's snow hillshade."""
+    return dict(kind="image", src=src, out=out, aspect=aspect, box=box, pad=pad, contrast=contrast)
 
 def vid(src, out, poster_t=0.0):
     return dict(kind="video", src=src, out=out, poster_t=poster_t)
@@ -83,13 +85,15 @@ TILES = {
         img(SHOTS / "raasta_route_1440x900.png", "tile-close.webp", CARD, box=(2040, 280, 2840, 1280)),
     ],
     "ski-terrain": [
-        # the overview's map column only (no page UI), the hero mid-orbit, and the beginner slopes close up at the hero's end
+        # the overview's map column only (no page UI), the hero at its Belleayre stop, and Belleayre's slopes close up
         img(SKI / "stills/01_overview.png", "tile-wide.webp", CARD, box=(1300, 0, 3028, 2160)),
-        still(SKI / "hero_master.mp4", 11.5, "tile-mid.webp", CARD, box=(576, 0, 1440, 1080)),
-        img(SKI / "stills/02_hero_end.png", "tile-close.webp", CARD, box=(1300, 0, 2596, 1620)),
+        still(SKI / "hero_master.mp4", 13.3, "tile-mid.webp", CARD, box=(528, 0, 1392, 1080)),
+        img(SKI / "card_candidates/cand_3.png", "tile-close.webp", CARD, box=(1272, 270, 2568, 1890), contrast=True),
     ],
     "forested-university": [
         img(FOREST / "BIE_241216 Aerial view Zoom.png", "tile-wide.webp", CARD, box=(1200, 40, 4100, 3665)),
+        # the exploded housing block, padded with its own pink to 4:5 (the card used to be this frame)
+        still(FOREST / "Forest student housing exploded.mp4", 4.9, "tile-mid.webp", CARD, pad=True),
         still(FOREST / "Human experiences.mp4", 2.2, "tile-close.webp", CARD, box=(0, 150, 464, 730)),
         still(FOREST / "Human Scale experience.mp4", 3.9, "tile-close-2.webp", CARD, box=(0, 180, 464, 760)),
     ],
@@ -122,16 +126,17 @@ MANIFEST = {
         vid(RAASTA_DEMO / "raasta-clip-3.mp4", "clip-3.mp4", poster_t=0.0),
     ],
     "ski-terrain": [
-        # recorded from the live map by scratch ski_record.py (Playwright, 1920x1080, 30 fps frames stitched; stills at 2x)
+        # recorded from the live map by tools/record_ski.py and record_ski_hero.py (Playwright, 1920x1080, 30 fps frames
+        # stitched; stills at 2x). The hero visits Windham, Hunter, Belleayre and Jiminy Peak with a trail highlighted at each.
         vid(SKI / "hero_master.mp4", "hero.mp4", poster_t=0.0),
         vid(SKI / "hover_master.mp4", "clip-hover.mp4", poster_t=0.0),
         vid(SKI / "zoom_master.mp4", "clip-zoom.mp4", poster_t=0.0),
         img(SKI / "stills/01_overview.png", "overview.webp"),
         img(SKI / "stills/03_mountain_page.png", "mountain.webp"),
         img(SKI / "stills/04_trail_hover.png", "trail.webp"),
-        # card and lead: the hero's final view (terrain only, no UI), centre 4:5
-        img(SKI / "stills/02_hero_end.png", "card.webp", CARD, box=(1056, 0, 2784, 2160)),
-        img(SKI / "stills/02_hero_end.png", "lead.webp", CARD, box=(1056, 0, 2784, 2160)),
+        # card and lead: candidate 2 of card_candidates (Windham, tilted close-up, its longest green run in black), centre 4:5
+        img(SKI / "card_candidates/cand_2.png", "card.webp", CARD, box=(1056, 0, 2784, 2160), contrast=True),
+        img(SKI / "card_candidates/cand_2.png", "lead.webp", CARD, box=(1056, 0, 2784, 2160), contrast=True),
     ],
     "forested-university": [
         # card: the aerial drawing, the same 4:5 window as the wide tile
@@ -147,13 +152,13 @@ MANIFEST = {
         vid(FOREST / "The forest campus .mp4", "montage.mp4", poster_t=0.0),
     ],
     "cloud-footprint": [
-        # card: What AI Drinks, the glowing campuses over the water-stress basins, title card cropped away
-        img(TEMP / "png_thumbnail/day03_polygons-water-ai.png", "card.webp", CARD, box=(512, 0, 1312, 1000)),
-        img(SHOTS / "day01_points-ai_1600x1000.png", "hero.webp", HERO, box=(0, 0, 3200, 1800)),
-        img(SHOTS / "day01_points-ai_1600x1000.png", "lead.webp"),
+        # hero: an 18 s camera move across the clusters recorded from the live day01 map (scratch cloud_record.py);
+        # card: the Texas keyframe of the same recording at 2x, centre 4:5; lead: What AI Drinks over the basins
+        vid(CLOUD / "hero_master.mp4", "hero.mp4", poster_t=0.0),
+        img(CLOUD / "still_card.png", "card.webp", CARD, box=(1056, 0, 2784, 2160)),
+        img(TEMP / "png_thumbnail/day03_polygons-water-ai.png", "lead.webp", CARD, box=(512, 0, 1312, 1000)),
         img(SHOTS / "day01_points-ai_1600x1000.png", "where-ai-gets-built.webp"),
         img(TEMP / "png_thumbnail/day03_polygons-water-ai.png", "what-ai-drinks.webp"),
-        vid(TEMP / "output/day01_points-ai_2.mp4", "where-ai-gets-built.mp4", poster_t=0.0),
     ],
     "map-series": [
         # card: Big Sur contours and the red course around Hurricane Point, no title block
@@ -165,6 +170,7 @@ MANIFEST = {
         img(TEMP / "output/day05_sight-billy-penn.png", "billy-penn.webp"),
         img(TEMP / "output/day06_vintage-bombay-islands.png", "bombay.webp"),
         img(TEMP / "output/day07_ten-minute-parks-philly.png", "philly-parks.webp"),
+        img(TEMP / "output/day04_clusters-nyc-indian.png", "nyc-indian.webp"),
     ],
 }
 
@@ -269,6 +275,8 @@ def build(slug, job, force):
             return
         with Image.open(src) as im:
             im = to_aspect(im.convert("RGB"), job["aspect"], job["box"], job["pad"])
+            if job.get("contrast"):
+                im = ImageOps.autocontrast(im, cutoff=1)
             size = save_webp(im, out)
         print(f"  image  {slug}/{out.name}  {size[0]}x{size[1]}  {out.stat().st_size // 1024} KB")
     elif job["kind"] == "still":
