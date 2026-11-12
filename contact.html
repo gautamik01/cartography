@@ -21,13 +21,14 @@
     <section class="page contact">
       <p class="label muted">( CONTACT )</p>
       <h1 class="display page__title" data-split>Say<br><span class="punch">Hello</span></h1>
-      <div class="page__body">
-        <p class="label"><a href="mailto:gautamik@upenn.edu" data-site-email-link>( EMAIL )</a> <span data-site-email>gautamik@upenn.edu</span></p>
-        <p class="label"><a href="https://www.linkedin.com/in/gautamikasat" target="_blank" rel="noopener">( LINKEDIN )</a> linkedin.com/in/gautamikasat</p>
-        <p class="label"><a href="https://github.com/gautamik01" target="_blank" rel="noopener">( GITHUB )</a> github.com/gautamik01</p>
-        <p class="label"><a href="assets/cv/Gautami_Kasat_CV.pdf" download>( CV ↓ )</a> PDF</p>
-        <p class="label muted">( PHILADELPHIA, 39.95° N, 75.16° W )</p>
-      </div>
+      <!-- every line is a link with the footer's capsule hover; the address itself comes from SITE.email in app.js -->
+      <nav class="page__body contact__links" aria-label="Ways to reach me">
+        <a class="label" href="mailto:gautamik@upenn.edu" data-site-email-link>( EMAIL ) <span data-site-email>gautamik@upenn.edu</span></a>
+        <a class="label" href="https://www.linkedin.com/in/gautamikasat" target="_blank" rel="noopener">( LINKEDIN <span class="arrow arrow--ne" aria-hidden="true">&#8599;</span> ) linkedin.com/in/gautamikasat</a>
+        <a class="label" href="https://github.com/gautamik01" target="_blank" rel="noopener">( GITHUB <span class="arrow arrow--ne" aria-hidden="true">&#8599;</span> ) github.com/gautamik01</a>
+        <a class="label" href="assets/cv/Gautami_Kasat_CV.pdf" download>( CV <span class="arrow arrow--down" aria-hidden="true">&#8595;</span> ) PDF</a>
+        <a class="label" href="https://maps.apple.com/?ll=39.95,-75.16" target="_blank" rel="noopener">( PHILADELPHIA <span class="arrow arrow--ne" aria-hidden="true">&#8599;</span> ) 39.95° N, 75.16° W</a>
+      </nav>
     </section>
   </main>
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
