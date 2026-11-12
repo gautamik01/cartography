@@ -91,7 +91,8 @@ function setCurrentNav(page) {
   });
 }
 
-// the contact footer, one per page, appended to its <main> so it rolls with the page
+// the compact contact footer, one per page, appended to its <main> so it rolls with the page; the contact page has none
+// (its links are the same ones)
 function footerMarkup() {
   const ne = `<span class="arrow arrow--ne" aria-hidden="true">&#8599;</span>`;
   const down = `<span class="arrow arrow--down" aria-hidden="true">&#8595;</span>`;
@@ -99,7 +100,6 @@ function footerMarkup() {
     <footer class="site-footer">
       <div class="site-footer__top">
         <div class="site-footer__contact">
-          <p class="label muted">( GET IN TOUCH )</p>
           <a class="site-footer__email" href="mailto:${SITE.email}" data-copy="${SITE.email}">${SITE.email}</a>
           <span class="label site-footer__copied" aria-live="polite"></span>
         </div>
@@ -140,19 +140,23 @@ window.addEventListener("resize", () => { clearTimeout(clashResize); clashResize
 
 let footerObserver = null;
 function mountFooter(main) {
+  // the contact page shows the address itself; it reads SITE.email rather than carrying its own copy
+  main.querySelectorAll("[data-site-email]").forEach((n) => { n.textContent = SITE.email; });
+  main.querySelectorAll("[data-site-email-link]").forEach((a) => { a.href = `mailto:${SITE.email}`; });
+  placeIcons(main);   // the contact page's link marks (static markup carries data-icon placeholders)
+  if (pageOf(main) === "contact") return null;   // its five links already are the footer
   let footer = main.querySelector(".site-footer");
   if (!footer) {
     footer = el(footerMarkup());
     main.append(footer);
   }
-  // the contact page shows the address too; it reads SITE.email rather than carrying its own copy
-  main.querySelectorAll("[data-site-email]").forEach((n) => { n.textContent = SITE.email; });
-  main.querySelectorAll("[data-site-email-link]").forEach((a) => { a.href = `mailto:${SITE.email}`; });
-  placeIcons(main);   // the contact page's link marks (static markup carries data-icon placeholders)
   return footer;
 }
 function watchFooter(footer) {
   footerObserver?.disconnect();
+  footerObserver = null;
+  html.classList.remove("footer-in-view");
+  if (!footer) return;
   footerObserver = new IntersectionObserver((entries) => {
     html.classList.toggle("footer-in-view", entries.some((e) => e.isIntersecting));
   }, { threshold: 0 });
@@ -430,8 +434,8 @@ function createRouter(shell, scroll) {
       }
       return roll(old, incoming, 1);
     }
-    const text = incoming.querySelectorAll(".opener__text, .opener__meta");
-    gsap.set(text, { autoAlpha: 0 });
+    const text = incoming.querySelectorAll(".opener__text, .opener__meta");   // empty for an opener with no title block (the ski map)
+    if (text.length) gsap.set(text, { autoAlpha: 0 });
     gsap.set(incoming, { zIndex: 3 });
     scroll.toTop();
     const same = Math.abs(flipFrom.getBoundingClientRect().width - window.innerWidth) < 2;   // already full screen: nothing to move
@@ -453,7 +457,7 @@ function createRouter(shell, scroll) {
       if (flipFrom.classList.contains("work__morph")) flipFrom.remove();   // the work view's morph clone has done its job
     }
     await flip.then();
-    gsap.to(text, { autoAlpha: 1, duration: 0.6, ease: "power2.out" });
+    if (text.length) gsap.to(text, { autoAlpha: 1, duration: 0.6, ease: "power2.out" });
     revealHeadlines(incoming);
   }
 

@@ -79,6 +79,9 @@ async function project(ctx) {
   const tools = (p.tools || []).filter((t) => t && t.name);
   // "opener": "carousel" replaces the hero with a drifting strip of whole images (js/carousel.js), the track doubled so it loops
   const carousel = p.opener === "carousel" && Array.isArray(p.carousel) && p.carousel.length;
+  // "opener_title": false leaves the number, title, kicker and meta off the opener (footage that carries its own title,
+  // the ski map): the text panel's title is then the page's h1
+  const overlay = p.opener_title !== false;
   const openerMedia = carousel
     ? `<div class="carousel" aria-label="${esc(p.title)}, the maps"><div class="carousel__track">` +
         [...p.carousel, ...p.carousel].map((c) => `<figure class="carousel__item"><img src="${esc(c.src)}" alt="${esc(c.alt || "")}" loading="eager" decoding="async"></figure>`).join("") +
@@ -91,16 +94,18 @@ async function project(ctx) {
     // the opener: hero video playing over its poster (or the ?h= image), text that holds then fades, a scroll cue
     `<section class="opener${carousel ? " opener--carousel" : ""}" data-text="${tone}" data-fit="${fit}"${p.opener_bg ? ` style="background:${esc(p.opener_bg)}"` : ""}>` +
       openerMedia +
-      // opener_color: the title block in a colour sampled from the work (the ski map's trail orange, say)
-      `<div class="opener__text"${p.opener_color ? ` style="color:${esc(p.opener_color)}"` : ""}>` +
-        `<p class="label">( ${num} )</p>` +
-        `<h1 class="display opener__title" data-split>${esc(p.title)}</h1>` +
-        `<p class="opener__kicker">${esc(p.kicker)}</p>` +
-        `<div class="opener__meta label">` +
-          `<span>${esc((p.labels || [])[0] || "")}  ${esc(p.coords || "")}</span>` +
-          `<span>${esc(notTodo(p.role) || p.location || "")}</span>` +
-        `</div>` +
-      `</div>` +
+      // opener_color: the title block in a colour sampled from the work
+      (overlay
+        ? `<div class="opener__text"${p.opener_color ? ` style="color:${esc(p.opener_color)}"` : ""}>` +
+            `<p class="label">( ${num} )</p>` +
+            `<h1 class="display opener__title" data-split>${esc(p.title)}</h1>` +
+            `<p class="opener__kicker">${esc(p.kicker)}</p>` +
+            `<div class="opener__meta label">` +
+              `<span>${esc((p.labels || [])[0] || "")}  ${esc(p.coords || "")}</span>` +
+              `<span>${esc(notTodo(p.role) || p.location || "")}</span>` +
+            `</div>` +
+          `</div>`
+        : "") +
       `<p class="label opener__cue" aria-hidden="true">( SCROLL )</p>` +
     `</section>` +
     // the text panel: lead image left (sticky, black and white), everything else right
@@ -116,7 +121,7 @@ async function project(ctx) {
             : `<img class="lead-img${p.lead_bw ? " is-bw" : ""}${p.lead_fit === "contain" ? " is-contain" : ""}" src="${esc(p.lead)}" alt="${esc(p.title)}" loading="lazy" decoding="async" style="object-position: ${esc(p.lead_focus || "center")}">`) +
         `</figure>` +
         `<div class="panel-text__body">` +
-          `<h2 class="display panel-text__title">${esc(p.title)}</h2>` +
+          `<${overlay ? "h2" : "h1"} class="display panel-text__title">${esc(p.title)}</${overlay ? "h2" : "h1"}>` +
           `<p class="label panel-text__labels">${(p.labels || []).map(esc).join("  ")}</p>` +
           (place ? `<p class="label muted">${esc(place)}</p>` : "") +
           portals.map((x) => portalButton(x, p)).join("") +

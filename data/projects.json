@@ -96,6 +96,7 @@
     "opener_text": "dark",
     "opener_fit": "top",
     "opener_bg": "#FFFFFF",
+    "opener_title": false,
     "tools": [
       { "name": "Python", "use": "one notebook builds the whole page, with NumPy, SciPy and GeoPandas" },
       { "name": "GeoPandas", "use": "trail lengths in UTM, the ranked list, the trail and lift layers" },
@@ -149,7 +150,7 @@
     ],
     "source": {
       "repo": "gautamik01/30-day-map-challenge-2026 (scripts/day21_openstreetmap_ski.ipynb, scripts/day21_terrain_arcgis.py, scripts/day21_page_template.html, captions/day21_openstreetmap-ski.md)",
-      "notes": "The opener (ski-hero.mp4: the overview, then Jiminy Peak with its trails highlighted in turn) and the lead clip beside the text (ski-snippet-2.mp4: Blue Mountain) are Gautami's own captures from Some Material/Ski, compressed by tools/prepare_media.py with first-frame posters; the card is the hero's map column at 14 s. The Windham still and the work tiles were captured from the live page with Playwright (tools/record_ski.py); the second still is a frame of ski-snippet-2.mp4 at 2 s (Blue Mountain), so the pair shows two resorts. The opener takes opener_fit top on a white opener_bg: the whole frame sits under the header so the map's own title is never cut, and on phones it is cover-fitted from the top-left so the title column stays whole. Coordinates are Jiminy Peak. Place and year as asked: New York + Philadelphia day trips · 2026."
+      "notes": "The opener (ski-hero.mp4: the overview, then Jiminy Peak with its trails highlighted in turn) and the lead clip beside the text (ski-snippet-2.mp4: Blue Mountain) are Gautami's own captures from Some Material/Ski, compressed by tools/prepare_media.py with first-frame posters; the card is the hero's map column at 14 s. The Windham still and the work tiles were captured from the live page with Playwright (tools/record_ski.py); the second still is a frame of ski-snippet-2.mp4 at 2 s (Blue Mountain), so the pair shows two resorts. The opener takes opener_fit top on a white opener_bg: the frame fills the screen under the header, anchored to its top edge so the map's own title is never cut (only the bottom is cropped), and on phones it is anchored to the top-left so the title column stays whole. opener_title false: the footage carries its own title, so no number, title, kicker or meta fade in over it. Coordinates are Jiminy Peak. Place and year as asked: New York + Philadelphia day trips · 2026."
     }
   },
   {
