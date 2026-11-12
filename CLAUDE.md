@@ -63,7 +63,8 @@ Study every PNG in references/. They're frames from a site I love (Our Revolutio
 - Never crop UI, dashboards, text, map labels or legends. Gallery images are never cropped (natural aspect ratio, object-fit contain). Lead images only crop empty margins, with a focal point (`lead_focus`) that keeps the subject whole.
 - Opener to text panel is a fast triggered snap (about 600ms, power3.inOut) in both directions, never a slow scroll-scrubbed rise.
 - The text panel fits one screen at 1440x900. The lead image matches the text column's height.
-- Gallery: a strict grid of full-width rows (`"width": "full"`) or equal 6/6 pairs whose images share an aspect ratio, top-aligned. Nothing staggered or offset.
+- Gallery: a strict grid of full-width rows (`"width": "full"`), equal 6/6 pairs whose images share an aspect ratio, or a row of four (`"width": "quarter"`), top-aligned. Nothing staggered or offset. Media never grows past its own pixels, so a small image sits centred in its cell.
+- Every gallery caption starts exactly at its own image's left edge and is no wider than the image, site-wide, including images that are centred or narrower than their cell.
 - Fixed UI (scale bar, header, labels) never overlaps text or media labels on any page or screen size. The scale bar hides on the home hero and while a caption passes under it.
 - Opener media that is not 16:9 (a portrait clip, a 2:1 recording, a poster) is shown whole with `"opener_fit": "contain"` on ink, never cover-cropped.
 - Before finishing any project page, look at every image placement yourself and confirm nothing important is cut off.

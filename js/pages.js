@@ -106,9 +106,9 @@ async function project(ctx) {
         `</div>` +
       `</div>` +
     `</section>` +
-    // every item at its natural ratio, never cropped: "width": "full" takes a row, anything else pairs up 6/6
+    // every item at its natural ratio, never cropped: "width": "full" takes a row, "quarter" is one of four, anything else pairs up 6/6
     `<section class="gallery gallery--grid">` + (p.gallery || []).map((g) =>
-      `<figure class="gallery__item${g.width === "full" ? " gallery__item--full" : ""}">${media(g.src, g.poster, g.alt)}${g.caption ? `<figcaption class="label muted">${esc(g.caption)}</figcaption>` : ""}</figure>`).join("") +
+      `<figure class="gallery__item${g.width === "full" ? " gallery__item--full" : g.width === "quarter" ? " gallery__item--quarter" : ""}">${media(g.src, g.poster, g.alt)}${g.caption ? `<figcaption class="label muted">${esc(g.caption)}</figcaption>` : ""}</figure>`).join("") +
     `</section>` +
     // the graphic system behind a series: palettes, cast and typefaces, read from the project's own style file
     (p.system ? systemBlock(p.system) : "");
