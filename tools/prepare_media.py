@@ -137,7 +137,8 @@ MANIFEST = {
         img(SHOTS / "raasta_route_3d_1440x900.png", "route-3d.webp"),
         # demo clips: clip-2 is the opener, clip-1 the portal button's window, clip-1 and clip-3 the gallery
         vid(RAASTA_DEMO / "raasta-clip-1.mp4", "clip-1.mp4", poster_t=0.0),
-        vid(RAASTA_DEMO / "raasta-clip-2.mp4", "clip-2.mp4", poster_t=0.0, hero=True),
+        # the opener at CRF 22 came out at 40 MB (about 15 Mbps) and would rebuffer on slow connections; CRF 26 keeps it near 15 MB
+        vid(RAASTA_DEMO / "raasta-clip-2.mp4", "clip-2.mp4", poster_t=0.0, hero=True, crf=26),
         vid(RAASTA_DEMO / "raasta-clip-3.mp4", "clip-3.mp4", poster_t=0.0),
     ],
     "ski-terrain": [
