@@ -289,10 +289,13 @@ function initCursor({ cursor }) {
 // ---------------------------------------------------------------- video
 // Every clip is muted, looping and inline. It starts with preload none, is raised to auto (and starts loading)
 // once it is within one screen of the viewport, plays only while at least PLAY_AT of it is in view, pauses when it
-// leaves, and never more than MAX_PLAYING play at once (the most visible win). The opener carries data-eager: it
-// preloads and autoplays from the first paint, and project.js pauses it once the text panel has covered it.
+// leaves, and never more than MAX_PLAYING play at once (the most visible win). MAX_PLAYING has to cover a whole row of
+// four gallery clips with the lead clip still in view above them (Forested University), else the last clips of the row
+// sit on their posters for good: the cap sorts by visible ratio and a full row ties, so DOM order decided. The opener
+// carries data-eager: it preloads and autoplays from the first paint, and project.js pauses it once the text panel has
+// covered it.
 export const VIDEO = {
-  MAX_PLAYING: 2,
+  MAX_PLAYING: 6,
   PLAY_AT: 0.25,
   PRELOAD_MARGIN: "100% 0px",   // one screen above and below
 };

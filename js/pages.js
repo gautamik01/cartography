@@ -70,7 +70,8 @@ async function project(ctx) {
   document.title = `${p.title}, Gautami Kasat`;
   const hero = safeHero(url.searchParams.get("h")) || p.hero || p.lead;
   const start = Math.max(0, parseFloat(url.searchParams.get("t")) || 0);   // &t=: resume the opener video here
-  const fit = p.opener_fit === "contain" ? "contain" : "cover";              // contain: non-16:9 media shown whole on ink
+  // contain: non-16:9 media shown whole on ink; top: the whole frame anchored under the header, on opener_bg (css/base.css)
+  const fit = p.opener_fit === "contain" || p.opener_fit === "top" ? p.opener_fit : "cover";
   const portals = (p.portals || []).filter((x) => x.url && !/^TODO/i.test(x.url));
   const num = pad2(Math.max(i, 0) + 1);
   const tone = p.opener_text === "dark" ? "dark" : "light";
@@ -88,7 +89,7 @@ async function project(ctx) {
       (p.hero_video ? `<video class="opener__video" data-autoplay data-eager muted loop playsinline autoplay preload="auto" poster="${esc(p.hero)}" data-start="${start.toFixed(2)}" aria-hidden="true"><source src="${esc(videoSrc(p.hero_video))}" type="video/mp4"></video>` : "");
   root.innerHTML =
     // the opener: hero video playing over its poster (or the ?h= image), text that holds then fades, a scroll cue
-    `<section class="opener${carousel ? " opener--carousel" : ""}" data-text="${tone}" data-fit="${fit}">` +
+    `<section class="opener${carousel ? " opener--carousel" : ""}" data-text="${tone}" data-fit="${fit}"${p.opener_bg ? ` style="background:${esc(p.opener_bg)}"` : ""}>` +
       openerMedia +
       // opener_color: the title block in a colour sampled from the work (the ski map's trail orange, say)
       `<div class="opener__text"${p.opener_color ? ` style="color:${esc(p.opener_color)}"` : ""}>` +

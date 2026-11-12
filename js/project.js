@@ -51,6 +51,18 @@ export function initProject(main, { entered } = {}) {
     cleanups.push(() => { video.removeEventListener("playing", live); video.pause(); });
   }
 
+  // ---------------------------------------------------------------- a top-fit opener (the ski map) carries its own credit line
+  // at its bottom-left, right where the scale bar sits: the bar hides until the text panel has covered the opener
+  const opener = main.querySelector(".opener");
+  const panelForOpener = main.querySelector(".panel-text");
+  if (opener?.dataset.fit === "top" && panelForOpener) {
+    const root = document.documentElement;
+    const sync = () => root.classList.toggle("opener-credit", panelForOpener.getBoundingClientRect().top > 1);
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    cleanups.push(() => { window.removeEventListener("scroll", sync); root.classList.remove("opener-credit"); });
+  }
+
   // ---------------------------------------------------------------- a carousel opener drifts and drags (js/carousel.js)
   // the drift starts only once the page is fully on screen, so it never competes with the roll
   const carousel = main.querySelector(".carousel");

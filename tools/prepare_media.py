@@ -150,7 +150,8 @@ MANIFEST = {
         # card: a strong frame of the hero (Jiminy Peak, a trail highlighted), the map column cropped 4:5
         still(SKI_SRC / "ski-hero.mp4", 14.0, "card.webp", CARD, box=(568, 0, 1432, 1080)),
         img(SKI / "stills/03_mountain_page.png", "mountain.webp"),
-        img(SKI / "stills/04_trail_hover.png", "trail.webp"),
+        # the second still is another resort, so the pair reads as two views: Blue Mountain from the snippet, whole frame (16:9 like the first)
+        still(SKI_SRC / "ski-snippet-2.mp4", 2.0, "blue-mountain.webp"),
     ],
     "forested-university": [
         # card: the aerial drawing, the same 4:5 window as the wide tile

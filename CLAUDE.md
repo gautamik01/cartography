@@ -47,7 +47,7 @@ Study every PNG in references/. They're frames from a site I love (Our Revolutio
 - Signature 1: a scale bar fixed bottom-left ("0", bar, "1 km") whose fill tracks scroll progress.
 - Signature 2: project meta shows real site coordinates, like ( 39.95° N, 75.16° W ).
 - Signature 3: the contour-line wipe.
-- Videos: muted, loop, playsinline, poster first. preload none until a clip is within one screen of the viewport (then auto), play only while in view, never more than two at once (`VIDEO` in app.js); the opener alone preloads and autoplays from the first paint. Screens under 700px load the `-720.mp4` copies (js/media.js).
+- Videos: muted, loop, playsinline, poster first. preload none until a clip is within one screen of the viewport (then auto), play only while in view, at most six at once so a row of four plus the lead all run (`VIDEO` in app.js); the opener alone preloads and autoplays from the first paint. Screens under 700px load the `-720.mp4` copies (js/media.js).
 - prefers-reduced-motion: no wipes, ripple, smooth scroll or autoplay. Fades and posters instead.
 
 ## Shell contract (css/tokens.css, css/base.css, js/app.js, js/contours.js, js/pages.js, js/hero.js)
@@ -67,6 +67,7 @@ Study every PNG in references/. They're frames from a site I love (Our Revolutio
 - Every gallery caption starts exactly at its own image's left edge and is no wider than the image, site-wide, including images that are centred or narrower than their cell.
 - Fixed UI (scale bar, header, labels) never overlaps text or media labels on any page or screen size. The scale bar hides on the home hero and while a caption passes under it.
 - Opener media that is not 16:9 (a portrait clip, a 2:1 recording, a poster) is shown whole with `"opener_fit": "contain"` on ink, never cover-cropped.
+- Opener media with its own title along its top edge (the ski map) takes `"opener_fit": "top"` and an `"opener_bg"` matching its background: the whole frame sits just under the header, full width, and under 760px it is cover-fitted from its top-left corner so the title column stays whole. The header never covers a title inside the footage.
 - Before finishing any project page, look at every image placement yourself and confirm nothing important is cut off.
 
 ## Quality bar

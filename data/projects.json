@@ -94,6 +94,8 @@
     "year": "2026",
     "role": "",
     "opener_text": "dark",
+    "opener_fit": "top",
+    "opener_bg": "#FFFFFF",
     "tools": [
       { "name": "Python", "use": "one notebook builds the whole page, with NumPy, SciPy and GeoPandas" },
       { "name": "GeoPandas", "use": "trail lengths in UTM, the ranked list, the trail and lift layers" },
@@ -128,10 +130,10 @@
       },
       {
         "type": "image",
-        "src": "assets/projects/ski-terrain/trail.webp",
+        "src": "assets/projects/ski-terrain/blue-mountain.webp",
         "poster": "",
-        "alt": "The same view with one trail hovered: it turns black on the terrain and in the panel, and a tooltip reads its elevation at that point.",
-        "caption": "A trail hovered: it reads black in both views, with its elevation under the pointer."
+        "alt": "Blue Mountain in 3D, seen low over its base: the bunny hill outlined in orange with the magic carpets drawn black beside it, the green trails dotted up the slope, Blue Mountain highlighted at number 6 in the ranked list and its stats on the right.",
+        "caption": "Blue Mountain, selected: a kilometre of bunny hill and nine magic carpets at the base, the green trails dotted up the slope."
       }
     ],
     "system": null,
@@ -147,7 +149,7 @@
     ],
     "source": {
       "repo": "gautamik01/30-day-map-challenge-2026 (scripts/day21_openstreetmap_ski.ipynb, scripts/day21_terrain_arcgis.py, scripts/day21_page_template.html, captions/day21_openstreetmap-ski.md)",
-      "notes": "The opener (ski-hero.mp4: the overview, then Jiminy Peak with its trails highlighted in turn) and the lead clip beside the text (ski-snippet-2.mp4: Blue Mountain) are Gautami's own captures from Some Material/Ski, compressed by tools/prepare_media.py with first-frame posters; the card is the hero's map column at 14 s. The stills (Windham selected, a trail hovered) and the work tiles were captured from the live page with Playwright (tools/record_ski.py). Coordinates are Jiminy Peak. Place and year as asked: New York + Philadelphia day trips · 2026."
+      "notes": "The opener (ski-hero.mp4: the overview, then Jiminy Peak with its trails highlighted in turn) and the lead clip beside the text (ski-snippet-2.mp4: Blue Mountain) are Gautami's own captures from Some Material/Ski, compressed by tools/prepare_media.py with first-frame posters; the card is the hero's map column at 14 s. The Windham still and the work tiles were captured from the live page with Playwright (tools/record_ski.py); the second still is a frame of ski-snippet-2.mp4 at 2 s (Blue Mountain), so the pair shows two resorts. The opener takes opener_fit top on a white opener_bg: the whole frame sits under the header so the map's own title is never cut, and on phones it is cover-fitted from the top-left so the title column stays whole. Coordinates are Jiminy Peak. Place and year as asked: New York + Philadelphia day trips · 2026."
     }
   },
   {
