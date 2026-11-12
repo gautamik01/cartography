@@ -181,7 +181,6 @@
     "coords": "",
     "year": "",
     "role": "",
-    "opener_fit": "contain",
     "tools": [
       { "name": "Rhino", "use": "" },
       { "name": "Photoshop", "use": "" },
@@ -192,8 +191,8 @@
     "labels": ["( 3D ENVIRONMENT )", "( ANIMATION )", "( LANDSCAPE )"],
     "card": "assets/projects/forested-university/card.webp",
     "card_video": "",
-    "hero": "assets/projects/forested-university/campus-poster.webp",
-    "hero_video": "assets/projects/forested-university/campus.mp4",
+    "hero": "assets/projects/forested-university/hero.webp",
+    "hero_video": "",
     "lead": "assets/projects/forested-university/lead.webp",
     "lead_bw": true,
     "lead_focus": "center",
@@ -212,46 +211,42 @@
       },
       {
         "type": "video",
+        "src": "assets/projects/forested-university/campus.mp4",
+        "poster": "assets/projects/forested-university/campus-poster.webp",
+        "alt": "A flight from an aerial view of the campus, pink blossom along its paths, down to a path through the forest between the buildings.",
+        "caption": "From the aerial down to the path.",
+        "width": "quarter"
+      },
+      {
+        "type": "video",
         "src": "assets/projects/forested-university/housing-exploded.mp4",
         "poster": "assets/projects/forested-university/housing-exploded-poster.webp",
         "alt": "An exploded axonometric of a student housing block on a pink background, its floors lifted apart with tall pines growing up through them.",
-        "caption": "Student housing, exploded floor by floor. The pines rise through every level."
+        "caption": "Student housing, exploded floor by floor.",
+        "width": "quarter"
       },
       {
         "type": "video",
         "src": "assets/projects/forested-university/atrium.mp4",
         "poster": "assets/projects/forested-university/atrium-poster.webp",
         "alt": "A walkthrough of an atrium where tall tree trunks rise through open floors, with people at tables below.",
-        "caption": "At eye level: an atrium built around the trunks."
+        "caption": "At eye level: an atrium around the trunks.",
+        "width": "quarter"
       },
       {
         "type": "video",
         "src": "assets/projects/forested-university/winter-street.mp4",
         "poster": "assets/projects/forested-university/winter-street-poster.webp",
         "alt": "A winter walkthrough along a snowy street between brick housing blocks, bare trees overhead and lit windows.",
-        "caption": "The street between the brick blocks, in winter."
-      },
-      {
-        "type": "video",
-        "src": "assets/projects/forested-university/campus.mp4",
-        "poster": "assets/projects/forested-university/campus-poster.webp",
-        "alt": "A flight from an aerial view of the campus, pink blossom along its paths, down to a path through the forest between the buildings.",
-        "caption": "From the aerial down to the path."
-      },
-      {
-        "type": "video",
-        "src": "assets/projects/forested-university/montage.mp4",
-        "poster": "assets/projects/forested-university/montage-poster.webp",
-        "alt": "A reel that shows the campus clips two at a time: the aerial, the atrium, the housing block and the winter street.",
-        "caption": "The forest campus, as a reel.",
-        "width": "full"
+        "caption": "The street between the brick blocks, in winter.",
+        "width": "quarter"
       }
     ],
     "system": null,
     "portals": [],
     "source": {
       "repo": "Local folder only (Some Material/Forested_University), read only. This site is the project's home.",
-      "notes": "Four portrait clips are 464x832 and 5 seconds each, shown at their natural size in 6/6 pairs; montage.mp4 is the 4:3 reel. The card is a frame of the exploded axonometric padded with its own pink to 4:5. Every poster is the clip's first frame. Place, year and role are left out on purpose; the tools are names only."
+      "notes": "The aerial drawing (BIE_241216 Aerial view Zoom.png) is the card, the home panel image and the opener still; the whole drawing is the lead and the first gallery item. The four portrait clips (464x832, 5 s each) sit in one row of four at their natural ratio, each with its caption; montage.mp4 is compressed but no longer shown. Every poster is the clip's first frame. Place, year and role are left out on purpose; the tools are names only."
     }
   },
   {
