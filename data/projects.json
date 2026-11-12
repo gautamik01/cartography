@@ -108,30 +108,17 @@
     "card_video": "",
     "hero": "assets/projects/ski-terrain/hero-poster.webp",
     "hero_video": "assets/projects/ski-terrain/hero.mp4",
-    "lead": "assets/projects/ski-terrain/lead.webp",
-    "lead_bw": false,
+    "lead": "assets/projects/ski-terrain/lead-poster.webp",
+    "lead_video": "assets/projects/ski-terrain/lead.mp4",
+    "lead_bw": true,
+    "lead_fit": "contain",
+    "lead_wide": true,
     "lead_focus": "center",
     "intro": [
       "Learning to ski from New York or Philadelphia means a day trip, so this map starts with a rule: every ski area within three hours' drive of either city, with no traffic. It ranks them by beginner terrain, the kilometres of bunny hill and green trail, and puts each one on its real mountain.",
       "The overview is a relief of the whole region from USGS elevation. Click a mountain and its own terrain loads: 3 m elevation, a multidirectional hillshade and 20 m contours made in ArcGIS Pro, on 3D tiles the page builds in the browser. Hover a trail for its length, drop and slope, with a profile that draws every trail on the mountain at one scale, so they compare. Trails and lifts come from OpenStreetMap through OpenSkiMap."
     ],
     "gallery": [
-      {
-        "type": "video",
-        "src": "assets/projects/ski-terrain/clip-zoom.mp4",
-        "poster": "assets/projects/ski-terrain/clip-zoom-poster.webp",
-        "alt": "Screen recording of the live map: from the regional relief with every ski area marked, the view dives onto Mountain Creek and tilts into its 3D terrain, the ranked list and the trail panel beside it.",
-        "caption": "From the region down to one resort. The mountain's own terrain loads as you arrive.",
-        "width": "full"
-      },
-      {
-        "type": "video",
-        "src": "assets/projects/ski-terrain/clip-hover.mp4",
-        "poster": "assets/projects/ski-terrain/clip-hover-poster.webp",
-        "alt": "Screen recording of the live map: hovering ski areas in the ranked list lights each one up on the relief with a lead line, while the right panel draws its trails and lifts.",
-        "caption": "Hover a ski area: its circle lights up on the map and the panel draws its trails, lifts and magic carpets.",
-        "width": "full"
-      },
       {
         "type": "image",
         "src": "assets/projects/ski-terrain/mountain.webp",
@@ -153,14 +140,14 @@
         "label": "( OPEN THE SKI MAP ↗ )",
         "cta": "Try the map",
         "url": "https://gautamik01.github.io/30-day-map-challenge-2026/output/day21_openstreetmap-ski.html",
-        "window": "assets/projects/ski-terrain/clip-zoom.mp4",
-        "window_poster": "assets/projects/ski-terrain/clip-zoom-poster.webp",
+        "window": "assets/projects/ski-terrain/lead.mp4",
+        "window_poster": "assets/projects/ski-terrain/lead-poster.webp",
         "embeddable": true
       }
     ],
     "source": {
       "repo": "gautamik01/30-day-map-challenge-2026 (scripts/day21_openstreetmap_ski.ipynb, scripts/day21_terrain_arcgis.py, scripts/day21_page_template.html, captions/day21_openstreetmap-ski.md)",
-      "notes": "The clips and stills were recorded from the live page on 2026-11-11 with Playwright at 1920x1080 (stills at 2x): the hero is a frame-by-frame camera path (an overview, a top-down dive onto Jiminy Peak, the top-ranked mountain with 11.2 beginner km, then a tilt into 3D and an orbit onto its beginner slopes); the two short clips use the page as it is. Coordinates are Jiminy Peak. Place and year as asked: New York + Philadelphia day trips · 2026."
+      "notes": "The opener (ski-hero.mp4: the overview, then Jiminy Peak with its trails highlighted in turn) and the lead clip beside the text (ski-snippet-2.mp4: Blue Mountain) are Gautami's own captures from Some Material/Ski, compressed by tools/prepare_media.py with first-frame posters; the card is the hero's map column at 14 s. The stills (Windham selected, a trail hovered) and the work tiles were captured from the live page with Playwright (tools/record_ski.py). Coordinates are Jiminy Peak. Place and year as asked: New York + Philadelphia day trips · 2026."
     }
   },
   {
@@ -306,7 +293,7 @@
     ],
     "source": {
       "repo": "gautamik01/30-day-map-challenge-2026 (README, captions/day01_points-ai.md, captions/day03_polygons-water-ai.md, output/maps.json, scripts/mapkit/style.py, scripts/mapkit/ai.py)",
-      "notes": "The opener is an 18 s camera move across the clusters recorded from the live day01 map on 2026-11-11 (scratch cloud_record.py: Playwright on the GPU, the page's own map object stepped frame by frame, the title card and zoom buttons hidden), its poster the first frame; the card is the Texas keyframe of the same recording at 2x. The lead is the 4:5 crop of png_thumbnail/day03_polygons-water-ai.png, so the panel pairs the dark dots map with the teal water map. The counts (1,472 / 34 / 43) and the 39% line were read from the live pages' layer data and cards on 2026-11-11; the live pages load mapbox-gl-js v3.7.0. Coordinates are the geographic centre of the contiguous US."
+      "notes": "The opener is a 13 s recording from the live day01 map on 2026-11-12 (scratch cloud_record2.py: Playwright on the GPU, the page's own map object stepped frame by frame, a drawn cursor and the real pointer gliding onto a pink, a yellow and a blue dot and resting on each so the page's own card opens; title card and zoom buttons hidden), its poster the first frame; the card is the pink campus with its card open, at 2x. The lead is the 4:5 crop of png_thumbnail/day03_polygons-water-ai.png, so the panel pairs the dark dots map with the teal water map. The counts (1,472 / 34 / 43) and the 39% line were read from the live pages' layer data and cards on 2026-11-11; the live pages load mapbox-gl-js v3.7.0. Coordinates are the geographic centre of the contiguous US."
     }
   },
   {

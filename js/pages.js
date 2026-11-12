@@ -103,8 +103,13 @@ async function project(ctx) {
       // lead_wide: a 6/6 split instead of 5/7, for a lead whose detail has to stay legible
       `<div class="panel-text__grid${p.lead_wide ? " is-wide" : ""}">` +
         // lead_focus anchors the crop so the subject (a dashboard, say) stays whole: "left", "right", "top", "bottom" or "center"
-        // lead_fit "contain" shows the whole image (a map with its title and legend) inside the column instead of cropping it
-        `<figure class="panel-text__lead"><img class="lead-img${p.lead_bw ? " is-bw" : ""}${p.lead_fit === "contain" ? " is-contain" : ""}" src="${esc(p.lead)}" alt="${esc(p.title)}" loading="lazy" decoding="async" style="object-position: ${esc(p.lead_focus || "center")}"></figure>` +
+        // lead_fit "contain" shows the whole image (a map with its title and legend) inside the column instead of cropping it;
+        // lead_video loops a muted clip there instead, with the same black-and-white to colour hover
+        `<figure class="panel-text__lead">` +
+          (p.lead_video
+            ? `<video class="lead-img lead-video${p.lead_bw ? " is-bw" : ""}${p.lead_fit === "contain" ? " is-contain" : ""}" data-autoplay muted loop playsinline preload="metadata" poster="${esc(p.lead)}" aria-label="${esc(p.title)}"><source src="${esc(p.lead_video)}" type="video/mp4"></video>`
+            : `<img class="lead-img${p.lead_bw ? " is-bw" : ""}${p.lead_fit === "contain" ? " is-contain" : ""}" src="${esc(p.lead)}" alt="${esc(p.title)}" loading="lazy" decoding="async" style="object-position: ${esc(p.lead_focus || "center")}">`) +
+        `</figure>` +
         `<div class="panel-text__body">` +
           `<h2 class="display panel-text__title">${esc(p.title)}</h2>` +
           `<p class="label panel-text__labels">${(p.labels || []).map(esc).join("  ")}</p>` +

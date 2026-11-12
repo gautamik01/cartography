@@ -30,7 +30,8 @@ REPO = Path(__file__).resolve().parents[1]
 ASSETS = REPO / "assets" / "projects"
 TEMP = REPO.parent / "_temp_sources"          # outside the repo, deleted after a build
 SHOTS = TEMP / "shots"                        # written by tools/shoot_portals.py
-SKI = TEMP / "ski"                            # the ski map recordings (hero_master.mp4, hover_master.mp4, zoom_master.mp4, stills/)
+SKI = TEMP / "ski"                            # the ski map recordings made here (stills/, card_candidates/), read only
+SKI_SRC = Path(r"D:\00_MUSA_EVERTHING\Gautami_Portfolio\gautami_apple\Some Material\Ski")   # Gautami's own ski clips, read only
 CLOUD = TEMP / "cloud"                        # the day01 map recording (hero_master.mp4, still_card.png)
 FOREST = Path(r"D:\00_MUSA_EVERTHING\Gautami_Portfolio\gautami_apple\Some Material\Forested_University")
 RAASTA_DEMO = Path(r"D:\00_MUSA_EVERTHING\GEN_AI_Studio\raasta\demo-video")   # read only, never modified
@@ -85,9 +86,9 @@ TILES = {
         img(SHOTS / "raasta_route_1440x900.png", "tile-close.webp", CARD, box=(2040, 280, 2840, 1280)),
     ],
     "ski-terrain": [
-        # the overview's map column only (no page UI), the hero at its Belleayre stop, and Belleayre's slopes close up
+        # the overview's map column only (no page UI), Jiminy Peak from the hero clip's map column, and Belleayre's slopes close up
         img(SKI / "stills/01_overview.png", "tile-wide.webp", CARD, box=(1300, 0, 3028, 2160)),
-        still(SKI / "hero_master.mp4", 13.3, "tile-mid.webp", CARD, box=(528, 0, 1392, 1080)),
+        still(SKI_SRC / "ski-hero.mp4", 11.6, "tile-mid.webp", CARD, box=(568, 0, 1432, 1080)),
         img(SKI / "card_candidates/cand_3.png", "tile-close.webp", CARD, box=(1272, 270, 2568, 1890), contrast=True),
     ],
     "forested-university": [
@@ -128,14 +129,13 @@ MANIFEST = {
     "ski-terrain": [
         # recorded from the live map by tools/record_ski.py and record_ski_hero.py (Playwright, 1920x1080, 30 fps frames
         # stitched; stills at 2x). The hero visits Windham, Hunter, Belleayre and Jiminy Peak with a trail highlighted at each.
-        vid(SKI / "hero_master.mp4", "hero.mp4", poster_t=0.0),
-        vid(SKI / "hover_master.mp4", "clip-hover.mp4", poster_t=0.0),
-        vid(SKI / "zoom_master.mp4", "clip-zoom.mp4", poster_t=0.0),
+        # Gautami's own clips (2026-11-11): the hero is the opener, the snippet loops beside the text as the lead; posters are first frames
+        vid(SKI_SRC / "ski-hero.mp4", "hero.mp4", poster_t=0.0),
+        vid(SKI_SRC / "ski-snippet-2.mp4", "lead.mp4", poster_t=0.0),
+        # card: a strong frame of the hero (Jiminy Peak, a trail highlighted), the map column cropped 4:5
+        still(SKI_SRC / "ski-hero.mp4", 14.0, "card.webp", CARD, box=(568, 0, 1432, 1080)),
         img(SKI / "stills/03_mountain_page.png", "mountain.webp"),
         img(SKI / "stills/04_trail_hover.png", "trail.webp"),
-        # card and lead: candidate 2 of card_candidates (Windham, tilted close-up, its longest green run in black), centre 4:5
-        img(SKI / "card_candidates/cand_2.png", "card.webp", CARD, box=(1056, 0, 2784, 2160), contrast=True),
-        img(SKI / "card_candidates/cand_2.png", "lead.webp", CARD, box=(1056, 0, 2784, 2160), contrast=True),
     ],
     "forested-university": [
         # card: the aerial drawing, the same 4:5 window as the wide tile
