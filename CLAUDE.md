@@ -14,7 +14,7 @@ Apple design reviewers and recruiters, about 90 seconds on the site. It has to s
 - Plain HTML, CSS and vanilla JS (ES modules). Has to run from `python -m http.server` and on GitHub Pages as-is.
 - GSAP 3.13 (core, ScrollTrigger, Flip, SplitText) and Lenis, from jsDelivr, pinned to exact versions.
 - All content comes from data/projects.json. One template, project.html?p=<slug>, renders any project. Projects with "published": false are hidden everywhere, and the counters adjust.
-- Media: tools/prepare_media.py (Pillow + imageio-ffmpeg, so there's no separate ffmpeg install). Images: WebP, max 2400px long edge, quality 82. Videos: H.264 MP4, max 1920px wide, CRF 26, -preset veryfast, no audio, faststart, under 15MB, each with a WebP poster. Re-runnable.
+- Media: tools/prepare_media.py (Pillow + imageio-ffmpeg, so there's no separate ffmpeg install). Images: WebP, max 2400px long edge, quality 82. Videos: H.264 MP4, sharpness first and size second: full-screen openers 1920px wide (never upscaled) at CRF 22, clips beside text or in galleries 1600px max at CRF 23, a 720px `-720.mp4` copy of each at CRF 24; all -preset slow, no audio, faststart, a keyframe every 2s, the last 0.3s crossfaded into the start so the loop has no jump, and a WebP poster that is the encoded file's exact first frame. Before a re-encode replaces a clip, compare one frame old against new at 100%: labels and thin lines must stay as sharp, else lower that clip's CRF by 2 (`crf=` in the manifest). Re-runnable; `--videos` rebuilds only clips.
 
 ## Visual reference
 Study every PNG in references/. They're frames from a site I love (Our Revolution). Match its structure, spacing, type contrast and motion. Don't copy its content or wordmark, and add my cartographic signature moves below so the site is clearly mine.
@@ -47,7 +47,7 @@ Study every PNG in references/. They're frames from a site I love (Our Revolutio
 - Signature 1: a scale bar fixed bottom-left ("0", bar, "1 km") whose fill tracks scroll progress.
 - Signature 2: project meta shows real site coordinates, like ( 39.95° N, 75.16° W ).
 - Signature 3: the contour-line wipe.
-- Videos: muted, loop, playsinline, autoplay only while in view, poster first.
+- Videos: muted, loop, playsinline, poster first. preload none until a clip is within one screen of the viewport (then auto), play only while in view, never more than two at once (`VIDEO` in app.js); the opener alone preloads and autoplays from the first paint. Screens under 700px load the `-720.mp4` copies (js/media.js).
 - prefers-reduced-motion: no wipes, ripple, smooth scroll or autoplay. Fades and posters instead.
 
 ## Shell contract (css/tokens.css, css/base.css, js/app.js, js/contours.js, js/pages.js, js/hero.js)

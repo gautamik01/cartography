@@ -12,6 +12,8 @@
  * tap opens the project.
  */
 
+import { videoSrc } from "./media.js";
+
 export const BROWSER = {
   START_VW: 33.33,       // panel width when it slides in, and the right end of the pointer mapping
   COMMIT_VW: 75,         // at this width the panel commits and opens the project
@@ -119,7 +121,7 @@ export function initBrowser(root, projects, { navigate } = {}) {
     v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true; v.preload = "auto";
     v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("aria-hidden", "true");
     v.poster = p.hero;
-    v.src = p.hero_video;
+    v.src = videoSrc(p.hero_video);   // loading starts the moment the thumbnail is hovered
     v.play().catch(() => { /* the poster stays until the browser allows it */ });
     return v;
   }

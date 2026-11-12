@@ -38,11 +38,17 @@ RAASTA_DEMO = Path(r"D:\00_MUSA_EVERTHING\GEN_AI_Studio\raasta\demo-video")   # 
 
 IMG_MAX = 2400
 WEBP_Q = 82
-VID_MAX_W = 1920
+# video: H.264, sharpness first and size second. Full-screen openers keep 1920 px (never upscaled) at CRF 22; clips beside
+# text or in galleries are 1600 px at most at CRF 23; every clip also gets a 720 px mobile copy at CRF 24. All at preset
+# slow, no audio, faststart, a keyframe every 2 s. Posters are the encoded file's exact first frame. A per-clip `crf`
+# override lowers a setting where a frame comparison showed labels or thin lines going soft.
+VID_HERO_W, VID_HERO_CRF = 1920, 22
+VID_MAX_W, VID_CRF = 1600, 23
+VID_MOBILE_W, VID_MOBILE_CRF = 720, 24
 VID_MAX_FPS = 30
-VID_CRF = 26
-VID_PRESET = "veryfast"
-VID_MAX_BYTES = 15 * 1024 * 1024
+VID_PRESET = "slow"
+VID_GOP_S = 2
+VID_SEAM_S = 0.3           # the last 0.3 s of a clip crossfades into its start, so the loop has no jump
 
 CARD = 4 / 5
 HERO = 16 / 9
@@ -70,18 +76,20 @@ def img(src, out, aspect=None, box=None, pad=False, contrast=False):
     """contrast=True stretches the levels (1% cutoff) for a pale capture such as the ski map's snow hillshade."""
     return dict(kind="image", src=src, out=out, aspect=aspect, box=box, pad=pad, contrast=contrast)
 
-def vid(src, out, poster_t=0.0):
-    return dict(kind="video", src=src, out=out, poster_t=poster_t)
+def vid(src, out, poster_t=0.0, hero=False, seam=True, crf=None):
+    """hero=True: a full-screen opener (1920 px, CRF 22); otherwise 1600 px, CRF 23. crf overrides the desktop CRF
+    (the mobile copy follows, one step higher). seam=True crossfades the tail into the head so the loop flows."""
+    return dict(kind="video", src=src, out=out, poster_t=poster_t, hero=hero, seam=seam, crf=crf)
 
 def still(src, t, out, aspect=None, box=None, pad=False):
     """A single frame of a video, treated like an image."""
     return dict(kind="still", src=src, t=t, out=out, aspect=aspect, box=box, pad=pad)
 
 
-def loop(src_a, src_b, out, width=1600, hold=2.0, fade=1.2, crf=24):
+def loop(src_a, src_b, out, hold=2.0, fade=1.2):
     """A looping crossfade between two stills (a season change): hold A, fade to B, hold B, fade back. The MP4 ends on
-    A so the loop is seamless; the poster is the first frame. Transparent stills are flattened on paper first."""
-    return dict(kind="loop", src=src_a, src_b=src_b, out=out, width=width, hold=hold, fade=fade, crf=crf)
+    A so the loop is seamless by construction; the poster is the first frame. Transparent stills are flattened on paper."""
+    return dict(kind="loop", src=src_a, src_b=src_b, out=out, hold=hold, fade=fade)
 
 # Work-view tiles: 4:5 crops at three scales per project (wide, mid, close). data/work.json lists which
 # file is which. Where the card is already the right crop, work.json points at card.webp instead.
@@ -129,14 +137,14 @@ MANIFEST = {
         img(SHOTS / "raasta_route_3d_1440x900.png", "route-3d.webp"),
         # demo clips: clip-2 is the opener, clip-1 the portal button's window, clip-1 and clip-3 the gallery
         vid(RAASTA_DEMO / "raasta-clip-1.mp4", "clip-1.mp4", poster_t=0.0),
-        vid(RAASTA_DEMO / "raasta-clip-2.mp4", "clip-2.mp4", poster_t=0.0),
+        vid(RAASTA_DEMO / "raasta-clip-2.mp4", "clip-2.mp4", poster_t=0.0, hero=True),
         vid(RAASTA_DEMO / "raasta-clip-3.mp4", "clip-3.mp4", poster_t=0.0),
     ],
     "ski-terrain": [
         # recorded from the live map by tools/record_ski.py and record_ski_hero.py (Playwright, 1920x1080, 30 fps frames
         # stitched; stills at 2x). The hero visits Windham, Hunter, Belleayre and Jiminy Peak with a trail highlighted at each.
         # Gautami's own clips (2026-11-11): the hero is the opener, the snippet loops beside the text as the lead; posters are first frames
-        vid(SKI_SRC / "ski-hero.mp4", "hero.mp4", poster_t=0.0),
+        vid(SKI_SRC / "ski-hero.mp4", "hero.mp4", poster_t=0.0, hero=True),
         vid(SKI_SRC / "ski-snippet-2.mp4", "lead.mp4", poster_t=0.0),
         # card: a strong frame of the hero (Jiminy Peak, a trail highlighted), the map column cropped 4:5
         still(SKI_SRC / "ski-hero.mp4", 14.0, "card.webp", CARD, box=(568, 0, 1432, 1080)),
@@ -153,14 +161,15 @@ MANIFEST = {
         # posters are the exact first frame, so a clip starts where its poster was
         vid(FOREST / "Forest Campus..mp4", "campus.mp4", poster_t=0.0),
         vid(FOREST / "Forest student housing exploded.mp4", "housing-exploded.mp4", poster_t=0.0),
-        vid(FOREST / "Human experiences.mp4", "atrium.mp4", poster_t=0.0),
-        vid(FOREST / "Human Scale experience.mp4", "winter-street.mp4", poster_t=0.0),
+        # the two walkthroughs came out a touch softer than before at CRF 23 (edge energy 0.93 and 0.99 of the old), so two lower
+        vid(FOREST / "Human experiences.mp4", "atrium.mp4", poster_t=0.0, crf=21),
+        vid(FOREST / "Human Scale experience.mp4", "winter-street.mp4", poster_t=0.0, crf=21),
         vid(FOREST / "The forest campus .mp4", "montage.mp4", poster_t=0.0),
     ],
     "cloud-footprint": [
         # hero: a 13 s recording from the live day01 map (scratch cloud_record2.py): a cursor rests on a pink, a yellow and a
         # blue dot so each one's card opens; card: the pink campus with its card open, at 2x, centre 4:5; lead: What AI Drinks
-        vid(CLOUD / "hero_master.mp4", "hero.mp4", poster_t=0.0),
+        vid(CLOUD / "hero_master.mp4", "hero.mp4", poster_t=0.0, hero=True),
         img(CLOUD / "still_card.png", "card.webp", CARD, box=(1340, 0, 3068, 2160)),   # the cursor, the dot and its whole card
         img(TEMP / "png_thumbnail/day03_polygons-water-ai.png", "lead.webp", CARD, box=(512, 0, 1312, 1000)),
         img(SHOTS / "day01_points-ai_1600x1000.png", "where-ai-gets-built.webp"),
@@ -264,17 +273,42 @@ def frame_at(src, t):
     return Image.open(io.BytesIO(data))
 
 
-def encode_video(src, out):
-    crf = VID_CRF
-    for attempt in range(4):
-        cmd = [ffmpeg_exe(), "-hide_banner", "-loglevel", "error", "-y", "-i", str(src), "-an",
-               "-vf", f"scale='min({VID_MAX_W},iw)':-2,fps='min({VID_MAX_FPS},source_fps)'", "-c:v", "libx264", "-preset", VID_PRESET,
-               "-crf", str(crf), "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(out)]
-        subprocess.run(cmd, check=True)
-        if out.stat().st_size <= VID_MAX_BYTES:
-            return crf
-        crf += 3
-    raise RuntimeError(f"{out.name} is still over 15MB at crf {crf}")
+def probe(src):
+    """(duration in seconds, frames per second) from ffmpeg's banner."""
+    err = subprocess.run([ffmpeg_exe(), "-hide_banner", "-i", str(src)], capture_output=True, text=True).stderr
+    dur, fps = 0.0, 30.0
+    for line in err.splitlines():
+        if "Duration:" in line:
+            h, m, s = line.split("Duration:")[1].split(",")[0].strip().split(":")
+            dur = int(h) * 3600 + int(m) * 60 + float(s)
+        if "Video:" in line and " fps" in line:
+            fps = float(line.split(" fps")[0].rsplit(",", 1)[-1].strip())
+    return dur, fps
+
+
+def x264_args(crf, fps):
+    gop = max(1, round(VID_GOP_S * fps))
+    return ["-c:v", "libx264", "-preset", VID_PRESET, "-crf", str(crf), "-g", str(gop), "-keyint_min", str(gop), "-sc_threshold", "0",
+            "-pix_fmt", "yuv420p", "-movflags", "+faststart"]
+
+
+def encode_video(src, out, width, crf, seam=True):
+    """One H.264 file of at most `width` px (never upscaled) at the given CRF. With seam, the last VID_SEAM_S of the
+    clip is crossfaded into its first VID_SEAM_S, so the loop point has no jump: the output then starts VID_SEAM_S
+    in and ends on that same frame."""
+    dur, src_fps = probe(src)
+    fps = min(VID_MAX_FPS, src_fps)
+    base = f"scale='min({width},iw)':-2:flags=lanczos,fps={fps:g},format=yuv420p"
+    if seam and dur > 4 * VID_SEAM_S:
+        off = dur - 2 * VID_SEAM_S
+        graph = (f"[0:v]{base},split=2[s0][s1];[s0]trim=start={VID_SEAM_S},setpts=PTS-STARTPTS[a];"
+                 f"[s1]trim=end={VID_SEAM_S},setpts=PTS-STARTPTS[b];[a][b]xfade=transition=fade:duration={VID_SEAM_S}:offset={off:.3f}[v]")
+    else:
+        graph = f"[0:v]{base}[v]"
+    cmd = [ffmpeg_exe(), "-hide_banner", "-loglevel", "error", "-y", "-i", str(src), "-an",
+           "-filter_complex", graph, "-map", "[v]", *x264_args(crf, fps), str(out)]
+    subprocess.run(cmd, check=True)
+    return crf
 
 
 def flatten_on_paper(src, dest):
@@ -287,14 +321,14 @@ def flatten_on_paper(src, dest):
     return dest
 
 
-def encode_loop(job, out):
+def encode_loop(job, out, width, crf):
     """A -> B -> A crossfade loop with ffmpeg's xfade: A holds, fades to B, B holds, fades back to A."""
-    hold, fade, w = job["hold"], job["fade"], job["width"]
+    hold, fade = job["hold"], job["fade"]
     a = flatten_on_paper(job["src"], TEMP / "loops" / (Path(job["src"]).stem + ".png"))
     b = flatten_on_paper(job["src_b"], TEMP / "loops" / (Path(job["src_b"]).stem + ".png"))
     la, lb, lc = hold + fade, fade + hold + fade, fade          # A: hold then fade out; B: fade in, hold, fade out; A again: fade in
     off1, off2 = hold, la + lb - fade - fade                   # where each crossfade starts on the output timeline
-    scale = f"scale={w}:-2,format=yuv420p"
+    scale = f"scale='min({width},iw)':-2:flags=lanczos,format=yuv420p"
     graph = (f"[0:v]{scale}[a];[1:v]{scale}[b];[2:v]{scale}[c];"
              f"[a][b]xfade=transition=fade:duration={fade}:offset={off1}[ab];"
              f"[ab][c]xfade=transition=fade:duration={fade}:offset={off2}[v]")
@@ -302,8 +336,7 @@ def encode_loop(job, out):
            "-loop", "1", "-framerate", "30", "-t", f"{la}", "-i", str(a),
            "-loop", "1", "-framerate", "30", "-t", f"{lb}", "-i", str(b),
            "-loop", "1", "-framerate", "30", "-t", f"{lc}", "-i", str(a),
-           "-filter_complex", graph, "-map", "[v]", "-an", "-c:v", "libx264", "-preset", VID_PRESET, "-crf", str(job["crf"]),
-           "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(out)]
+           "-filter_complex", graph, "-map", "[v]", "-an", *x264_args(crf, 30), str(out)]
     subprocess.run(cmd, check=True)
 
 
@@ -334,11 +367,13 @@ def build(slug, job, force):
         print(f"  still  {slug}/{out.name}  {size[0]}x{size[1]}  {out.stat().st_size // 1024} KB")
     elif job["kind"] == "loop":
         poster = out.with_name(out.stem + "-poster.webp")
+        mobile = out.with_name(out.stem + "-720.mp4")
         src_b = Path(job["src_b"])
         if force or stale(out, src, src_b):
             out_dir.mkdir(parents=True, exist_ok=True)
-            encode_loop(job, out)
-            print(f"  loop   {slug}/{out.name}  crf {job['crf']}  {out.stat().st_size // 1024} KB")
+            encode_loop(job, out, VID_MAX_W, VID_CRF)
+            encode_loop(job, mobile, VID_MOBILE_W, VID_MOBILE_CRF)
+            print(f"  loop   {slug}/{out.name}  crf {VID_CRF}  {out.stat().st_size // 1024} KB  (720 crf {VID_MOBILE_CRF}: {mobile.stat().st_size // 1024} KB)")
         else:
             print(f"  ok     {slug}/{out.name}")
         if force or stale(poster, src, src_b):
@@ -346,14 +381,20 @@ def build(slug, job, force):
             print(f"  poster {slug}/{poster.name}  {size[0]}x{size[1]}  {poster.stat().st_size // 1024} KB")
     elif job["kind"] == "video":
         poster = out.with_name(out.stem + "-poster.webp")
+        mobile = out.with_name(out.stem + "-720.mp4")
+        width, crf = (VID_HERO_W, VID_HERO_CRF) if job.get("hero") else (VID_MAX_W, VID_CRF)
+        if job.get("crf") is not None:
+            crf = job["crf"]
+        crf_m = VID_MOBILE_CRF + (crf - (VID_HERO_CRF if job.get("hero") else VID_CRF))   # a lowered desktop CRF lowers the mobile one too
         if force or stale(out, src):
             out_dir.mkdir(parents=True, exist_ok=True)
-            crf = encode_video(src, out)
-            print(f"  video  {slug}/{out.name}  crf {crf}  {out.stat().st_size // 1024} KB")
+            encode_video(src, out, width, crf, job.get("seam", True))
+            encode_video(src, mobile, VID_MOBILE_W, crf_m, job.get("seam", True))
+            print(f"  video  {slug}/{out.name}  {width}px crf {crf}  {out.stat().st_size // 1024} KB  (720 crf {crf_m}: {mobile.stat().st_size // 1024} KB)")
         else:
             print(f"  ok     {slug}/{out.name}")
         if force or stale(poster, src):
-            size = save_webp(frame_at(src, job["poster_t"]), poster)
+            size = save_webp(frame_at(out, 0.0), poster)      # the encoded file's own first frame, so poster and playback match exactly
             print(f"  poster {slug}/{poster.name}  {size[0]}x{size[1]}  {poster.stat().st_size // 1024} KB")
 
 
@@ -437,6 +478,7 @@ def main():
     ap.add_argument("--sheet", action="store_true")
     ap.add_argument("--tiles-sheet", action="store_true")
     ap.add_argument("--only", nargs="*", default=None)
+    ap.add_argument("--videos", action="store_true", help="only the video and loop jobs")
     a = ap.parse_args()
 
     if a.fetch:
@@ -446,6 +488,8 @@ def main():
     for slug in slugs:
         print(f"[{slug}]")
         for job in MANIFEST[slug] + TILES.get(slug, []):
+            if a.videos and job["kind"] not in ("video", "loop"):
+                continue
             build(slug, job, a.force)
     if a.sheet:
         contact_sheet(list(MANIFEST), REPO / "_temp" / "contact_sheet.jpg")

@@ -287,18 +287,51 @@ function initCursor({ cursor }) {
 }
 
 // ---------------------------------------------------------------- video
+// Every clip is muted, looping and inline. It starts with preload none, is raised to auto (and starts loading)
+// once it is within one screen of the viewport, plays only while at least PLAY_AT of it is in view, pauses when it
+// leaves, and never more than MAX_PLAYING play at once (the most visible win). The opener carries data-eager: it
+// preloads and autoplays from the first paint, and project.js pauses it once the text panel has covered it.
+export const VIDEO = {
+  MAX_PLAYING: 2,
+  PLAY_AT: 0.25,
+  PRELOAD_MARGIN: "100% 0px",   // one screen above and below
+};
+let videoCleanup = null;
 function initVideos(scope = document) {
-  const videos = scope.querySelectorAll("video[data-autoplay]");
+  videoCleanup?.();
+  videoCleanup = null;
+  const videos = [...scope.querySelectorAll("video[data-autoplay]")];
   if (!videos.length) return;
-  videos.forEach((v) => { v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute("playsinline", ""); v.preload = "none"; });
+  videos.forEach((v) => {
+    v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute("playsinline", "");
+    if (!v.hasAttribute("data-eager")) v.preload = "none";
+  });
   if (REDUCED) { videos.forEach((v) => { v.controls = true; }); return; }
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(({ target, isIntersecting, intersectionRatio }) => {
-      if (isIntersecting && intersectionRatio >= 0.25) target.play().catch(() => {});
-      else target.pause();
+
+  const near = new IntersectionObserver((entries) => {
+    entries.forEach(({ target, isIntersecting }) => {
+      if (!isIntersecting || target.preload === "auto") return;
+      target.preload = "auto";
+      if (target.readyState === 0 && target.paused) target.load();   // re-runs resource selection with the new hint; the poster stays
+      near.unobserve(target);
     });
-  }, { threshold: [0, 0.25, 0.6] });
-  videos.forEach((v) => io.observe(v));
+  }, { rootMargin: VIDEO.PRELOAD_MARGIN, threshold: 0 });
+
+  const ratio = new Map();
+  const settle = () => {
+    const want = [...ratio.entries()].filter(([v, r]) => r >= VIDEO.PLAY_AT && !v.dataset.covered)
+      .sort((a, b) => b[1] - a[1]).slice(0, VIDEO.MAX_PLAYING).map(([v]) => v);
+    ratio.forEach((r, v) => {
+      if (want.includes(v)) { if (v.paused) v.play().catch(() => {}); }
+      else if (!v.paused) v.pause();
+    });
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => ratio.set(e.target, e.isIntersecting ? e.intersectionRatio : 0));
+    settle();
+  }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+  videos.forEach((v) => { near.observe(v); io.observe(v); v.addEventListener("video:settle", settle); });
+  videoCleanup = () => { near.disconnect(); io.disconnect(); videos.forEach((v) => { v.removeEventListener("video:settle", settle); v.pause(); }); };
 }
 
 // ---------------------------------------------------------------- the page roll

@@ -27,6 +27,20 @@ export function initProject(main, { entered } = {}) {
     const live = () => video.classList.add("is-live");
     video.addEventListener("playing", live, { once: true });
     if (!video.paused && !video.ended && video.readyState > 2) live();
+    // the sticky opener stays "in view" under the text panel; once the panel covers it, mark it so app.js pauses it
+    const panelEl = main.querySelector(".panel-text");
+    if (panelEl) {
+      let covered = false;
+      const check = () => {
+        const now = panelEl.getBoundingClientRect().top <= 1;
+        if (now === covered) return;
+        covered = now;
+        if (covered) video.dataset.covered = "1"; else delete video.dataset.covered;
+        video.dispatchEvent(new CustomEvent("video:settle"));
+      };
+      window.addEventListener("scroll", check, { passive: true });
+      cleanups.push(() => window.removeEventListener("scroll", check));
+    }
     // &t= from the home panel: carry on from where the panel was
     const start = parseFloat(video.dataset.start) || 0;
     if (start > 0) {

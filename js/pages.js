@@ -4,6 +4,7 @@
 import { initBrowser } from "./hero.js";
 import { initWork } from "./work.js";
 import { initProject } from "./project.js";
+import { videoSrc } from "./media.js";
 
 const esc = (t) => String(t ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const pad2 = (n) => String(n).padStart(2, "0");
@@ -19,8 +20,9 @@ export async function loadTiles() {
   return tileCache;
 }
 
+// clips start with preload none; app.js raises it to auto within one screen of the viewport and plays them in view
 const media = (src, poster, alt, autoplay = true) => /\.mp4$/i.test(src)
-  ? `<video ${autoplay ? "data-autoplay " : ""}muted loop playsinline preload="none"${poster ? ` poster="${esc(poster)}"` : ""} aria-label="${esc(alt)}"><source src="${esc(src)}" type="video/mp4"></video>`
+  ? `<video ${autoplay ? "data-autoplay " : ""}muted loop playsinline preload="none"${poster ? ` poster="${esc(poster)}"` : ""} aria-label="${esc(alt)}"><source src="${esc(videoSrc(src))}" type="video/mp4"></video>`
   : `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" decoding="async">`;
 
 // only site assets may be handed in as a hero through ?h=
@@ -82,7 +84,8 @@ async function project(ctx) {
       `</div></div>`
     // opener_focus: the cover crop's focal point ("40% 40%", say), so the subject stays in frame at every aspect ratio
     : `<img class="opener__img" src="${esc(hero)}" alt="${esc(p.title)}" decoding="async" fetchpriority="high"${p.opener_focus ? ` style="object-position:${esc(p.opener_focus)}"` : ""}>` +
-      (p.hero_video ? `<video class="opener__video" muted loop playsinline autoplay preload="auto" poster="${esc(p.hero)}" data-start="${start.toFixed(2)}" aria-hidden="true"><source src="${esc(p.hero_video)}" type="video/mp4"></video>` : "");
+      // the opener is on screen at once, so it alone preloads and autoplays from the start (data-eager keeps app.js from resetting that)
+      (p.hero_video ? `<video class="opener__video" data-autoplay data-eager muted loop playsinline autoplay preload="auto" poster="${esc(p.hero)}" data-start="${start.toFixed(2)}" aria-hidden="true"><source src="${esc(videoSrc(p.hero_video))}" type="video/mp4"></video>` : "");
   root.innerHTML =
     // the opener: hero video playing over its poster (or the ?h= image), text that holds then fades, a scroll cue
     `<section class="opener${carousel ? " opener--carousel" : ""}" data-text="${tone}" data-fit="${fit}">` +
@@ -108,7 +111,7 @@ async function project(ctx) {
         // lead_video loops a muted clip there instead, with the same black-and-white to colour hover
         `<figure class="panel-text__lead">` +
           (p.lead_video
-            ? `<video class="lead-img lead-video${p.lead_bw ? " is-bw" : ""}${p.lead_fit === "contain" ? " is-contain" : ""}" data-autoplay muted loop playsinline preload="metadata" poster="${esc(p.lead)}" aria-label="${esc(p.title)}"><source src="${esc(p.lead_video)}" type="video/mp4"></video>`
+            ? `<video class="lead-img lead-video${p.lead_bw ? " is-bw" : ""}${p.lead_fit === "contain" ? " is-contain" : ""}" data-autoplay muted loop playsinline preload="none" poster="${esc(p.lead)}" aria-label="${esc(p.title)}"><source src="${esc(videoSrc(p.lead_video))}" type="video/mp4"></video>`
             : `<img class="lead-img${p.lead_bw ? " is-bw" : ""}${p.lead_fit === "contain" ? " is-contain" : ""}" src="${esc(p.lead)}" alt="${esc(p.title)}" loading="lazy" decoding="async" style="object-position: ${esc(p.lead_focus || "center")}">`) +
         `</figure>` +
         `<div class="panel-text__body">` +
@@ -179,7 +182,7 @@ function portalButton(x, p) {
     ? label.replace("↗", `<span class="portal__arrow" aria-hidden="true">↗</span>`)
     : label.replace(/\s*\)\s*$/, ` <span class="portal__arrow" aria-hidden="true">↗</span> )`);
   const window_ = x.window
-    ? `<video data-autoplay muted loop playsinline preload="none" poster="${esc(x.window_poster || "")}" aria-hidden="true"><source src="${esc(x.window)}" type="video/mp4"></video>`
+    ? `<video data-autoplay muted loop playsinline preload="none" poster="${esc(x.window_poster || "")}" aria-hidden="true"><source src="${esc(videoSrc(x.window))}" type="video/mp4"></video>`
     : `<img src="${esc(x.window_poster || p.card)}" alt="" aria-hidden="true">`;
   const cta = esc(x.cta || "Try the prototype");
   const small = x.size === "small" ? " portal--small" : "";   // a second, quieter button for a second portal
