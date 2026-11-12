@@ -80,7 +80,8 @@ async function project(ctx) {
     ? `<div class="carousel" aria-label="${esc(p.title)}, the maps"><div class="carousel__track">` +
         [...p.carousel, ...p.carousel].map((c) => `<figure class="carousel__item"><img src="${esc(c.src)}" alt="${esc(c.alt || "")}" loading="eager" decoding="async"></figure>`).join("") +
       `</div></div>`
-    : `<img class="opener__img" src="${esc(hero)}" alt="${esc(p.title)}" decoding="async" fetchpriority="high">` +
+    // opener_focus: the cover crop's focal point ("40% 40%", say), so the subject stays in frame at every aspect ratio
+    : `<img class="opener__img" src="${esc(hero)}" alt="${esc(p.title)}" decoding="async" fetchpriority="high"${p.opener_focus ? ` style="object-position:${esc(p.opener_focus)}"` : ""}>` +
       (p.hero_video ? `<video class="opener__video" muted loop playsinline autoplay preload="auto" poster="${esc(p.hero)}" data-start="${start.toFixed(2)}" aria-hidden="true"><source src="${esc(p.hero_video)}" type="video/mp4"></video>` : "");
   root.innerHTML =
     // the opener: hero video playing over its poster (or the ?h= image), text that holds then fades, a scroll cue

@@ -170,12 +170,15 @@
     "labels": ["( 3D ENVIRONMENT )", "( ANIMATION )", "( LANDSCAPE )"],
     "card": "assets/projects/forested-university/card.webp",
     "card_video": "",
-    "opener_fit": "contain",
+    "opener_text": "dark",
+    "opener_focus": "40% 40%",
     "hero": "assets/projects/forested-university/aerial.webp",
     "hero_video": "",
-    "lead": "assets/projects/forested-university/lead.webp",
+    "lead": "assets/projects/forested-university/season-poster.webp",
+    "lead_video": "assets/projects/forested-university/season.mp4",
     "lead_bw": false,
     "lead_fit": "contain",
+    "lead_wide": true,
     "lead_focus": "center",
     "intro": [
       "A university campus set inside a forest. Seen from above, white buildings stand among the trees beside the water, with pink blossom along the paths that thread between them. One student housing block is pulled apart floor by floor, so the pines can be seen rising through every level.",
@@ -219,7 +222,7 @@
     "portals": [],
     "source": {
       "repo": "Local folder only (Some Material/Forested_University), read only. This site is the project's home.",
-      "notes": "The aerial drawing (BIE_241216 Aerial view Zoom.png) is the card, the home panel image and the opener still, shown whole on ink with light type. The lead is BIE_241215 Perspective Section Train.png, shown whole. The four portrait clips (464x832, 5 s each) sit in one row of four at their natural ratio, each with its caption; montage.mp4 is compressed but no longer shown. Every poster is the clip's first frame. Place, year and role are left out on purpose; the tools are names only."
+      "notes": "The aerial drawing (BIE_241216 Aerial view Zoom.png) is the card, the home panel image and the opener, cover-fitted with its focal point at 40% 40% so the campus and the river stay in frame, with ink type. The lead is a 6.4 s season loop (season.mp4: the summer Heverlee view holds 2 s, crossfades 1.2 s to the autumn view, holds, crossfades back; 1600 px, CRF 24, flattened on paper, poster = first frame), shown whole in full colour. The four portrait clips (464x832, 5 s each) sit in one row of four at their natural ratio, each with its caption; montage.mp4 is compressed but no longer shown. Every poster is the clip's first frame. Place, year and role are left out on purpose; the tools are names only."
     }
   },
   {

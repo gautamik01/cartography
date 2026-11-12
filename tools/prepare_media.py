@@ -77,6 +77,12 @@ def still(src, t, out, aspect=None, box=None, pad=False):
     """A single frame of a video, treated like an image."""
     return dict(kind="still", src=src, t=t, out=out, aspect=aspect, box=box, pad=pad)
 
+
+def loop(src_a, src_b, out, width=1600, hold=2.0, fade=1.2, crf=24):
+    """A looping crossfade between two stills (a season change): hold A, fade to B, hold B, fade back. The MP4 ends on
+    A so the loop is seamless; the poster is the first frame. Transparent stills are flattened on paper first."""
+    return dict(kind="loop", src=src_a, src_b=src_b, out=out, width=width, hold=hold, fade=fade, crf=crf)
+
 # Work-view tiles: 4:5 crops at three scales per project (wide, mid, close). data/work.json lists which
 # file is which. Where the card is already the right crop, work.json points at card.webp instead.
 TILES = {
@@ -140,10 +146,10 @@ MANIFEST = {
     "forested-university": [
         # card: the aerial drawing, the same 4:5 window as the wide tile
         img(FOREST / "BIE_241216 Aerial view Zoom.png", "card.webp", CARD, box=(1200, 40, 4100, 3665)),
-        img(FOREST / "BIE_241216 Aerial view Zoom.png", "hero.webp", HERO, box=(0, 440, 4962, 3231)),
-        # lead: the perspective section collage (transparent ground, composited on paper), shown whole beside the text
-        img(FOREST / "BIE_241215 Perspective Section Train.png", "lead.webp"),
+        # opener: the whole aerial, cover-fitted on the page with the focal point at 40% 40% (projects.json opener_focus)
         img(FOREST / "BIE_241216 Aerial view Zoom.png", "aerial.webp"),
+        # lead: a looping season change beside the text, summer to autumn and back, from the two Heverlee views
+        loop(FOREST / "20231212 Heverlee - View 1.png", FOREST / "20231212 Heverlee - View 1 - autumn.png", "season.mp4"),
         # posters are the exact first frame, so a clip starts where its poster was
         vid(FOREST / "Forest Campus..mp4", "campus.mp4", poster_t=0.0),
         vid(FOREST / "Forest student housing exploded.mp4", "housing-exploded.mp4", poster_t=0.0),
@@ -271,6 +277,36 @@ def encode_video(src, out):
     raise RuntimeError(f"{out.name} is still over 15MB at crf {crf}")
 
 
+def flatten_on_paper(src, dest):
+    """A still with transparency, composited on the site's paper, as a PNG outside the repo."""
+    with Image.open(src) as im:
+        rgba = im.convert("RGBA")
+        base = Image.new("RGBA", rgba.size, PAPER + (255,))
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        Image.alpha_composite(base, rgba).convert("RGB").save(dest, "PNG")
+    return dest
+
+
+def encode_loop(job, out):
+    """A -> B -> A crossfade loop with ffmpeg's xfade: A holds, fades to B, B holds, fades back to A."""
+    hold, fade, w = job["hold"], job["fade"], job["width"]
+    a = flatten_on_paper(job["src"], TEMP / "loops" / (Path(job["src"]).stem + ".png"))
+    b = flatten_on_paper(job["src_b"], TEMP / "loops" / (Path(job["src_b"]).stem + ".png"))
+    la, lb, lc = hold + fade, fade + hold + fade, fade          # A: hold then fade out; B: fade in, hold, fade out; A again: fade in
+    off1, off2 = hold, la + lb - fade - fade                   # where each crossfade starts on the output timeline
+    scale = f"scale={w}:-2,format=yuv420p"
+    graph = (f"[0:v]{scale}[a];[1:v]{scale}[b];[2:v]{scale}[c];"
+             f"[a][b]xfade=transition=fade:duration={fade}:offset={off1}[ab];"
+             f"[ab][c]xfade=transition=fade:duration={fade}:offset={off2}[v]")
+    cmd = [ffmpeg_exe(), "-hide_banner", "-loglevel", "error", "-y",
+           "-loop", "1", "-framerate", "30", "-t", f"{la}", "-i", str(a),
+           "-loop", "1", "-framerate", "30", "-t", f"{lb}", "-i", str(b),
+           "-loop", "1", "-framerate", "30", "-t", f"{lc}", "-i", str(a),
+           "-filter_complex", graph, "-map", "[v]", "-an", "-c:v", "libx264", "-preset", VID_PRESET, "-crf", str(job["crf"]),
+           "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(out)]
+    subprocess.run(cmd, check=True)
+
+
 def build(slug, job, force):
     out_dir = ASSETS / slug
     out = out_dir / job["out"]
@@ -296,6 +332,18 @@ def build(slug, job, force):
         im = to_aspect(frame_at(src, job["t"]).convert("RGB"), job["aspect"], job["box"], job["pad"])
         size = save_webp(im, out)
         print(f"  still  {slug}/{out.name}  {size[0]}x{size[1]}  {out.stat().st_size // 1024} KB")
+    elif job["kind"] == "loop":
+        poster = out.with_name(out.stem + "-poster.webp")
+        src_b = Path(job["src_b"])
+        if force or stale(out, src, src_b):
+            out_dir.mkdir(parents=True, exist_ok=True)
+            encode_loop(job, out)
+            print(f"  loop   {slug}/{out.name}  crf {job['crf']}  {out.stat().st_size // 1024} KB")
+        else:
+            print(f"  ok     {slug}/{out.name}")
+        if force or stale(poster, src, src_b):
+            size = save_webp(frame_at(out, 0.0), poster)
+            print(f"  poster {slug}/{poster.name}  {size[0]}x{size[1]}  {poster.stat().st_size // 1024} KB")
     elif job["kind"] == "video":
         poster = out.with_name(out.stem + "-poster.webp")
         if force or stale(out, src):
