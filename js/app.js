@@ -10,6 +10,7 @@
  */
 import { createContours } from "./contours.js";
 import { renderPage } from "./pages.js";
+import { ICONS, placeIcons } from "./icons.js";
 
 const html = document.documentElement;
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -103,9 +104,9 @@ function footerMarkup() {
           <span class="label site-footer__copied" aria-live="polite"></span>
         </div>
         <nav class="site-footer__links" aria-label="Elsewhere">
-          <a class="label" href="${SITE.linkedin}" target="_blank" rel="noopener">( LINKEDIN ${ne} )</a>
-          <a class="label" href="${SITE.cv}" download>( CV ${down} )</a>
-          <a class="label" href="${SITE.github}" target="_blank" rel="noopener">( GITHUB ${ne} )</a>
+          <a class="label" href="${SITE.linkedin}" target="_blank" rel="noopener">${ICONS.linkedin}( LINKEDIN ${ne} )</a>
+          <a class="label" href="${SITE.cv}" download>${ICONS.cv}( CV ${down} )</a>
+          <a class="label" href="${SITE.github}" target="_blank" rel="noopener">${ICONS.github}( GITHUB ${ne} )</a>
         </nav>
       </div>
       <div class="site-footer__bottom label muted">
@@ -147,6 +148,7 @@ function mountFooter(main) {
   // the contact page shows the address too; it reads SITE.email rather than carrying its own copy
   main.querySelectorAll("[data-site-email]").forEach((n) => { n.textContent = SITE.email; });
   main.querySelectorAll("[data-site-email-link]").forEach((a) => { a.href = `mailto:${SITE.email}`; });
+  placeIcons(main);   // the contact page's link marks (static markup carries data-icon placeholders)
   return footer;
 }
 function watchFooter(footer) {
