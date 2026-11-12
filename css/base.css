@@ -102,6 +102,15 @@ html.lenis, html.lenis body { height: auto; }
 .muted { color: var(--muted-c); }
 .text { max-width: 62ch; }
 .text p + p { margin-top: 1.2em; }
+/* links inside running text: a hairline underline that darkens on hover */
+.text a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--muted-c);
+  transition: text-decoration-color 250ms;
+}
+.text a:hover, .text a:focus-visible { text-decoration-color: currentColor; }
 .wordmark {
   font-family: var(--font-display);
   font-size: 28px;
@@ -628,6 +637,12 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
   background: currentColor;
   margin-right: 8px;
   vertical-align: 1px;
+}
+/* medium widths: the centred wordmark would run into the links, so it moves to the left edge */
+@media (max-width: 1099px) {
+  .site-header { grid-template-columns: auto 1fr; }
+  .site-header .wordmark { grid-column: 1; justify-self: start; }
+  .site-header__links { grid-column: 2; }
 }
 @media (max-width: 699px) {
   .site-header {
