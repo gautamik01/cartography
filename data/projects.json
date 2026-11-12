@@ -93,7 +93,7 @@
     "coords": "( 42.56° N, 73.29° W )",
     "year": "2026",
     "role": "",
-    "opener_color": "#A5401B",
+    "opener_text": "dark",
     "tools": [
       { "name": "Python", "use": "one notebook builds the whole page, with NumPy, SciPy and GeoPandas" },
       { "name": "GeoPandas", "use": "trail lengths in UTM, the ranked list, the trail and lift layers" },
@@ -130,14 +130,6 @@
         "poster": "assets/projects/ski-terrain/clip-hover-poster.webp",
         "alt": "Screen recording of the live map: hovering ski areas in the ranked list lights each one up on the relief with a lead line, while the right panel draws its trails and lifts.",
         "caption": "Hover a ski area: its circle lights up on the map and the panel draws its trails, lifts and magic carpets.",
-        "width": "full"
-      },
-      {
-        "type": "image",
-        "src": "assets/projects/ski-terrain/overview.webp",
-        "poster": "",
-        "alt": "The full page: the ranked list of ski areas by beginner kilometres on the left, the regional relief with numbered circles in the middle, and Jiminy Peak's trail drawing and stats on the right.",
-        "caption": "The overview. Circles are sized by beginner kilometres; the first seven carry their names.",
         "width": "full"
       },
       {
@@ -191,24 +183,18 @@
     "labels": ["( 3D ENVIRONMENT )", "( ANIMATION )", "( LANDSCAPE )"],
     "card": "assets/projects/forested-university/card.webp",
     "card_video": "",
-    "hero": "assets/projects/forested-university/hero.webp",
+    "opener_fit": "contain",
+    "hero": "assets/projects/forested-university/aerial.webp",
     "hero_video": "",
     "lead": "assets/projects/forested-university/lead.webp",
-    "lead_bw": true,
+    "lead_bw": false,
+    "lead_fit": "contain",
     "lead_focus": "center",
     "intro": [
       "A university campus set inside a forest. Seen from above, white buildings stand among the trees beside the water, with pink blossom along the paths that thread between them. One student housing block is pulled apart floor by floor, so the pines can be seen rising through every level.",
       "At eye level the walkthroughs move through an atrium built around the trunks and along a street of brick blocks in winter. The visuals were built in Rhino and developed with AI image tools."
     ],
     "gallery": [
-      {
-        "type": "image",
-        "src": "assets/projects/forested-university/aerial.webp",
-        "poster": "",
-        "alt": "An aerial line drawing of the campus: white buildings among pale green trees beside the water, with the surrounding city drawn in outline.",
-        "caption": "The campus from above: buildings among the trees, beside the water.",
-        "width": "full"
-      },
       {
         "type": "video",
         "src": "assets/projects/forested-university/campus.mp4",
@@ -246,7 +232,7 @@
     "portals": [],
     "source": {
       "repo": "Local folder only (Some Material/Forested_University), read only. This site is the project's home.",
-      "notes": "The aerial drawing (BIE_241216 Aerial view Zoom.png) is the card, the home panel image and the opener still; the whole drawing is the lead and the first gallery item. The four portrait clips (464x832, 5 s each) sit in one row of four at their natural ratio, each with its caption; montage.mp4 is compressed but no longer shown. Every poster is the clip's first frame. Place, year and role are left out on purpose; the tools are names only."
+      "notes": "The aerial drawing (BIE_241216 Aerial view Zoom.png) is the card, the home panel image and the opener still, shown whole on ink with light type. The lead is BIE_241215 Perspective Section Train.png, shown whole. The four portrait clips (464x832, 5 s each) sit in one row of four at their natural ratio, each with its caption; montage.mp4 is compressed but no longer shown. Every poster is the clip's first frame. Place, year and role are left out on purpose; the tools are names only."
     }
   },
   {

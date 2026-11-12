@@ -131,7 +131,6 @@ MANIFEST = {
         vid(SKI / "hero_master.mp4", "hero.mp4", poster_t=0.0),
         vid(SKI / "hover_master.mp4", "clip-hover.mp4", poster_t=0.0),
         vid(SKI / "zoom_master.mp4", "clip-zoom.mp4", poster_t=0.0),
-        img(SKI / "stills/01_overview.png", "overview.webp"),
         img(SKI / "stills/03_mountain_page.png", "mountain.webp"),
         img(SKI / "stills/04_trail_hover.png", "trail.webp"),
         # card and lead: candidate 2 of card_candidates (Windham, tilted close-up, its longest green run in black), centre 4:5
@@ -142,7 +141,8 @@ MANIFEST = {
         # card: the aerial drawing, the same 4:5 window as the wide tile
         img(FOREST / "BIE_241216 Aerial view Zoom.png", "card.webp", CARD, box=(1200, 40, 4100, 3665)),
         img(FOREST / "BIE_241216 Aerial view Zoom.png", "hero.webp", HERO, box=(0, 440, 4962, 3231)),
-        img(FOREST / "BIE_241216 Aerial view Zoom.png", "lead.webp"),
+        # lead: the perspective section collage (transparent ground, composited on paper), shown whole beside the text
+        img(FOREST / "BIE_241215 Perspective Section Train.png", "lead.webp"),
         img(FOREST / "BIE_241216 Aerial view Zoom.png", "aerial.webp"),
         # posters are the exact first frame, so a clip starts where its poster was
         vid(FOREST / "Forest Campus..mp4", "campus.mp4", poster_t=0.0),
@@ -233,8 +233,17 @@ def to_aspect(im, aspect, box=None, pad=False):
     return im.crop((0, y, w, y + nh))
 
 
+PAPER = (231, 228, 224)
+
+
 def save_webp(im, out):
-    im = ImageOps.exif_transpose(im).convert("RGB")
+    im = ImageOps.exif_transpose(im)
+    if im.mode in ("RGBA", "LA", "P") and "transparency" in im.info or im.mode in ("RGBA", "LA"):
+        # a drawing with a transparent ground (the Forested section) sits on the site's paper, not on black
+        rgba = im.convert("RGBA")
+        base = Image.new("RGBA", rgba.size, PAPER + (255,))
+        im = Image.alpha_composite(base, rgba)
+    im = im.convert("RGB")
     im.thumbnail((IMG_MAX, IMG_MAX), Image.LANCZOS)
     out.parent.mkdir(parents=True, exist_ok=True)
     im.save(out, "WEBP", quality=WEBP_Q, method=6)
@@ -274,7 +283,8 @@ def build(slug, job, force):
             print(f"  ok     {slug}/{out.name}")
             return
         with Image.open(src) as im:
-            im = to_aspect(im.convert("RGB"), job["aspect"], job["box"], job["pad"])
+            keep_alpha = im.mode in ("RGBA", "LA")          # save_webp composites a transparent drawing on paper
+            im = to_aspect(im if keep_alpha else im.convert("RGB"), job["aspect"], job["box"], job["pad"])
             if job.get("contrast"):
                 im = ImageOps.autocontrast(im, cutoff=1)
             size = save_webp(im, out)
