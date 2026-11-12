@@ -691,8 +691,15 @@ html.js:not(.reduced) [data-split] { visibility: hidden; }
 }
 @media (max-width: 760px) {
   .panel-text { padding-top: calc(var(--header-h) + 24px); }
-  .panel-text__lead { grid-column: 1 / -1; min-height: 0; margin-bottom: 28px; aspect-ratio: 16 / 10; }   /* min-height 0: with the ratio, a min-height would force the width past the phone */
+  /* width 100% makes the figure's inline size definite (the grid area), so its height comes from the ratio; without it a grid
+     item with an aspect ratio takes its width FROM its height, and a lead clip's intrinsic height made the figure 2850px wide
+     (the page scrolled sideways, mobile Chromium laid the header out 1500px wide). min-height 0: with the ratio, a
+     min-height would force the width past the phone */
+  .panel-text__lead { grid-column: 1 / -1; width: 100%; min-height: 0; margin-bottom: 28px; aspect-ratio: 16 / 10; }
   .panel-text__body { grid-column: 1 / -1; }
+  /* the wide-lead split (1/7 and 7/13) outranks the two rules above, so it is undone here at the same specificity: on a
+     phone every project stacks the lead over the text, else the lead is 171px wide and the text column overflows */
+  .panel-text__grid.is-wide .panel-text__lead, .panel-text__grid.is-wide .panel-text__body { grid-column: 1 / -1; }
 }
 /* the title block sits at the bottom centre, just above ( SCROLL ) */
 .opener__text {
