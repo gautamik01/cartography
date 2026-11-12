@@ -39,6 +39,7 @@ export const WORK = {
   CLICK_FADE_S: 0.4,      // 0 to 0.4: everything but the oval fades to black
   CLICK_MID_S: 0.4,       // 0.4 to 0.8: the oval straightens into a rectangle at the centre, about MID_VW wide
   CLICK_FILL_S: 0.5,      // 0.8 to 1.3: fills the screen
+  CLICK_SAFETY_MS: 2200,  // if the morph has not handed over to the router by then, the link is followed plainly
   MID_VW: 50,
   SCROLL_RATE: 1,         // strip px per scrolled px
   LOOPS: 1,               // how many full loops of vertical scrolling before the footer
@@ -299,10 +300,17 @@ export function initWork(main, { projects, tiles, navigate, entered }) {
     const vw = window.innerWidth, vh = window.innerHeight;
     const midW = (vw * WORK.MID_VW) / 100, midH = Math.min(vh * 0.62, midW * 1.1);
     const others = [track, caption, pill, header].filter(Boolean);
+    let handed = false;
+    const safety = setTimeout(() => { if (!handed) { handed = true; location.href = url; } }, WORK.CLICK_SAFETY_MS);
     const tl = gsap.timeline({
       defaults: { ease: "power3.inOut" },
       onUpdate: fit,
-      onComplete: () => { if (navigate) navigate(url, { flipFrom: clone }); else location.href = url; },
+      onComplete: () => {
+        if (handed) return;
+        handed = true;
+        clearTimeout(safety);
+        if (navigate) navigate(url, { flipFrom: clone }); else location.href = url;
+      },
     });
     tl.to(others, { autoAlpha: 0, duration: WORK.CLICK_FADE_S }, 0)
       .to(clone, { left: (vw - midW) / 2, top: (vh - midH) / 2, width: midW, height: midH, duration: WORK.CLICK_MID_S }, WORK.CLICK_FADE_S)

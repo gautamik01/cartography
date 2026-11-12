@@ -13,10 +13,12 @@ export const CAROUSEL = {
 
 const mod = (a, n) => ((a % n) + n) % n;
 
-export function initCarousel(root) {
+// started: false keeps the drift off until start() is called (the page roll must finish first; a drag still works)
+export function initCarousel(root, { started = true } = {}) {
   const track = root.querySelector(".carousel__track");
   if (!track) return null;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let running = started;
   const items = [...track.children];
   const half = items.length / 2;
   let loopW = 0, pos = 0, velocity = 0, dragging = false, lastX = 0, lastT = 0, resumeAt = 0, raf = 0, last = 0;
@@ -34,7 +36,7 @@ export function initCarousel(root) {
     last = now;
     if (!dragging) {
       if (Math.abs(velocity) > 0.05) { pos += velocity; velocity *= CAROUSEL.DRAG_FRICTION; }
-      else if (!reduced && now >= resumeAt) pos += CAROUSEL.DRIFT_PX_S * dt;
+      else if (running && !reduced && now >= resumeAt) pos += CAROUSEL.DRIFT_PX_S * dt;
     }
     render();
     raf = requestAnimationFrame(tick);
@@ -89,7 +91,7 @@ export function initCarousel(root) {
   render();
   raf = requestAnimationFrame(tick);
 
-  return function cleanup() {
+  const cleanup = function cleanup() {
     cancelAnimationFrame(raf);
     root.removeEventListener("pointerdown", onDown);
     root.removeEventListener("pointermove", onMove);
@@ -98,4 +100,6 @@ export function initCarousel(root) {
     root.removeEventListener("wheel", onWheel);
     window.removeEventListener("resize", onResize);
   };
+  cleanup.start = () => { running = true; last = 0; };
+  return cleanup;
 }

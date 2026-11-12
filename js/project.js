@@ -38,10 +38,18 @@ export function initProject(main, { entered } = {}) {
   }
 
   // ---------------------------------------------------------------- a carousel opener drifts and drags (js/carousel.js)
+  // the drift starts only once the page is fully on screen, so it never competes with the roll
   const carousel = main.querySelector(".carousel");
   if (carousel) {
-    const stop = initCarousel(carousel);
-    if (stop) cleanups.push(stop);
+    const stop = initCarousel(carousel, { started: Boolean(entered) });
+    if (stop) {
+      cleanups.push(stop);
+      if (!entered) {
+        const begin = () => stop.start();
+        main.addEventListener("page:enter", begin, { once: true });
+        cleanups.push(() => main.removeEventListener("page:enter", begin));
+      }
+    }
   }
 
   // ---------------------------------------------------------------- the text holds, then fades

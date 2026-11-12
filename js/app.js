@@ -27,6 +27,7 @@ export const ROLL = {
   EDGE_HEIGHT: 180,      // px of contour lines along the incoming page's top edge
   EDGE_ALPHA: 0.08,
   CROSSFADE: 0.2,        // seconds, reduced motion
+  SAFETY_MS: 1500,       // a transition that has not finished by then is abandoned for a plain navigation
 };
 
 const SITE = {
@@ -384,7 +385,13 @@ function createRouter(shell, scroll) {
   // video is adopted by the opener as its own video, so nothing reloads, seeks or jumps
   async function flipInto(old, incoming, flipFrom) {
     const target = incoming.querySelector(".opener__img");
-    if (!target || !flipFrom || !flipFrom.isConnected) return roll(old, incoming, 1);
+    if (!target || !flipFrom || !flipFrom.isConnected) {
+      // nothing to flip into (a carousel opener, say): the work view's full-screen clone must not stay on top
+      if (flipFrom?.classList.contains("work__morph")) {
+        gsap.to(flipFrom, { autoAlpha: 0, duration: ROLL.DURATION * 0.6, ease: "power2.inOut", onComplete: () => flipFrom.remove() });
+      }
+      return roll(old, incoming, 1);
+    }
     const text = incoming.querySelectorAll(".opener__text, .opener__meta");
     gsap.set(text, { autoAlpha: 0 });
     gsap.set(incoming, { zIndex: 3 });
@@ -442,9 +449,19 @@ function createRouter(shell, scroll) {
     const footer = mountFooter(incoming);
     const nextCleanup = await renderPage(next.page, ctxFor(incoming, href));
 
-    if (!MOTION) await crossfade(old, incoming);
-    else if (flipFrom) await flipInto(old, incoming, flipFrom);
-    else await roll(old, incoming, direction);
+    // the safety net: a transition that stalls (a lost tween, a decode that never ends) gives way to a plain load
+    const transition = !MOTION ? crossfade(old, incoming) : flipFrom ? flipInto(old, incoming, flipFrom) : roll(old, incoming, direction);
+    let timer = 0;
+    const stalled = new Promise((_, reject) => { timer = setTimeout(() => reject(new Error("transition stalled")), ROLL.SAFETY_MS); });
+    try {
+      await Promise.race([transition, stalled]);
+    } catch (err) {
+      console.warn("roll: transition did not finish, navigating normally", err);
+      location.href = href;
+      return;
+    } finally {
+      clearTimeout(timer);
+    }
 
     old.remove();
     incoming.classList.remove("is-incoming");
